@@ -64,8 +64,15 @@ func getCurrentTable(tableType string) ([]byte, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer r.Body.Close()
+
+	if r.StatusCode >= 400 {
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return nil, errors.New(string(body))
+	}
 
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -84,9 +91,12 @@ func getDayTable(tableType string, day string) ([]byte, error) {
 	}
 	defer r.Body.Close()
 
-	if r.StatusCode == 404 {
-		errorText := fmt.Sprintf("Nie znaleziono tabeli kursów opublikowanej w żądanym dniu: %s", day)
-		return nil, errors.New(errorText)
+	if r.StatusCode >= 400 {
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return nil, errors.New(string(body))
 	}
 
 	data, err := ioutil.ReadAll(r.Body)
@@ -117,9 +127,12 @@ func getRangeTable(tableType string, day string) ([]byte, error) {
 	}
 	defer r.Body.Close()
 
-	if r.StatusCode == 404 {
-		errorText := fmt.Sprintf("Nie znaleziono tabeli kursów dla żądanego zakresu: %s", day)
-		return nil, errors.New(errorText)
+	if r.StatusCode >= 400 {
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return nil, errors.New(string(body))
 	}
 
 	data, err := ioutil.ReadAll(r.Body)

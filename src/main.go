@@ -23,11 +23,11 @@ type currencyTable struct {
 
 // argumenty startowe:
 // 	-table <type> - typ tabeli kursów (A, B, lub C)
-// 	-today - kurs na dziś
-// 	-day <date> - kurs na dzień (format RRRR-MM-DD)
-//  -day <startDate>:<endDate> - kursy z zakresu dat (format RRRR-MM-DD:RRRR-MM-DD)
-// 	-last <number> - ostatnich <number> kursów
-//  -out <output> - format wyjścia, domyślnie json (json, table - tabela tekstowa)
+// 	-day=today - kurs na dziś
+// 	-day=<date> - kurs na dzień (format RRRR-MM-DD)
+//  -day=<startDate>:<endDate> - kursy z zakresu dat (format RRRR-MM-DD:RRRR-MM-DD)
+// 	-last=<number> - ostatnich <number> kursów
+//  -out=<output> - format wyjścia, domyślnie json (json, table - tabela tekstowa)
 //  np.
 //  kursnbp -table A -day today
 func main() {

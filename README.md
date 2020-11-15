@@ -11,4 +11,8 @@ Tekstowy klient pobierający kursy walut z serwisu Narodowego Banku Polskiego
       -table string
         typ tabeli kursów (A, B lub C)
 
+      np. 
+      kursnbp -table=A -current -output=table
+      wyświetla bieżącą tabelę kursów A w formie tabeli (zob. zrzut ekranu poniżej)
+
 ![Screen](/doc/kursnbp.png)

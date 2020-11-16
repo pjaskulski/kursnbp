@@ -35,14 +35,14 @@ type exchangeCurrency struct {
 }
 
 // argumenty startowe:
-// 	-table <type> - typ tabeli kursów (A, B, lub C)
-// 	-day=today - kurs na dziś
-// 	-day=<date> - kurs na dzień (format RRRR-MM-DD)
-//  -day=<startDate>:<endDate> - kursy z zakresu dat (format RRRR-MM-DD:RRRR-MM-DD)
-// 	-last=<number> - ostatnich <number> kursów
-//  -out=<output> - format wyjścia, domyślnie json (json, table - tabela tekstowa)
-//  np.
-//  kursnbp -table A -day today
+// -table <type> - typ tabeli kursów (A, B, lub C)
+// -day=today - kurs na dziś
+// -day=<date> - kurs na dzień (format RRRR-MM-DD)
+// -day=<startDate>:<endDate> - kursy z zakresu dat (format RRRR-MM-DD:RRRR-MM-DD)
+// -last=<number> - ostatnich <number> kursów
+// -out=<output> - format wyjścia, domyślnie json (json, table - tabela tekstowa)
+// np.
+// kursnbp -table A -day today
 func main() {
 	var tableFlag string
 	var dayFlag string
@@ -80,67 +80,52 @@ func main() {
 	if lastFlag != "" {
 		if currencyFlag == "ALL" {
 			result, err = getTableLast(tableFlag, lastFlag)
-			if err != nil {
-				log.Fatal(err)
-			}
 		} else {
 			result, err = getCurrencyLast(tableFlag, lastFlag, currencyFlag)
-			if err != nil {
-				log.Fatal(err)
-			}
+		}
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
 		if dayFlag == "today" {
 			if currencyFlag == "ALL" {
 				result, err = getTableToday(tableFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
 			} else {
 				result, err = getCurrencyToday(tableFlag, currencyFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
+			}
+			if err != nil {
+				log.Fatal(err)
 			}
 
 		} else if dayFlag == "current" {
 			if currencyFlag == "ALL" {
 				result, err = getTableCurrent(tableFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
 			} else {
 				result, err = getCurrencyCurrent(tableFlag, currencyFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
+			}
+			if err != nil {
+				log.Fatal(err)
 			}
 
 		} else if len(dayFlag) == 10 && charAllowed(dayFlag, false) {
 			if currencyFlag == "ALL" {
 				result, err = getTableDay(tableFlag, dayFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
 			} else {
 				result, err = getCurrencyDay(tableFlag, dayFlag, currencyFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
+			}
+			if err != nil {
+				log.Fatal(err)
 			}
 
 		} else if len(dayFlag) == 21 && charAllowed(dayFlag, true) {
 			if currencyFlag == "ALL" {
 				result, err = getTableRange(tableFlag, dayFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
 			} else {
 				result, err = getCurrencyRange(tableFlag, dayFlag, currencyFlag)
-				if err != nil {
-					log.Fatal(err)
-				}
+			}
+			if err != nil {
+				log.Fatal(err)
 			}
 
 		} else {

@@ -12,6 +12,8 @@ import (
 	"text/tabwriter"
 )
 
+var baseAddress string = "http://api.nbp.pl/api/exchangerates"
+
 // funkcja sprawdza czy w przekazanym stringu znajdują się tylko znaki dozwolone
 // dla parametrów typu data lub zakres dat
 func charAllowed(text string, dateRange bool) bool {
@@ -57,20 +59,20 @@ func getJSON(address string) ([]byte, error) {
 
 // funkcja zwraca json z tabelą kursów podanego typu na dziś (lub błąd)
 func getTableToday(tableType string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/tables/%s/today/?format=json", tableType)
+	address := fmt.Sprintf(baseAddress+"/tables/%s/today/?format=json", tableType)
 	return getJSON(address)
 }
 
 // funkcja zwraca bieżącą tabelę kursów walut danego typu (ostatnio opublikowaną tabelę
 // danego typu) w formie json
 func getTableCurrent(tableType string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/tables/%s/?format=json", tableType)
+	address := fmt.Sprintf(baseAddress+"/tables/%s/?format=json", tableType)
 	return getJSON(address)
 }
 
 // funkcja zwraca tabelę kursów (json) danego typu dla podanego dnia (lub błąd)
 func getTableDay(tableType string, day string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/tables/%s/%s/?format=json", tableType, day)
+	address := fmt.Sprintf(baseAddress+"/tables/%s/%s/?format=json", tableType, day)
 	return getJSON(address)
 }
 
@@ -87,13 +89,13 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/tables/%s/%s/%s/?format=json", tableType, startDate, stopDate)
+	address := fmt.Sprintf(baseAddress+"/tables/%s/%s/%s/?format=json", tableType, startDate, stopDate)
 	return getJSON(address)
 }
 
 // funkcja zwraca ostatnich n tabel kursów danego typu w formie json (lub błąd)
 func getTableLast(tableType string, last string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/tables/%s/last/%s/?format=json", tableType, last)
+	address := fmt.Sprintf(baseAddress+"/tables/%s/last/%s/?format=json", tableType, last)
 	return getJSON(address)
 }
 
@@ -130,26 +132,26 @@ func printTable(result []byte) {
 
 // funkcja zwraca ostatnich n kursów waluty danego typu w formie json (lub błąd)
 func getCurrencyLast(tableType string, last string, currency string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/rates/%s/%s/last/%s/?format=json", tableType, currency, last)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/last/%s/?format=json", tableType, currency, last)
 	return getJSON(address)
 }
 
 // funkcja zwraca json z kursem waluty podanego typu na dziś (lub błąd)
 func getCurrencyToday(tableType string, currency string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/rates/%s/%s/today/?format=json", tableType, currency)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/today/?format=json", tableType, currency)
 	return getJSON(address)
 }
 
 // funkcja zwraca bieżący kurs waluty danego typu (ostatnio opublikowany kurs waluty
 // danego typu) w formie json
 func getCurrencyCurrent(tableType string, currency string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/rates/%s/%s/?format=json", tableType, currency)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/?format=json", tableType, currency)
 	return getJSON(address)
 }
 
 // funkcja zwraca kurs waluty (json) danego typu dla podanego dnia (lub błąd)
 func getCurrencyDay(tableType string, day string, currency string) ([]byte, error) {
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/rates/%s/%s/%s/?format=json", tableType, currency, day)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/?format=json", tableType, currency, day)
 	return getJSON(address)
 }
 
@@ -166,7 +168,7 @@ func getCurrencyRange(tableType string, day string, currency string) ([]byte, er
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf("http://api.nbp.pl/api/exchangerates/rates/%s/%s/%s/%s/?format=json", tableType, currency, startDate, stopDate)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/%s/?format=json", tableType, currency, startDate, stopDate)
 	return getJSON(address)
 }
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -19,13 +20,13 @@ func TestCharactersAllowed(t *testing.T) {
 			want:      true,
 		},
 		{
-			name:      "Niepoprawna data",
+			name:      "Niepoprawna format daty",
 			text:      "2020/11/10",
 			dateRange: false,
 			want:      false,
 		},
 		{
-			name:      "Niepoprawna data 2",
+			name:      "Niepoprawny format daty 2",
 			text:      "2020:11:10",
 			dateRange: false,
 			want:      false,
@@ -53,4 +54,74 @@ func TestCharactersAllowed(t *testing.T) {
 		})
 	}
 
+}
+
+func TestGetCurrencyCurrent(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+
+	result, err := getCurrencyCurrent(table, currency)
+	if err != nil {
+		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
+	}
+	if !strings.Contains(string(result), "\"table\":\"A\",\"currency\":\"frank szwajcarski\"") {
+		t.Errorf("otrzymano niepoprawną zawartość json")
+	}
+}
+
+func TestGetCurrencyCurrentXXX(t *testing.T) {
+	var table string = "A"
+	var currency string = "XXX" // niepoprawny kod waluty
+
+	_, err := getCurrencyCurrent(table, currency)
+	if err == nil {
+		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
+	}
+}
+
+func TestGetCurrencyDay(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+	var day string = "2020-11-13" // Friday - ok, kurs CHF = 4.1605
+
+	result, err := getCurrencyDay(table, day, currency)
+	if err != nil {
+		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
+	}
+	if !strings.Contains(string(result), "\"effectiveDate\":\"2020-11-13\",\"mid\":4.1605") {
+		t.Errorf("niepoprawna zawartość json, kurs CHF 13.11.2020 wynosił 4.1605")
+	}
+}
+
+func TestGetCurrencyDaySaturday(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+	var day string = "2020-11-14" // Saturday - no table of exchange rates
+
+	_, err := getCurrencyDay(table, day, currency)
+	if err == nil {
+		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
+	}
+}
+
+func TestGetCurrencyLast(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+	var last string = "5"
+
+	_, err := getCurrencyLast(table, last, currency)
+	if err != nil {
+		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
+	}
+}
+
+func TestGetCurrencyLastFailed(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+	var last string = "500" // za dużo kursów, max = 255
+
+	_, err := getCurrencyLast(table, last, currency)
+	if err == nil {
+		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
+	}
 }

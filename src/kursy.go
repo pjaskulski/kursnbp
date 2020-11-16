@@ -110,11 +110,13 @@ func printTable(result []byte) {
 
 	for _, item := range nbpTables {
 		fmt.Println()
-		fmt.Println("Typ tabeli:", item.Table)
-		fmt.Println("Numer tabeli:", item.No)
-		fmt.Println("Data publikacji:", item.EffectiveDate)
+		fmt.Println("Typ tabeli:\t\t", item.Table)
+		fmt.Println("Numer tabeli:\t\t", item.No)
+		fmt.Println("Data publikacji:\t", item.EffectiveDate)
 		fmt.Println()
 
+		fmt.Fprintln(w, "KOD \t NAZWA \t WARTOŚĆ")
+		fmt.Fprintln(w, "--- \t ----- \t -------")
 		for _, currencyItem := range item.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 			fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValue)
@@ -185,6 +187,8 @@ func printCurrency(result []byte) {
 	fmt.Println("Kod waluty:\t", nbpCurrency.Code)
 	fmt.Println()
 
+	fmt.Fprintln(w, "TABELA \t DATA \t WARTOŚĆ")
+	fmt.Fprintln(w, "------ \t ---- \t -------")
 	for _, currencyItem := range nbpCurrency.Rates {
 		currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 		fmt.Fprintln(w, currencyItem.No+" \t "+currencyItem.EffectiveDate+" \t "+currencyValue)

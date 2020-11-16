@@ -29,16 +29,16 @@ Tekstowy klient pobierający kursy walut z serwisu Narodowego Banku Polskiego.
       wyświetla listę ostatnich 5 kursów dla waluty CHF, w formie tabeli
       (zob. zrzut ekranu poniżej)
 
-Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/).
+Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
 TODO:
-  - testy
+  - więcej testów
   - pobieranie kursów złota
 
 
 ## English version:
 
-Text client for downloading exchange rates from the website of the National Bank of Poland.
+Console application for downloading exchange rates from the website of the National Bank of Poland.
 
     Program calling parameters:
       -day string
@@ -74,7 +74,7 @@ Documentation of the API service of the National Bank of Poland
 
 TODO:
 
-  - tests
+  - more tests
   - downloading gold rates
 
 

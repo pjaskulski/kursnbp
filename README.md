@@ -27,11 +27,10 @@ Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http:/
 
 TODO:
   - testy
-  - pobieranie kursów wskazanej dla waluty
   - pobieranie kursów złota
 
 
-English version:
+## English version:
 
 Text client for downloading exchange rates from the website of the National Bank of Poland.
 
@@ -65,7 +64,6 @@ Documentation of the API service of the National Bank of Poland
 TODO:
 
   - tests
-  - download rates only for the selected currency
   - downloading gold rates
 
 

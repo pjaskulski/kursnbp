@@ -34,6 +34,7 @@ Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http:/
 TODO:
   - więcej testów
   - pobieranie kursów złota
+  - format wyjścia CSV
 
 
 ## English version:
@@ -76,6 +77,7 @@ TODO:
 
   - more tests
   - downloading gold rates
+  - output format CSV
 
 
 ![Screen](/doc/kursnbp.png)

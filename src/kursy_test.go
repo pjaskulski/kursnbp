@@ -1,9 +1,17 @@
 package main
 
 import (
+	"encoding/json"
+	"log"
 	"strings"
 	"testing"
+	"time"
 )
+
+// aby nie męczyć serwera NBP za bardzo...
+func littleDelay() {
+	time.Sleep(time.Millisecond * 500)
+}
 
 func TestCharactersAllowed(t *testing.T) {
 
@@ -60,6 +68,7 @@ func TestGetCurrencyCurrent(t *testing.T) {
 	var table string = "A"
 	var currency string = "CHF"
 
+	littleDelay()
 	result, err := getCurrencyCurrent(table, currency)
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
@@ -73,6 +82,7 @@ func TestGetCurrencyCurrentXXX(t *testing.T) {
 	var table string = "A"
 	var currency string = "XXX" // niepoprawny kod waluty
 
+	littleDelay()
 	_, err := getCurrencyCurrent(table, currency)
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
@@ -84,6 +94,7 @@ func TestGetCurrencyDay(t *testing.T) {
 	var currency string = "CHF"
 	var day string = "2020-11-13" // Friday - ok, kurs CHF = 4.1605
 
+	littleDelay()
 	result, err := getCurrencyDay(table, day, currency)
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
@@ -98,6 +109,7 @@ func TestGetCurrencyDaySaturday(t *testing.T) {
 	var currency string = "CHF"
 	var day string = "2020-11-14" // Saturday - no table of exchange rates
 
+	littleDelay()
 	_, err := getCurrencyDay(table, day, currency)
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
@@ -109,6 +121,7 @@ func TestGetCurrencyLast(t *testing.T) {
 	var currency string = "CHF"
 	var last string = "5"
 
+	littleDelay()
 	_, err := getCurrencyLast(table, last, currency)
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
@@ -120,7 +133,42 @@ func TestGetCurrencyLastFailed(t *testing.T) {
 	var currency string = "CHF"
 	var last string = "500" // za dużo kursów, max = 255
 
+	littleDelay()
 	_, err := getCurrencyLast(table, last, currency)
+	if err == nil {
+		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
+	}
+}
+
+func TestGetCurrencyRange(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+	var day string = "2020-11-12:2020-11-13" // poprawny zakres dat, spodziewane 2 kursy
+
+	littleDelay()
+	result, err := getCurrencyRange(table, day, currency)
+	if err != nil {
+		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
+	}
+
+	var nbpCurrency exchangeCurrency
+	err = json.Unmarshal(result, &nbpCurrency)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var ratesCount int = len(nbpCurrency.Rates)
+	if ratesCount != 2 {
+		t.Errorf("oczekiwana liczba kursów == 2, otrzymano %d", ratesCount)
+	}
+}
+
+func TestGetCurrencyRangeFailed(t *testing.T) {
+	var table string = "A"
+	var currency string = "CHF"
+	var day string = "2020-11-12:2020-11-10" // niepoprawny zakres dat
+
+	littleDelay()
+	_, err := getCurrencyRange(table, day, currency)
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}

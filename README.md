@@ -47,7 +47,7 @@ Text client for downloading exchange rates from the website of the National Bank
       -last string
         series of recent exchange rate tables
       -output string
-        output format (json, table) (default "json")
+        output format (json, table) (default "table")
       -table string
         exchange rate table type (A, B or C)
       -currency string

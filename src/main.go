@@ -52,7 +52,7 @@ func main() {
 
 	flag.StringVar(&tableFlag, "table", "", "typ tabeli kursów (A, B lub C)")
 	flag.StringVar(&dayFlag, "day", "", "data tabeli kursów (RRRR-MM-DD lub: today, current lub zakres dat RRRR-MM-DD:RRRR-MM-DD)")
-	flag.StringVar(&outputFlag, "output", "json", "format wyjścia (json, table)")
+	flag.StringVar(&outputFlag, "output", "table", "format wyjścia (json, table)")
 	flag.StringVar(&lastFlag, "last", "", "seria ostatnich tabel kursów")
 	flag.StringVar(&currencyFlag, "currency", "ALL", "kod waluty lub ALL = cała tabela")
 	flag.Parse()

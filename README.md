@@ -68,3 +68,5 @@ TODO:
 
 
 ![Screen](/doc/kursnbp.png)
+
+![Screen](/doc/kursnbp2.png)

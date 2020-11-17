@@ -1,5 +1,5 @@
 # kursNBP
-Tekstowy klient pobierający kursy walut z serwisu Narodowego Banku Polskiego.
+Tekstowy klient pobierający kursy walut i ceny złota z serwisu Narodowego Banku Polskiego.
 
     Parametry wywołania programu:
       -day string
@@ -32,6 +32,7 @@ Tekstowy klient pobierający kursy walut z serwisu Narodowego Banku Polskiego.
 
       kursnbp -currency=GOLD -day=current
       wyświetla aktualną cenę złota (cena 1 g złota, w próbie 1000)
+      (zob. zrzut ekranu poniżej)
 
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
@@ -42,7 +43,7 @@ TODO:
 
 ## English version:
 
-Console application for downloading exchange rates from the website of the National Bank of Poland.
+Console application for downloading exchange rates and gold prices from the website of the National Bank of Poland.
 
     Program calling parameters:
       -day string
@@ -75,6 +76,7 @@ Console application for downloading exchange rates from the website of the Natio
 
       kursnbp -currency=GOLD -day=current
       displays the current gold price (1g of gold, of 1000 millesimal fineness)
+      (see screenshot below)
 
 Documentation of the API service of the National Bank of Poland
 [http://api.nbp.pl/en.html](http://api.nbp.pl/en.html)
@@ -83,10 +85,11 @@ Documentation of the API service of the National Bank of Poland
 TODO:
 
   - more tests
-  - downloading gold rates
   - output format CSV
 
 
 ![Screen](/doc/kursnbp.png)
 
 ![Screen](/doc/kursnbp2.png)
+
+![Screen](/doc/kursnbp_gold.png)

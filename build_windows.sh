@@ -1,0 +1,1 @@
+GOOS=windows GOARCH=amd64 go build -o build/windows/kursnbp.exe ./src

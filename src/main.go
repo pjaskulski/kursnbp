@@ -34,6 +34,11 @@ type exchangeCurrency struct {
 	Rates    []rateCurrency `json:"rates"`
 }
 
+type rateGold struct {
+	Data string  `json:"data"`
+	Cena float64 `json:"cena"`
+}
+
 // argumenty startowe:
 // -table <type> - typ tabeli kursów (A, B, lub C)
 // -day=today - kurs na dziś
@@ -50,16 +55,16 @@ func main() {
 	var lastFlag string
 	var currencyFlag string
 
-	flag.StringVar(&tableFlag, "table", "", "typ tabeli kursów (A, B lub C)")
+	flag.StringVar(&tableFlag, "table", "", "typ tabeli kursów (A, B lub C), dla cen złota ignorowany")
 	flag.StringVar(&dayFlag, "day", "", "data tabeli kursów (RRRR-MM-DD lub: today, current lub zakres dat RRRR-MM-DD:RRRR-MM-DD)")
 	flag.StringVar(&outputFlag, "output", "table", "format wyjścia (json, table)")
-	flag.StringVar(&lastFlag, "last", "", "seria ostatnich tabel kursów")
-	flag.StringVar(&currencyFlag, "currency", "ALL", "kod waluty lub ALL = cała tabela")
+	flag.StringVar(&lastFlag, "last", "", "seria ostatnich tabel kursów, ostatnich kursów waluty lub złota")
+	flag.StringVar(&currencyFlag, "currency", "ALL", "kod waluty lub ALL = cała tabela kursów lub GOLD - cena złota")
 	flag.Parse()
 
 	fmt.Println("Kursy NBP - klient tekstowy")
 
-	if tableFlag == "" || (dayFlag == "" && lastFlag == "") {
+	if (currencyFlag != "GOLD" && tableFlag == "") || (dayFlag == "" && lastFlag == "") {
 		fmt.Println("Parametry wywołania programu:")
 		flag.PrintDefaults()
 		os.Exit(1)
@@ -80,6 +85,8 @@ func main() {
 	if lastFlag != "" {
 		if currencyFlag == "ALL" {
 			result, err = getTableLast(tableFlag, lastFlag)
+		} else if currencyFlag == "GOLD" {
+			result, err = getGoldLast(lastFlag)
 		} else {
 			result, err = getCurrencyLast(tableFlag, lastFlag, currencyFlag)
 		}
@@ -91,6 +98,8 @@ func main() {
 		if dayFlag == "today" {
 			if currencyFlag == "ALL" {
 				result, err = getTableToday(tableFlag)
+			} else if currencyFlag == "GOLD" {
+				result, err = getGoldToday()
 			} else {
 				result, err = getCurrencyToday(tableFlag, currencyFlag)
 			}
@@ -101,6 +110,8 @@ func main() {
 		} else if dayFlag == "current" {
 			if currencyFlag == "ALL" {
 				result, err = getTableCurrent(tableFlag)
+			} else if currencyFlag == "GOLD" {
+				result, err = getGoldCurrent()
 			} else {
 				result, err = getCurrencyCurrent(tableFlag, currencyFlag)
 			}
@@ -111,6 +122,8 @@ func main() {
 		} else if len(dayFlag) == 10 && charAllowed(dayFlag, false) {
 			if currencyFlag == "ALL" {
 				result, err = getTableDay(tableFlag, dayFlag)
+			} else if currencyFlag == "GOLD" {
+				result, err = getGoldDay(dayFlag)
 			} else {
 				result, err = getCurrencyDay(tableFlag, dayFlag, currencyFlag)
 			}
@@ -121,6 +134,8 @@ func main() {
 		} else if len(dayFlag) == 21 && charAllowed(dayFlag, true) {
 			if currencyFlag == "ALL" {
 				result, err = getTableRange(tableFlag, dayFlag)
+			} else if currencyFlag == "GOLD" {
+				result, err = getGoldRange(dayFlag)
 			} else {
 				result, err = getCurrencyRange(tableFlag, dayFlag, currencyFlag)
 			}
@@ -138,6 +153,8 @@ func main() {
 	} else if outputFlag == "table" {
 		if currencyFlag == "ALL" {
 			printTable(result)
+		} else if currencyFlag == "GOLD" {
+			printGold(result)
 		} else {
 			printCurrency(result)
 		}

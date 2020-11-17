@@ -93,3 +93,5 @@ TODO:
 ![Screen](/doc/kursnbp2.png)
 
 ![Screen](/doc/kursnbp_gold.png)
+
+![Screen](/doc/kursnbp_tabc.png)

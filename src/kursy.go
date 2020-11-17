@@ -13,8 +13,10 @@ import (
 )
 
 // adresy bazowe dla kursów walut i cen złota
-var baseAddress string = "http://api.nbp.pl/api/exchangerates"
-var baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
+const (
+	baseAddress     string = "http://api.nbp.pl/api/exchangerates"
+	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
+)
 
 // charAllowed - funkcja sprawdza czy w przekazanym stringu znajdują się tylko
 // znaki dozwolone dla parametrów typu data lub zakres dat

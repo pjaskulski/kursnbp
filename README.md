@@ -1,4 +1,5 @@
 # kursNBP
+
 Tekstowy klient pobierający kursy walut i ceny złota z serwisu Narodowego Banku Polskiego.
 
     Parametry wywołania programu:
@@ -95,3 +96,7 @@ TODO:
 ![Screen](/doc/kursnbp_gold.png)
 
 ![Screen](/doc/kursnbp_tabc.png)
+
+
+## Contact
+- Please use [Github issue tracker](https://github.com/pjaskulski/kursnbp/issues) for filing bugs or feature requests.

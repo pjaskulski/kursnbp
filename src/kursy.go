@@ -14,8 +14,8 @@ import (
 
 var baseAddress string = "http://api.nbp.pl/api/exchangerates"
 
-// funkcja sprawdza czy w przekazanym stringu znajdują się tylko znaki dozwolone
-// dla parametrów typu data lub zakres dat
+// charAllowed - funkcja sprawdza czy w przekazanym stringu znajdują się tylko
+// znaki dozwolone dla parametrów typu data lub zakres dat
 func charAllowed(text string, dateRange bool) bool {
 	var characters = "0123456789-"
 	var result bool = true
@@ -33,7 +33,7 @@ func charAllowed(text string, dateRange bool) bool {
 	return result
 }
 
-// uniwersalna funkcja zwracająca json (lub błąd) na podstawie przekazanego adresu
+// getJSON - uniwersalna funkcja zwracająca json (lub błąd) na podstawie przekazanego adresu
 func getJSON(address string) ([]byte, error) {
 	r, err := http.Get(address)
 	if err != nil {
@@ -57,26 +57,27 @@ func getJSON(address string) ([]byte, error) {
 	return data, nil
 }
 
-// funkcja zwraca json z tabelą kursów podanego typu na dziś (lub błąd)
+// getTableToday - funkcja zwraca json z tabelą kursów podanego typu na dziś (lub błąd)
 func getTableToday(tableType string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/today/?format=json", tableType)
 	return getJSON(address)
 }
 
-// funkcja zwraca bieżącą tabelę kursów walut danego typu (ostatnio opublikowaną tabelę
-// danego typu) w formie json
+// getTableCurrent - funkcja zwraca bieżącą tabelę kursów walut danego typu
+// (ostatnio opublikowaną tabelę danego typu) w formie json
 func getTableCurrent(tableType string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/?format=json", tableType)
 	return getJSON(address)
 }
 
-// funkcja zwraca tabelę kursów (json) danego typu dla podanego dnia (lub błąd)
+// getTableDay - funkcja zwraca tabelę kursów (json) danego typu dla podanego dnia (lub błąd)
 func getTableDay(tableType string, day string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/%s/?format=json", tableType, day)
 	return getJSON(address)
 }
 
-// funkcja zwraca tabele kursów danego typu dla podanego zakresu dat w formie json (lub błąd)
+// getTableRange - funkcja zwraca tabele kursów danego typu dla podanego zakresu
+// dat w formie json (lub błąd)
 func getTableRange(tableType string, day string) ([]byte, error) {
 	var startDate string
 	var stopDate string
@@ -93,13 +94,14 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 	return getJSON(address)
 }
 
-// funkcja zwraca ostatnich n tabel kursów danego typu w formie json (lub błąd)
+// getTableLast - funkcja zwraca ostatnich n tabel kursów danego typu
+// w formie json (lub błąd)
 func getTableLast(tableType string, last string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/last/%s/?format=json", tableType, last)
 	return getJSON(address)
 }
 
-// funkcja drukuje tabele kursów w konsoli
+// printTable - funkcja drukuje tabele kursów w konsoli
 func printTable(result []byte) {
 	var nbpTables []exchangeTable
 	err := json.Unmarshal(result, &nbpTables)
@@ -130,32 +132,34 @@ func printTable(result []byte) {
 	fmt.Println()
 }
 
-// funkcja zwraca ostatnich n kursów waluty danego typu w formie json (lub błąd)
+// getCurrencyLast - funkcja zwraca ostatnich n kursów waluty danego typu
+// w formie json (lub błąd)
 func getCurrencyLast(tableType string, last string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/last/%s/?format=json", tableType, currency, last)
 	return getJSON(address)
 }
 
-// funkcja zwraca json z kursem waluty podanego typu na dziś (lub błąd)
+// getCurrencyToday - funkcja zwraca json z kursem waluty podanego typu na dziś (lub błąd)
 func getCurrencyToday(tableType string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/today/?format=json", tableType, currency)
 	return getJSON(address)
 }
 
-// funkcja zwraca bieżący kurs waluty danego typu (ostatnio opublikowany kurs waluty
-// danego typu) w formie json
+// getCurrencyCurrent - funkcja zwraca bieżący kurs waluty danego typu (ostatnio
+// opublikowany kurs waluty danego typu) w formie json
 func getCurrencyCurrent(tableType string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/?format=json", tableType, currency)
 	return getJSON(address)
 }
 
-// funkcja zwraca kurs waluty (json) danego typu dla podanego dnia (lub błąd)
+// getCurrencyDay - funkcja zwraca kurs waluty (json) danego typu dla podanego dnia (lub błąd)
 func getCurrencyDay(tableType string, day string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/?format=json", tableType, currency, day)
 	return getJSON(address)
 }
 
-// funkcja zwraca tabele kursów danego typu dla podanego zakresu dat w formie json (lub błąd)
+// getCurrencyRange - funkcja zwraca tabele kursów danego typu dla podanego
+// zakresu dat w formie json (lub błąd)
 func getCurrencyRange(tableType string, day string, currency string) ([]byte, error) {
 	var startDate string
 	var stopDate string
@@ -172,7 +176,7 @@ func getCurrencyRange(tableType string, day string, currency string) ([]byte, er
 	return getJSON(address)
 }
 
-// funkcja drukuje kursy waluty w konsoli
+// printCurrency - funkcja drukuje kursy waluty w konsoli
 func printCurrency(result []byte) {
 	var nbpCurrency exchangeCurrency
 	err := json.Unmarshal(result, &nbpCurrency)

@@ -121,11 +121,44 @@ func printTable(result []byte) {
 		fmt.Println("Data publikacji:\t", item.EffectiveDate)
 		fmt.Println()
 
-		fmt.Fprintln(w, "KOD \t NAZWA \t WARTOŚĆ")
+		fmt.Fprintln(w, "KOD \t NAZWA \t ŚREDNI")
 		fmt.Fprintln(w, "--- \t ----- \t -------")
 		for _, currencyItem := range item.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 			fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValue)
+		}
+
+		w.Flush()
+	}
+
+	fmt.Println()
+}
+
+// printTableC - funkcja drukuje tabele kursów w konsoli, wersja dla tabeli C
+func printTableC(result []byte) {
+	var nbpTables []exchangeTableC
+	err := json.Unmarshal(result, &nbpTables)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// druk tabeli z kursami w oknie konsoli
+	const padding = 3
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
+
+	for _, item := range nbpTables {
+		fmt.Println()
+		fmt.Println("Typ tabeli:\t\t", item.Table)
+		fmt.Println("Numer tabeli:\t\t", item.No)
+		fmt.Println("Data notowania:\t\t", item.TradingDate)
+		fmt.Println("Data publikacji:\t", item.EffectiveDate)
+		fmt.Println()
+
+		fmt.Fprintln(w, "KOD \t NAZWA \t KUPNO \t SPRZEDAŻ ")
+		fmt.Fprintln(w, "--- \t ----- \t ----- \t -------- ")
+		for _, currencyItem := range item.Rates {
+			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
+			currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
+			fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValueBid+" \t "+currencyValueAsk)
 		}
 
 		w.Flush()
@@ -195,11 +228,40 @@ func printCurrency(result []byte) {
 	fmt.Println("Kod waluty:\t", nbpCurrency.Code)
 	fmt.Println()
 
-	fmt.Fprintln(w, "TABELA \t DATA \t WARTOŚĆ")
+	fmt.Fprintln(w, "TABELA \t DATA \t ŚREDNI")
 	fmt.Fprintln(w, "------ \t ---- \t -------")
 	for _, currencyItem := range nbpCurrency.Rates {
 		currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 		fmt.Fprintln(w, currencyItem.No+" \t "+currencyItem.EffectiveDate+" \t "+currencyValue)
+	}
+	w.Flush()
+
+	fmt.Println()
+}
+
+// printCurrencyC - funkcja drukuje kursy waluty w konsoli, wersja dla tabeli C
+func printCurrencyC(result []byte) {
+	var nbpCurrency exchangeCurrencyC
+	err := json.Unmarshal(result, &nbpCurrency)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// druk kursów waluty w oknie konsoli
+	const padding = 3
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
+
+	fmt.Println()
+	fmt.Println("Typ tabeli:\t", nbpCurrency.Table)
+	fmt.Println("Nazwa waluty:\t", nbpCurrency.Currency)
+	fmt.Println("Kod waluty:\t", nbpCurrency.Code)
+	fmt.Println()
+
+	fmt.Fprintln(w, "TABELA \t DATA \t KUPNO \t SPRZEDAŻ ")
+	fmt.Fprintln(w, "------ \t ---- \t ----- \t -------- ")
+	for _, currencyItem := range nbpCurrency.Rates {
+		currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
+		currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
+		fmt.Fprintln(w, currencyItem.No+" \t "+currencyItem.EffectiveDate+" \t "+currencyValueBid+" \t "+currencyValueAsk)
 	}
 	w.Flush()
 

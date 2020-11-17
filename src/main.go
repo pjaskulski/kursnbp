@@ -21,6 +21,21 @@ type exchangeTable struct {
 	Rates         []rateTable `json:"rates"`
 }
 
+type rateTableC struct {
+	Currency string  `json:"currency"`
+	Code     string  `json:"code"`
+	Bid      float64 `json:"bid"`
+	Ask      float64 `json:"ask"`
+}
+
+type exchangeTableC struct {
+	Table         string       `json:"table"`
+	No            string       `json:"no"`
+	TradingDate   string       `json:"tradingDate"`
+	EffectiveDate string       `json:"effectiveDate"`
+	Rates         []rateTableC `json:"rates"`
+}
+
 type rateCurrency struct {
 	No            string  `json:"no"`
 	EffectiveDate string  `json:"effectiveDate"`
@@ -32,6 +47,20 @@ type exchangeCurrency struct {
 	Currency string         `json:"currency"`
 	Code     string         `json:"code"`
 	Rates    []rateCurrency `json:"rates"`
+}
+
+type rateCurrencyC struct {
+	No            string  `json:"no"`
+	EffectiveDate string  `json:"effectiveDate"`
+	Bid           float64 `json:"bid"`
+	Ask           float64 `json:"ask"`
+}
+
+type exchangeCurrencyC struct {
+	Table    string          `json:"table"`
+	Currency string          `json:"currency"`
+	Code     string          `json:"code"`
+	Rates    []rateCurrencyC `json:"rates"`
 }
 
 type rateGold struct {
@@ -152,11 +181,19 @@ func main() {
 		fmt.Println(string(result))
 	} else if outputFlag == "table" {
 		if currencyFlag == "ALL" {
-			printTable(result)
+			if tableFlag != "C" {
+				printTable(result)
+			} else {
+				printTableC(result)
+			}
 		} else if currencyFlag == "GOLD" {
 			printGold(result)
 		} else {
-			printCurrency(result)
+			if tableFlag != "C" {
+				printCurrency(result)
+			} else {
+				printCurrencyC(result)
+			}
 		}
 	}
 }

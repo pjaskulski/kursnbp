@@ -38,7 +38,6 @@ Tekstowy klient pobierający kursy walut i ceny złota z serwisu Narodowego Bank
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
 TODO:
-  - więcej testów
   - format wyjścia CSV
 
 
@@ -85,7 +84,6 @@ Documentation of the API service of the National Bank of Poland
 
 TODO:
 
-  - more tests
   - output format CSV
 
 

@@ -15,6 +15,7 @@ Tekstowy klient pobierający kursy walut z serwisu Narodowego Banku Polskiego.
         kod waluty, domyślnie ALL - zwraca tabelę kursów dla wszystkich walut, 
         kod np. CHF zwraca kurs dla wybranej waluty (kod waluty w standardzie 
         ISO 4217)
+        kod GOLD zwraca cenę złota
 
       np. 
       kursnbp -table=A -current -output=table
@@ -29,11 +30,13 @@ Tekstowy klient pobierający kursy walut z serwisu Narodowego Banku Polskiego.
       wyświetla listę ostatnich 5 kursów dla waluty CHF, w formie tabeli
       (zob. zrzut ekranu poniżej)
 
+      kursnbp -currency=GOLD -day=current
+      wyświetla aktualną cenę złota (cena 1 g złota, w próbie 1000)
+
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
 TODO:
   - więcej testów
-  - pobieranie kursów złota
   - format wyjścia CSV
 
 
@@ -54,20 +57,24 @@ Console application for downloading exchange rates from the website of the Natio
       -currency string
         currency code, by default =ALL - returns the table of rates for 
         all currencies, specific code e.g. CHF returns the rate for the 
-        selected currency (currency code in the ISO 4217 standard)
+        selected currency (currency code in the ISO 4217 standard),
+        code GOLD returns gold price.
 
       e.g.
       kursnbp -table = A -current -output = table
       displays the current A table of exchange rates in table format 
       (see screenshot below)
 
-      kursnbp -table = A -day = 2020-11-12: 2020-11-13 -output = table
+      kursnbp -table = A -day = 2020-11-12: 2020-11-13
       displays 2 tables in accordance with a given date range (November 12-13, 2020) 
       in the form of a text table
 
-      kursnbp -currency=EUR -last=5 -table=A -output=table
+      kursnbp -currency=EUR -last=5 -table=A
       displays a list of the last 5 CHF rates in a table format
       (see screenshot below)
+
+      kursnbp -currency=GOLD -day=current
+      displays the current gold price (1g of gold, of 1000 millesimal fineness)
 
 Documentation of the API service of the National Bank of Poland
 [http://api.nbp.pl/en.html](http://api.nbp.pl/en.html)

@@ -39,6 +39,7 @@ Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http:/
 
 TODO:
   - format wyjścia CSV
+  - cobra?
 
 
 ## English version:
@@ -85,6 +86,7 @@ Documentation of the API service of the National Bank of Poland
 TODO:
 
   - output format CSV
+  - cobra? 
 
 
 ![Screen](/doc/kursnbp.png)

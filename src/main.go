@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+// adresy bazowe dla kursów walut i cen złota
+const (
+	baseAddress     string = "http://api.nbp.pl/api/exchangerates"
+	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
+)
+
 type rateTable struct {
 	Currency string  `json:"currency"`
 	Code     string  `json:"code"`
@@ -68,15 +74,8 @@ type rateGold struct {
 	Cena float64 `json:"cena"`
 }
 
-// argumenty startowe:
-// -table <type> - typ tabeli kursów (A, B, lub C)
-// -day=today - kurs na dziś
-// -day=<date> - kurs na dzień (format RRRR-MM-DD)
-// -day=<startDate>:<endDate> - kursy z zakresu dat (format RRRR-MM-DD:RRRR-MM-DD)
-// -last=<number> - ostatnich <number> kursów
-// -out=<output> - format wyjścia, domyślnie json (json, table - tabela tekstowa)
-// np.
-// kursnbp -table A -day today
+// kursnbp - command line tool for downloading exchange rates and gold prices
+// from the website of the National Bank of Poland
 func main() {
 	var tableFlag string
 	var dayFlag string

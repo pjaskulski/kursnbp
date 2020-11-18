@@ -178,39 +178,24 @@ func main() {
 		}
 	}
 
+	// output
 	if outputFlag == "json" {
 		fmt.Println(string(result))
 	} else if outputFlag == "table" {
 		if currencyFlag == "ALL" {
-			if tableFlag != "C" {
-				printTable(result)
-			} else {
-				printTableC(result)
-			}
+			printTable(result, tableFlag)
 		} else if currencyFlag == "GOLD" {
 			printGold(result)
 		} else {
-			if tableFlag != "C" {
-				printCurrency(result)
-			} else {
-				printCurrencyC(result)
-			}
+			printCurrency(result, tableFlag)
 		}
 	} else if outputFlag == "csv" {
 		if currencyFlag == "ALL" {
-			if tableFlag != "C" {
-				printTableCSV(result)
-			} else {
-				printTableCCSV(result)
-			}
+			printTableCSV(result, tableFlag)
 		} else if currencyFlag == "GOLD" {
 			printGoldCSV(result)
 		} else {
-			if tableFlag != "C" {
-				printCurrencyCSV(result)
-			} else {
-				printCurrencyCCSV(result)
-			}
+			printCurrencyCSV(result, tableFlag)
 		}
 	}
 }

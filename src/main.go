@@ -14,65 +14,7 @@ const (
 	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
 )
 
-type rateTable struct {
-	Currency string  `json:"currency"`
-	Code     string  `json:"code"`
-	Mid      float64 `json:"mid"`
-}
-
-type exchangeTable struct {
-	Table         string      `json:"table"`
-	No            string      `json:"no"`
-	EffectiveDate string      `json:"effectiveDate"`
-	Rates         []rateTable `json:"rates"`
-}
-
-type rateTableC struct {
-	Currency string  `json:"currency"`
-	Code     string  `json:"code"`
-	Bid      float64 `json:"bid"`
-	Ask      float64 `json:"ask"`
-}
-
-type exchangeTableC struct {
-	Table         string       `json:"table"`
-	No            string       `json:"no"`
-	TradingDate   string       `json:"tradingDate"`
-	EffectiveDate string       `json:"effectiveDate"`
-	Rates         []rateTableC `json:"rates"`
-}
-
-type rateCurrency struct {
-	No            string  `json:"no"`
-	EffectiveDate string  `json:"effectiveDate"`
-	Mid           float64 `json:"mid"`
-}
-
-type exchangeCurrency struct {
-	Table    string         `json:"table"`
-	Currency string         `json:"currency"`
-	Code     string         `json:"code"`
-	Rates    []rateCurrency `json:"rates"`
-}
-
-type rateCurrencyC struct {
-	No            string  `json:"no"`
-	EffectiveDate string  `json:"effectiveDate"`
-	Bid           float64 `json:"bid"`
-	Ask           float64 `json:"ask"`
-}
-
-type exchangeCurrencyC struct {
-	Table    string          `json:"table"`
-	Currency string          `json:"currency"`
-	Code     string          `json:"code"`
-	Rates    []rateCurrencyC `json:"rates"`
-}
-
-type rateGold struct {
-	Data string  `json:"data"`
-	Cena float64 `json:"cena"`
-}
+var version string = "0.1.0"
 
 // kursnbp - command line tool for downloading exchange rates and gold prices
 // from the website of the National Bank of Poland
@@ -91,7 +33,7 @@ func main() {
 	flag.Parse()
 
 	if outputFlag == "table" {
-		fmt.Println("Kursy NBP - klient tekstowy")
+		fmt.Println("Kursy NBP - klient tekstowy, wersja " + version)
 	}
 
 	if (currencyFlag != "GOLD" && tableFlag == "") || (dayFlag == "" && lastFlag == "") {

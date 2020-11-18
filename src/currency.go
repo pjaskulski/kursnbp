@@ -10,6 +10,33 @@ import (
 	"text/tabwriter"
 )
 
+type rateCurrency struct {
+	No            string  `json:"no"`
+	EffectiveDate string  `json:"effectiveDate"`
+	Mid           float64 `json:"mid"`
+}
+
+type exchangeCurrency struct {
+	Table    string         `json:"table"`
+	Currency string         `json:"currency"`
+	Code     string         `json:"code"`
+	Rates    []rateCurrency `json:"rates"`
+}
+
+type rateCurrencyC struct {
+	No            string  `json:"no"`
+	EffectiveDate string  `json:"effectiveDate"`
+	Bid           float64 `json:"bid"`
+	Ask           float64 `json:"ask"`
+}
+
+type exchangeCurrencyC struct {
+	Table    string          `json:"table"`
+	Currency string          `json:"currency"`
+	Code     string          `json:"code"`
+	Rates    []rateCurrencyC `json:"rates"`
+}
+
 // getCurrencyLast - funkcja zwraca ostatnich n kursów waluty danego typu
 // w formie json (lub błąd)
 func getCurrencyLast(tableType string, last string, currency string) ([]byte, error) {
@@ -68,7 +95,6 @@ func printCurrency(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		// druk kursów waluty w oknie konsoli
 		fmt.Println()
 		fmt.Println("Typ tabeli:\t", nbpCurrency.Table)
 		fmt.Println("Nazwa waluty:\t", nbpCurrency.Currency)
@@ -86,7 +112,7 @@ func printCurrency(result []byte, tableType string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		// druk kursów waluty w oknie konsoli
+
 		fmt.Println()
 		fmt.Println("Typ tabeli:\t", nbpCurrencyC.Table)
 		fmt.Println("Nazwa waluty:\t", nbpCurrencyC.Currency)
@@ -106,7 +132,7 @@ func printCurrency(result []byte, tableType string) {
 	fmt.Println()
 }
 
-// printCurrency - funkcja drukuje kursy waluty w konsoli
+// printCurrencyCSV - funkcja drukuje kursy waluty w konsoli
 func printCurrencyCSV(result []byte, tableType string) {
 	var nbpCurrency exchangeCurrency
 	var nbpCurrencyC exchangeCurrencyC
@@ -117,7 +143,6 @@ func printCurrencyCSV(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		// druk kursów waluty w oknie konsoli
 		fmt.Println("TABELA,DATA,ŚREDNI")
 		for _, currencyItem := range nbpCurrency.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
@@ -129,7 +154,6 @@ func printCurrencyCSV(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		// druk danych kursów waluty w oknie konsoli w formie CSV
 		fmt.Println("TABELA,DATA,KUPNO,SPRZEDAŻ")
 		for _, currencyItem := range nbpCurrencyC.Rates {
 			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)

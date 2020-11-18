@@ -10,6 +10,34 @@ import (
 	"text/tabwriter"
 )
 
+type rateTable struct {
+	Currency string  `json:"currency"`
+	Code     string  `json:"code"`
+	Mid      float64 `json:"mid"`
+}
+
+type exchangeTable struct {
+	Table         string      `json:"table"`
+	No            string      `json:"no"`
+	EffectiveDate string      `json:"effectiveDate"`
+	Rates         []rateTable `json:"rates"`
+}
+
+type rateTableC struct {
+	Currency string  `json:"currency"`
+	Code     string  `json:"code"`
+	Bid      float64 `json:"bid"`
+	Ask      float64 `json:"ask"`
+}
+
+type exchangeTableC struct {
+	Table         string       `json:"table"`
+	No            string       `json:"no"`
+	TradingDate   string       `json:"tradingDate"`
+	EffectiveDate string       `json:"effectiveDate"`
+	Rates         []rateTableC `json:"rates"`
+}
+
 // getTableToday - funkcja zwraca json z tabelą kursów podanego typu na dziś (lub błąd)
 func getTableToday(tableType string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/today/?format=json", tableType)
@@ -67,7 +95,6 @@ func printTable(result []byte, tableType string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		// druk tabeli z kursami w oknie konsoli
 
 		for _, item := range nbpTables {
 			fmt.Println()
@@ -91,7 +118,6 @@ func printTable(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		// druk tabeli z kursami w oknie konsoli
 		for _, item := range nbpTablesC {
 			fmt.Println()
 			fmt.Println("Typ tabeli:\t\t", item.Table)
@@ -127,7 +153,6 @@ func printTableCSV(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		// druk danych CSV z tabeli z kursami w oknie konsoli
 		fmt.Println("TABELA,KOD,NAZWA,ŚREDNI")
 
 		for _, item := range nbpTables {
@@ -143,7 +168,6 @@ func printTableCSV(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		// druk CSV z kursami w oknie konsoli
 		fmt.Println("TABELA,KOD,NAZWA,KUPNO,SPRZEDAŻ")
 
 		for _, item := range nbpTablesC {

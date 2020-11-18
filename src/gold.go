@@ -10,6 +10,11 @@ import (
 	"text/tabwriter"
 )
 
+type rateGold struct {
+	Data string  `json:"data"`
+	Cena float64 `json:"cena"`
+}
+
 // getGoldToday - funkcja zwraca dzisiejszą cenę złota
 // w formie json, lub błąd
 func getGoldToday() ([]byte, error) {
@@ -63,7 +68,7 @@ func printGold(result []byte) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// druk cen złota w oknie konsoli
+
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
 
@@ -90,7 +95,6 @@ func printGoldCSV(result []byte) {
 		log.Fatal(err)
 	}
 
-	// druk CSV z cenami złota w oknie konsoli
 	fmt.Println("DATA,CENA")
 	for _, goldItem := range nbpGold {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)

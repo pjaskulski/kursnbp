@@ -44,9 +44,9 @@ TODO:
 
 ## English version:
 
-Console application for downloading exchange rates and gold prices from the website of the National Bank of Poland.
+Command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland.
 
-    Program calling parameters:
+    Application arguments:
       -day string
         date of the exchange rate table (YYYY-MM-DD or: today, current 
         or date range YYYY-MM-DD: YYYY-MM-DD)

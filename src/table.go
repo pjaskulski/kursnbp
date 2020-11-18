@@ -117,3 +117,54 @@ func printTableC(result []byte) {
 
 	fmt.Println()
 }
+
+// printCSV - funkcja drukuje dane tabel kursów w konsoli w formie CSV
+func printTableCSV(result []byte) {
+	var nbpTables []exchangeTable
+	err := json.Unmarshal(result, &nbpTables)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// druk danych CSV z tabeli z kursami w oknie konsoli
+	var tableNo string
+
+	fmt.Println("TABELA,KOD,NAZWA,ŚREDNI")
+
+	for _, item := range nbpTables {
+		tableNo = item.No
+		for _, currencyItem := range item.Rates {
+			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
+			fmt.Println(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValue)
+		}
+	}
+
+	fmt.Println()
+}
+
+// printCSVC - funkcja drukuje dane tabel kursów w konsoli w formie CSV,
+// wersja dla tabeli C
+func printTableCCSV(result []byte) {
+	var nbpTables []exchangeTableC
+	err := json.Unmarshal(result, &nbpTables)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// druk CSV z kursami w oknie konsoli
+	var tableNo string
+
+	fmt.Println("TABELA,KOD,NAZWA,KUPNO,SPRZEDAŻ")
+
+	for _, item := range nbpTables {
+		tableNo = item.No
+		for _, currencyItem := range item.Rates {
+			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
+			currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
+			fmt.Println(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValueBid + "," + currencyValueAsk)
+		}
+		fmt.Println()
+	}
+
+	fmt.Println()
+}

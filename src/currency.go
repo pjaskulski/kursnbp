@@ -110,3 +110,39 @@ func printCurrencyC(result []byte) {
 
 	fmt.Println()
 }
+
+// printCurrency - funkcja drukuje kursy waluty w konsoli
+func printCurrencyCSV(result []byte) {
+	var nbpCurrency exchangeCurrency
+	err := json.Unmarshal(result, &nbpCurrency)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// druk kursów waluty w oknie konsoli
+	fmt.Println("TABELA,DATA,ŚREDNI")
+	for _, currencyItem := range nbpCurrency.Rates {
+		currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
+		fmt.Println(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValue)
+	}
+	fmt.Println()
+}
+
+// printCurrencyCCSV - funkcja drukuje kursy waluty w konsoli w formie CSV,
+// wersja dla tabeli C
+func printCurrencyCCSV(result []byte) {
+	var nbpCurrency exchangeCurrencyC
+	err := json.Unmarshal(result, &nbpCurrency)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// druk danych kursów waluty w oknie konsoli w formie CSV
+	fmt.Println("TABELA,DATA,KUPNO,SPRZEDAŻ")
+	for _, currencyItem := range nbpCurrency.Rates {
+		currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
+		currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
+		fmt.Println(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValueBid + "," + currencyValueAsk)
+	}
+	fmt.Println()
+}

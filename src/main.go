@@ -90,7 +90,9 @@ func main() {
 	flag.StringVar(&currencyFlag, "currency", "ALL", "kod waluty lub ALL = cała tabela kursów lub GOLD - cena złota")
 	flag.Parse()
 
-	fmt.Println("Kursy NBP - klient tekstowy")
+	if outputFlag == "table" {
+		fmt.Println("Kursy NBP - klient tekstowy")
+	}
 
 	if (currencyFlag != "GOLD" && tableFlag == "") || (dayFlag == "" && lastFlag == "") {
 		fmt.Println("Parametry wywołania programu:")
@@ -192,6 +194,22 @@ func main() {
 				printCurrency(result)
 			} else {
 				printCurrencyC(result)
+			}
+		}
+	} else if outputFlag == "csv" {
+		if currencyFlag == "ALL" {
+			if tableFlag != "C" {
+				printTableCSV(result)
+			} else {
+				printTableCCSV(result)
+			}
+		} else if currencyFlag == "GOLD" {
+			printGoldCSV(result)
+		} else {
+			if tableFlag != "C" {
+				printCurrencyCSV(result)
+			} else {
+				printCurrencyCCSV(result)
 			}
 		}
 	}

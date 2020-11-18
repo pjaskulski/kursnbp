@@ -81,3 +81,21 @@ func printGold(result []byte) {
 
 	fmt.Println()
 }
+
+// printGoldCSV - funkcja drukuje ceny złota w konsoli w formie CSV
+func printGoldCSV(result []byte) {
+	var nbpGold []rateGold
+	err := json.Unmarshal(result, &nbpGold)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// druk CSV z cenami złota w oknie konsoli
+	fmt.Println("DATA,CENA")
+	for _, goldItem := range nbpGold {
+		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
+		fmt.Println(goldItem.Data + "," + goldValue)
+	}
+
+	fmt.Println()
+}

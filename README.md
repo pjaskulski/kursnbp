@@ -9,7 +9,7 @@ Tekstowy klient pobierający kursy walut i ceny złota z serwisu Narodowego Bank
       -last string
         seria ostatnich tabel kursów
       -output string
-        format wyjścia (json, table) (default "json")
+        format wyjścia (json, table, csv) (default "table")
       -table string
         typ tabeli kursów (A, B lub C)
       -currency string
@@ -38,7 +38,6 @@ Tekstowy klient pobierający kursy walut i ceny złota z serwisu Narodowego Bank
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
 TODO:
-  - format wyjścia CSV
   - cobra?
 
 
@@ -53,7 +52,7 @@ Command line tool for downloading exchange rates and gold prices from the websit
       -last string
         series of recent exchange rate tables
       -output string
-        output format (json, table) (default "table")
+        output format (json, table, csv) (default "table")
       -table string
         exchange rate table type (A, B or C)
       -currency string
@@ -85,7 +84,6 @@ Documentation of the API service of the National Bank of Poland
 
 TODO:
 
-  - output format CSV
   - cobra? 
 
 

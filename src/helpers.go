@@ -10,25 +10,6 @@ import (
 	"time"
 )
 
-// charAllowed - funkcja sprawdza czy w przekazanym stringu znajdują się tylko
-// znaki dozwolone dla parametrów typu data lub zakres dat
-func charAllowed(text string, dateRange bool) bool {
-	var characters = "0123456789-"
-	var result bool = true
-
-	if dateRange {
-		characters += ":"
-	}
-
-	for _, item := range text {
-		if !strings.Contains(characters, string(item)) {
-			result = false
-			break
-		}
-	}
-	return result
-}
-
 // getJSON - uniwersalna funkcja zwracająca json (lub błąd) na podstawie przekazanego adresu
 func getJSON(address string) ([]byte, error) {
 	r, err := http.Get(address)
@@ -113,30 +94,21 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 	// date
 	if lFlag == 0 && dFlag != "" {
 		var isValid bool = true
+
 		if dFlag != "today" && dFlag != "current" {
 			if len(dFlag) != 10 && len(dFlag) != 21 {
 				isValid = false
 			}
 			if len(dFlag) == 10 {
-				if !charAllowed(dFlag, false) {
+				re10 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
+				if !re10.MatchString(dFlag) {
 					isValid = false
-				}
-				if isValid {
-					re10 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
-					if !re10.MatchString(dFlag) {
-						isValid = false
-					}
 				}
 			}
 			if len(dFlag) == 21 {
-				if !charAllowed(dFlag, true) {
+				re21 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}\\:\\d{4}-\\d{2}-\\d{2}")
+				if !re21.MatchString(dFlag) {
 					isValid = false
-				}
-				if isValid {
-					re21 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}\\:\\d{4}-\\d{2}-\\d{2}")
-					if !re21.MatchString(dFlag) {
-						isValid = false
-					}
 				}
 			}
 			if !isValid {

@@ -75,6 +75,9 @@ func init() {
 	if tableFlag != "" {
 		tableFlag = strings.ToUpper(tableFlag)
 	}
+	if codeFlag != "" {
+		codeFlag = strings.ToUpper(codeFlag)
+	}
 }
 
 // kursnbp - command line tool for downloading exchange rates and gold prices

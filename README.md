@@ -3,6 +3,7 @@
 **[Opis](#opis)**<br>
 **[Description](#description)**<br>
 **[Screenshots](#screenshots)**<br>
+**[contact](#contact)**<br>
 
 ## Opis:
 

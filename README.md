@@ -1,7 +1,9 @@
 # kursNBP
 
+**[Opis](#opis)**<br>
+**[Description](#description)**<br>
 
-## Polish version:
+## Opis:
 
 kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
 
@@ -17,8 +19,8 @@ kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z 
          --version   Wyświetla wersję programu
       -h --help      Wyświetla pomoc z opisem poleceń i flag programu
       -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
-                   json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                   nazwy pól w pierwszym wierszu), domyślnie: table 
+                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
+                     nazwy pól w pierwszym wierszu), domyślnie: table 
   
     Flagi dla poleceń:
       table: 
@@ -78,7 +80,7 @@ Przykłady:
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
 
-## English version:
+## Description:
 
 kursNBP - a command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland
 

@@ -91,7 +91,7 @@ func printGold(result []byte) {
 		log.Fatal(err)
 	}
 
-	fmt.Println(appName, " - ", appDesc)
+	fmt.Println(appName, "-", appDesc)
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)

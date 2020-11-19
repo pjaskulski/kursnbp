@@ -109,7 +109,7 @@ func printTable(result []byte, tableType string) {
 	var nbpTables []exchangeTable
 	var nbpTablesC []exchangeTableC
 
-	fmt.Println(appName, " - ", appDesc)
+	fmt.Println(appName, "-", appDesc)
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/integrii/flaggy"
 )
@@ -71,10 +72,13 @@ func init() {
 	if lastFlag == 0 && dateFlag == "" {
 		dateFlag = "current"
 	}
+	if tableFlag != "" {
+		tableFlag = strings.ToUpper(tableFlag)
+	}
 }
 
 // kursnbp - command line tool for downloading exchange rates and gold prices
-// from the website of the National Bank of Poland
+// from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
 func main() {
 	var result []byte
 	var err error

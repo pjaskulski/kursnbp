@@ -108,7 +108,7 @@ func printCurrency(result []byte, tableType string) {
 	var nbpCurrency exchangeCurrency
 	var nbpCurrencyC exchangeCurrencyC
 
-	fmt.Println(appName, " - ", appDesc)
+	fmt.Println(appName, "-", appDesc)
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)

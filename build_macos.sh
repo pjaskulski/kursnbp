@@ -1,1 +1,1 @@
-GOOS=darwin GOARCH=amd64 go build -o build/macos/kursnbpm ./src
+GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o build/macos/kursnbp ./src

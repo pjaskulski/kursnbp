@@ -92,8 +92,8 @@ kursNBP - a command line tool for downloading exchange rates and gold prices fro
                   fineness) calculated at NBP
 
     Global Flags:
-         --version    Display the version of the program
-      -h --help       Display help describing program commands and flags
+         --version    Displays the version of the program
+      -h --help       Displays help describing program commands and flags
       -o --output     Output format: table (formatted text table),
                       json (json format), csv (data with comma separated fields,
                       field names on the first line), default: table

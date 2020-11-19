@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"text/tabwriter"
 )
@@ -35,6 +36,27 @@ type exchangeCurrencyC struct {
 	Currency string          `json:"currency"`
 	Code     string          `json:"code"`
 	Rates    []rateCurrencyC `json:"rates"`
+}
+
+// getCurrency - funkcja wywołuje wariant pobierania danych zależnie
+// od zweryfikowanych wcześniej parametrów wejścia
+func getCurrency(tFlag string, dFlag string, lFlag int, cFlag string) ([]byte, error) {
+	var result []byte
+	var err error
+
+	if lFlag != 0 {
+		result, err = getCurrencyLast(tFlag, strconv.Itoa(lFlag), cFlag)
+	} else if dFlag == "today" {
+		result, err = getCurrencyToday(tFlag, cFlag)
+	} else if dFlag == "current" {
+		result, err = getCurrencyCurrent(tFlag, cFlag)
+	} else if len(dFlag) == 10 {
+		result, err = getCurrencyDay(tFlag, dFlag, cFlag)
+	} else if len(dFlag) == 21 {
+		result, err = getCurrencyRange(tFlag, dFlag, cFlag)
+	}
+
+	return result, err
 }
 
 // getCurrencyLast - funkcja zwraca ostatnich n kursów waluty danego typu
@@ -85,6 +107,8 @@ func getCurrencyRange(tableType string, day string, currency string) ([]byte, er
 func printCurrency(result []byte, tableType string) {
 	var nbpCurrency exchangeCurrency
 	var nbpCurrencyC exchangeCurrencyC
+
+	fmt.Println(appName, " - ", appDesc)
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)

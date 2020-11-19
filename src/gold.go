@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"text/tabwriter"
 )
@@ -13,6 +14,27 @@ import (
 type rateGold struct {
 	Data string  `json:"data"`
 	Cena float64 `json:"cena"`
+}
+
+// getGold - funkcja wywołuje wariant pobierania danych zależnie
+// od zweryfikowanych wcześniej parametrów wejścia
+func getGold(dFlag string, lFlag int) ([]byte, error) {
+	var result []byte
+	var err error
+
+	if lFlag != 0 {
+		result, err = getGoldLast(strconv.Itoa(lFlag))
+	} else if dFlag == "today" {
+		result, err = getGoldToday()
+	} else if dFlag == "current" {
+		result, err = getGoldCurrent()
+	} else if len(dFlag) == 10 {
+		result, err = getGoldDay(dFlag)
+	} else if len(dFlag) == 21 {
+		result, err = getGoldRange(dFlag)
+	}
+
+	return result, err
 }
 
 // getGoldToday - funkcja zwraca dzisiejszą cenę złota
@@ -68,6 +90,8 @@ func printGold(result []byte) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println(appName, " - ", appDesc)
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)

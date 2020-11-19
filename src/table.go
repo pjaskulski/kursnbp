@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"text/tabwriter"
 )
@@ -36,6 +37,27 @@ type exchangeTableC struct {
 	TradingDate   string       `json:"tradingDate"`
 	EffectiveDate string       `json:"effectiveDate"`
 	Rates         []rateTableC `json:"rates"`
+}
+
+// getTable - funkcja wywołuje wariant pobierania danych zależnie
+// od zweryfikowanych wcześniej parametrów wejścia
+func getTable(tFlag string, dFlag string, lFlag int) ([]byte, error) {
+	var result []byte
+	var err error
+
+	if lFlag != 0 {
+		result, err = getTableLast(tFlag, strconv.Itoa(lFlag))
+	} else if dFlag == "today" {
+		result, err = getTableToday(tFlag)
+	} else if dFlag == "current" {
+		result, err = getTableCurrent(tFlag)
+	} else if len(dFlag) == 10 {
+		result, err = getTableDay(tFlag, dFlag)
+	} else if len(dFlag) == 21 {
+		result, err = getTableRange(tFlag, dFlag)
+	}
+
+	return result, err
 }
 
 // getTableToday - funkcja zwraca json z tabelą kursów podanego typu na dziś (lub błąd)
@@ -86,6 +108,8 @@ func getTableLast(tableType string, last string) ([]byte, error) {
 func printTable(result []byte, tableType string) {
 	var nbpTables []exchangeTable
 	var nbpTablesC []exchangeTableC
+
+	fmt.Println(appName, " - ", appDesc)
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)

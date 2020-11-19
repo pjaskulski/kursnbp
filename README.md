@@ -1,99 +1,171 @@
 # kursNBP
 
-Tekstowy klient pobierający kursy walut i ceny złota z serwisu Narodowego Banku Polskiego.
 
-    Parametry wywołania programu:
-      -day string
-        data tabeli kursów (RRRR-MM-DD lub: today, current lub zakres 
-        dat RRRR-MM-DD:RRRR-MM-DD)
-      -last string
-        seria ostatnich tabel kursów
-      -output string
-        format wyjścia (json, table, csv) (default "table")
-      -table string
-        typ tabeli kursów (A, B lub C)
-      -currency string
-        kod waluty, domyślnie ALL - zwraca tabelę kursów dla wszystkich walut, 
-        kod np. CHF zwraca kurs dla wybranej waluty (kod waluty w standardzie 
-        ISO 4217)
-        kod GOLD zwraca cenę złota
+## Polish version:
 
-      np. 
-      kursnbp -table=A -current -output=table
-      wyświetla bieżącą tabelę kursów A w formie tabeli 
-      (zob. zrzut ekranu poniżej)
+kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
 
-      kursnbp -table=A -day=2020-11-12:2020-11-13 -output=table
-      wyświetla 2 tabele zgodnie z zadanym zakresem dat 
-      (12-13 listopad 2020) w formie tabeli
+  Użycie:
+    kursnbp table|currency|gold [--flag]
 
-      kursnbp -currency=CHF -last=5 -table=A -output=table
-      wyświetla listę ostatnich 5 kursów dla waluty CHF, w formie tabeli
-      (zob. zrzut ekranu poniżej)
+  Polecenia: 
+    table      Zwraca tabelę kursów wymiany walut (lub serię tabel)
+    currency   Zwraca kurs wskazanej waluty lub serię kursów
+    gold       Zwraca cenę złota lub serię notowań cen złota (cena 1 g złota, w próbie 1000)
 
-      kursnbp -currency=GOLD -day=current
-      wyświetla aktualną cenę złota (cena 1 g złota, w próbie 1000)
-      (zob. zrzut ekranu poniżej)
+  Flagi globalne: 
+       --version   Wyświetla wersję programu
+    -h --help      Wyświetla pomoc z opisem poleceń i flag programu
+    -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
+                   json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
+                   nazwy pól w pierwszym wierszu), domyślnie: table 
+  
+  Flagi dla poleceń:
+    table: 
+      -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
+      -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
+                   dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) lub
+                   'current' - bieżąca tabela/kurs (ostatnio opublikowany)
+                   domyślnie: current
+      -l --last    Alternatywnie do --date można pobrać ostatnich <n> tabel/kursów 
+                   np. -l=5, domyślnie: 0
+    
+    currency:
+      -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
+      -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
+                   dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) lub
+                   'current' - bieżąca tabela/kurs (ostatnio opublikowany)
+                   domyślnie: current
+      -l --last    Alternatywnie do --date można pobrać ostatnich <n> tabel/kursów 
+                   np. -l=5, domyślnie: 0
+      -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu tabeli lista 
+                   dostępnych walut może się różnić
+
+    gold:
+      -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', lub zakres 
+                   dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na dziś) lub
+                   'current' - bieżąca cena (ostatnio opublikowana)
+                   domyślnie: current
+      -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen złota 
+                   np. -l=5, domyślnie: 0
+
+  Przykłady:
+    
+    kursnbp table
+    Wyświetla bieżącą tabelę kursów typu A
+    
+    kursnbp table --last=2 --table=C
+    Wyświetla 2 ostatnie tabele kursów typu C
+
+    kursnbp table --date=2020-11-19 --table=A
+    Wyświetla tabelę kursów walut z podanego dnia
+
+    kursnbp table --date=today --output=csv
+    Wyświetla dzisiejszą tabelę kursów w formacie csv
+
+    kursnbp currency --code=CHF
+    Wyświetla bieżący kurs waluty CHF (frank szwajcarski)
+
+    kursnbp currency --code=EUR --last=10
+    Wyświetla 10 ostatnich kursów waluty EUR (euro)
+
+    kursnbp gold
+    Wyświetla bieżącą cenę złota
+
+    kursnbp gold --date=2020-11-12:2020-11-19
+    Wyświetla listę notowań cen złota w podanym przedziale dat
 
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
-
-TODO:
-  - cobra?
 
 
 ## English version:
 
-Command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland.
+kursNBP - a command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland
 
-    Application arguments:
-      -day string
-        date of the exchange rate table (YYYY-MM-DD or: today, current 
-        or date range YYYY-MM-DD: YYYY-MM-DD)
-      -last string
-        series of recent exchange rate tables
-      -output string
-        output format (json, table, csv) (default "table")
-      -table string
-        exchange rate table type (A, B or C)
-      -currency string
-        currency code, by default =ALL - returns the table of rates for 
-        all currencies, specific code e.g. CHF returns the rate for the 
-        selected currency (currency code in the ISO 4217 standard),
-        code GOLD returns gold price.
+  Usage:
+    kursnbp table | currency | gold [--flag]
 
-      e.g.
-      kursnbp -table = A -current -output = table
-      displays the current A table of exchange rates in table format 
-      (see screenshot below)
+  Commands:
+    table       returns a table of exchange rates (or a series of tables)
+    currency    returns the rate of the specified currency or a series of rates
+    gold        returns the price of gold (or series), the price of 1g of gold (of 1000 millesimal
+                fineness) calculated at NBP
 
-      kursnbp -table = A -day = 2020-11-12: 2020-11-13
-      displays 2 tables in accordance with a given date range (November 12-13, 2020) 
-      in the form of a text table
+  Global Flags:
+       --version    Display the version of the program
+    -h --help       Display help describing program commands and flags
+    -o --output     Output format: table (formatted text table),
+                    json (json format), csv (data with comma separated fields,
+                    field names on the first line), default: table
+  
+  Flags for commands:
+    table:
+      -t --table    Table type: A, B or C, default: A
+      -d --date     Date in the format: 'YYYY-MM-DD', or a range
+                    dat 'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for today) or
+                    'current' - current table / rate (last published)
+                    default: current
+      -l --last     As an alternative to --date, the last <n> tables / rates can be retrieved
+                    e.g. -l = 5, default: 0
+    
+    currency:
+      -t --table    Table type: A, B or C, default: A
+      -d --date     Date in the format: 'YYYY-MM-DD', or a date
+                    range 'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for today) or
+                    'current' - current table / rate (last published)
+                    default: current
+      -l --last     As an alternative to --date, the last <n> tables / rates can be 
+                    retrieved e.g. -l = 5, default: 0
+      -c --code     ISO 4217 currency code, depending on the type of the table available 
+                    currencies may vary
 
-      kursnbp -currency=EUR -last=5 -table=A
-      displays a list of the last 5 CHF rates in a table format
-      (see screenshot below)
+    gold:
+      -d --date    Date in the format: 'YYYY-MM-DD', or a date range
+                   'YYYY-MM-DD: YYYY-MM-DD' or 'today' (today's price) or
+                   'current' - current price (last published)
+                   default: current
+      -l --last    As an alternative to --date, the last <n> gold price can be retrieved
+                   e.g. -l = 5, default: 0
 
-      kursnbp -currency=GOLD -day=current
-      displays the current gold price (1g of gold, of 1000 millesimal fineness)
-      (see screenshot below)
+  Examples:
+    
+    kursnbp table
+    Displays the current table of exchange rate of type A
+    
+    kursnbp table --last=2 --table=C
+    Series of latest 2 tables of exchange rates of type C
+
+    kursnbp table --date=2020-11-19 --table=A
+    Exchange rate table of type A published on 19 November 2020
+
+    kursnbp table --date=today --output=csv
+    Exchange rate table of type A published today in csv format
+
+    kursnbp currency --code=CHF
+    Current exchange rate CHF (Swiss franc) from the exchange rate 
+    table of type A
+
+    kursnbp currency --code=EUR --last=10
+    Series of latest 10 exchange rates of currency EUR (euro) 
+    from the exchange rate table of type A
+
+    kursnbp gold
+    Current gold price
+
+    kursnbp gold --date=2020-11-12:2020-11-19
+    Series of gold prices published from 12 November 2020 to 19 November 2020
 
 Documentation of the API service of the National Bank of Poland
 [http://api.nbp.pl/en.html](http://api.nbp.pl/en.html)
 
 
-TODO:
+Screen shots:
 
-  - cobra? 
-
-
-![Screen](/doc/kursnbp.png)
-
-![Screen](/doc/kursnbp2.png)
+![Screen](/doc/kursnbp_table.png)
 
 ![Screen](/doc/kursnbp_gold.png)
 
-![Screen](/doc/kursnbp_tabc.png)
+![Screen](/doc/kursnbp_currency.png)
 
 
 ## Contact

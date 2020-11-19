@@ -2,6 +2,7 @@
 
 **[Opis](#opis)**<br>
 **[Description](#description)**<br>
+**[Screenshots](#screenshots)**<br>
 
 ## Opis:
 
@@ -161,7 +162,7 @@ Documentation of the API service of the National Bank of Poland
 [http://api.nbp.pl/en.html](http://api.nbp.pl/en.html)
 
 
-Screen shots:
+## Screenshots:
 
 ![Screen](/doc/kursnbp_table.png)
 

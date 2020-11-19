@@ -15,21 +15,28 @@ const (
 	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
 )
 
-var version string = "0.2.0"
-var appName string = "kursNBP"
-var appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
+// app name, version and description
+var (
+	version string = "0.2.0"
+	appName string = "kursNBP"
+	appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
+)
 
 // polecenia
-var cmdTable *flaggy.Subcommand
-var cmdCurrency *flaggy.Subcommand
-var cmdGold *flaggy.Subcommand
+var (
+	cmdTable    *flaggy.Subcommand
+	cmdCurrency *flaggy.Subcommand
+	cmdGold     *flaggy.Subcommand
+)
 
 // flagi
-var tableFlag string = "A"
-var dateFlag string = ""
-var outputFlag string = "table"
-var lastFlag int
-var codeFlag string = ""
+var (
+	tableFlag  string = "A"
+	dateFlag   string = ""
+	outputFlag string = "table"
+	lastFlag   int
+	codeFlag   string = ""
+)
 
 func init() {
 	flaggy.SetName(appName)

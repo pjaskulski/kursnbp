@@ -118,12 +118,13 @@ Downloads:<br>
     Flags for commands:
       table:
         -t --table    Table type: A, B or C, default: A
-        -d --date     Date in the format: 'YYYY-MM-DD', or a range
-                      dat 'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for today) 
+        -d --date     Date in the format: 'YYYY-MM-DD', or a date range
+                      'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for today) 
                       or 'current' - current table / rate (last published)
                       default: current
-        -l --last     As an alternative to --date, the last <n> tables / rates
-                      can be retrieved e.g. --last = 5, default: 0
+        -l --last     As an alternative to --date, the last <n> 
+                      tables / rates can be retrieved e.g. --last = 5, 
+                      default: 0
     
       currency:
         -t --table    Table type: A, B or C, default: A
@@ -131,8 +132,9 @@ Downloads:<br>
                       range 'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for 
                       today) or 'current' - current table / rate (last 
                       published) default: current
-        -l --last     As an alternative to --date, the last <n> tables / rates
-                      can be retrieved e.g. --last = 5, default: 0
+        -l --last     As an alternative to --date, the last <n> 
+                      tables / rates can be retrieved e.g. --last = 5, 
+                      default: 0
         -c --code     ISO 4217 currency code, depending on the type of the 
                       table available currencies may vary
 
@@ -141,8 +143,8 @@ Downloads:<br>
                      'YYYY-MM-DD: YYYY-MM-DD' or 'today' (today's price) or
                      'current' - current price (last published)
                      default: current
-        -l --last    As an alternative to --date, the last <n> gold price can
-                     be retrieved e.g. --last = 5, default: 0
+        -l --last    As an alternative to --date, the last <n> gold price 
+                     can be retrieved e.g. --last = 5, default: 0
 
 Examples:
     

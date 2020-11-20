@@ -46,8 +46,6 @@ func TestInSlice(t *testing.T) {
 	}
 }
 
-// checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, cFlag string)
-
 func TestCheckArg(t *testing.T) {
 	tests := []struct {
 		name        string
@@ -117,6 +115,36 @@ func TestCheckArg(t *testing.T) {
 			lFlag:       10,
 			oFlag:       "table",
 			cFlag:       "",
+			occursError: true,
+		},
+		{
+			name:        "CmdGoldShouldBeErrorComesFromLastArgNegative",
+			cmd:         "gold",
+			tFlag:       "",
+			dFlag:       "2020-11-19",
+			lFlag:       -10,
+			oFlag:       "table",
+			cFlag:       "",
+			occursError: true,
+		},
+		{
+			name:        "CmdCurrencyShouldBeErrorComesFromEmptyTableFlag",
+			cmd:         "currency",
+			tFlag:       "",
+			dFlag:       "",
+			lFlag:       1,
+			oFlag:       "table",
+			cFlag:       "",
+			occursError: true,
+		},
+		{
+			name:        "CmdCurrencyShouldBeErrorComesFromIncorrectCode",
+			cmd:         "currency",
+			tFlag:       "A",
+			dFlag:       "2020-11-19",
+			lFlag:       0,
+			oFlag:       "table",
+			cFlag:       "CXX",
 			occursError: true,
 		},
 	}

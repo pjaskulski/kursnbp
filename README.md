@@ -175,11 +175,11 @@ Documentation of the API service of the National Bank of Poland
 
 ## Screenshots:
 
-![Screen](/doc/kursnbp_table.png)
+![Screen](/docs/kursnbp_table.png)
 
-![Screen](/doc/kursnbp_gold.png)
+![Screen](/docs/kursnbp_gold.png)
 
-![Screen](/doc/kursnbp_currency.png)
+![Screen](/docs/kursnbp_currency.png)
 
 
 ## Contact

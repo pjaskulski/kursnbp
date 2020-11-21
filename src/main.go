@@ -32,10 +32,10 @@ var (
 // flags
 var (
 	tableFlag  string = "A"
-	dateFlag   string = ""
+	dateFlag   string
 	outputFlag string = "table"
 	lastFlag   int
-	codeFlag   string = ""
+	codeFlag   string
 	langFlag   string = "en"
 )
 
@@ -110,7 +110,8 @@ func main() {
 	var result []byte
 	var err error
 
-	// set output message language
+	// set output message language based on --lang flag, English is default,
+	// if flag --lang is different than 'pl' or 'en' English is set
 	if langFlag == "pl" {
 		l = langTexts["pl"]
 	} else {

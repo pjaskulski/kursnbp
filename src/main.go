@@ -45,7 +45,7 @@ func init() {
 	flaggy.SetDescription(appDesc)
 
 	flaggy.DefaultParser.ShowHelpOnUnexpected = true
-	flaggy.DefaultParser.AdditionalHelpPrepend = "http://github.com/pjaskulski/kursnbp"
+	flaggy.DefaultParser.AdditionalHelpPrepend = "https://pjaskulski.github.io/kursnbp/"
 
 	// table subcommand
 	cmdTable = flaggy.NewSubcommand("table")

@@ -17,7 +17,7 @@ const (
 
 // app name, version and description
 var (
-	version string = "0.2.0"
+	version string = "0.3.0"
 	appName string = "kursNBP"
 	appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
 )

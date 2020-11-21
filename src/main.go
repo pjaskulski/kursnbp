@@ -9,7 +9,7 @@ import (
 	"github.com/integrii/flaggy"
 )
 
-// adresy bazowe dla kursów walut i cen złota
+// base addresses of the NBP API service for currency rates and gold prices
 const (
 	baseAddress     string = "http://api.nbp.pl/api/exchangerates"
 	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
@@ -22,14 +22,14 @@ var (
 	appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
 )
 
-// polecenia
+// subcommands
 var (
 	cmdTable    *flaggy.Subcommand
 	cmdCurrency *flaggy.Subcommand
 	cmdGold     *flaggy.Subcommand
 )
 
-// flagi
+// flags
 var (
 	tableFlag  string = "A"
 	dateFlag   string = ""
@@ -39,6 +39,7 @@ var (
 )
 
 func init() {
+	// command line support through the flaggy package
 	flaggy.SetName(appName)
 	flaggy.SetDescription(appDesc)
 
@@ -52,7 +53,6 @@ func init() {
 	cmdTable.String(&dateFlag, "d", "date", "data 'RRRR-MM-DD', lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD', lub 'today' lub 'current' (defalut: current)")
 	cmdTable.Int(&lastFlag, "l", "last", "seria <number> ostatnich tabel kursów")
 	cmdTable.String(&outputFlag, "o", "output", "format wyjścia: 'table', 'json', 'csv'")
-
 	flaggy.AttachSubcommand(cmdTable, 1)
 
 	// currency subcommand
@@ -76,9 +76,16 @@ func init() {
 	flaggy.SetVersion(version)
 	flaggy.Parse()
 
+	// modifications to received as command line parameters flag values, the default
+	// value of the flag --date is set this way, because the flags --date and --last
+	// are alternative, the default value --date makes sense only if the user has not
+	// set --last
 	if lastFlag == 0 && dateFlag == "" {
 		dateFlag = "current"
 	}
+	// modifications to the flag values: the characters of the --table and --code values
+	// are changed to upper, therefore it is acceptable to call --code=chf, or --code=CHf,
+	// the application will support such call correctly
 	if tableFlag != "" {
 		tableFlag = strings.ToUpper(tableFlag)
 	}
@@ -154,6 +161,8 @@ func main() {
 		}
 
 	} else {
+		// if no correct subcommand is given, a general help is displayed
+		// and the program ends
 		flaggy.ShowHelp("")
 		os.Exit(1)
 	}

@@ -1,3 +1,5 @@
+// 'table' sumcommand support - complete tables of currency exchange rates
+
 package main
 
 import (
@@ -39,8 +41,9 @@ type exchangeTableC struct {
 	Rates         []rateTableC `json:"rates"`
 }
 
-// getTable - funkcja wywołuje wariant pobierania danych zależnie
-// od zweryfikowanych wcześniej parametrów wejścia
+// getTable - main function for table, selects
+// a data download variant depending on previously
+// verified input parameters (--table, --date or --last)
 func getTable(tFlag string, dFlag string, lFlag int) ([]byte, error) {
 	var result []byte
 	var err error
@@ -60,27 +63,29 @@ func getTable(tFlag string, dFlag string, lFlag int) ([]byte, error) {
 	return result, err
 }
 
-// getTableToday - funkcja zwraca json z tabelą kursów podanego typu na dziś (lub błąd)
+// getTableToday - function returns exchange rate table published today
+// in JSON form, or error
 func getTableToday(tableType string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/today/?format=json", tableType)
 	return getJSON(address)
 }
 
-// getTableCurrent - funkcja zwraca bieżącą tabelę kursów walut danego typu
-// (ostatnio opublikowaną tabelę danego typu) w formie json
+// getTableCurrent - function returns current table of exchange rates
+// (last published table) in JSON form, or error
 func getTableCurrent(tableType string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/?format=json", tableType)
 	return getJSON(address)
 }
 
-// getTableDay - funkcja zwraca tabelę kursów (json) danego typu dla podanego dnia (lub błąd)
+// getTableDay - functions returns table of exchange rates
+// on the given date (YYYY-MM-DD) in JSON form, or error
 func getTableDay(tableType string, day string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/%s/?format=json", tableType, day)
 	return getJSON(address)
 }
 
-// getTableRange - funkcja zwraca tabele kursów danego typu dla podanego zakresu
-// dat w formie json (lub błąd)
+// getTableRange - function returns table of exchange rates  within
+// the given date range (RRRR-MM-DD:RRRR-MM-DD) in JSON form, or error
 func getTableRange(tableType string, day string) ([]byte, error) {
 	var startDate string
 	var stopDate string
@@ -97,14 +102,18 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 	return getJSON(address)
 }
 
-// getTableLast - funkcja zwraca ostatnich n tabel kursów danego typu
-// w formie json (lub błąd)
+// getTableLast - function returns last <last> tables of exchange rates
+// in JSON form, or error
 func getTableLast(tableType string, last string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/tables/%s/last/%s/?format=json", tableType, last)
 	return getJSON(address)
 }
 
-// printTable - funkcja drukuje tabele kursów w konsoli
+// printTable - function prints tables of exchange rates as
+// formatted table in the console window,
+// depending on the tableType parameter: for type A and B tables
+// a column with an average rate is printed, for type C two columns:
+// buy price and sell price
 func printTable(result []byte, tableType string) {
 	var nbpTables []exchangeTable
 	var nbpTablesC []exchangeTableC
@@ -165,7 +174,10 @@ func printTable(result []byte, tableType string) {
 	fmt.Println()
 }
 
-// printTableCSV - funkcja drukuje dane tabel kursów w konsoli w formie CSV
+// printTableCSV - function prints tables of exchange rates in the console,
+// in the form of CSV (data separated by a comma), depending on the
+// tableType parameter: for type A and B tables a column with an average
+// rate is printed, for type C two columns: buy price and sell price
 func printTableCSV(result []byte, tableType string) {
 	var nbpTables []exchangeTable
 	var nbpTablesC []exchangeTableC

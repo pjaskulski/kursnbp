@@ -1,3 +1,5 @@
+// auxiliary program functions
+
 package main
 
 import (
@@ -10,7 +12,7 @@ import (
 	"time"
 )
 
-// getJSON - uniwersalna funkcja zwracająca json (lub błąd) na podstawie przekazanego adresu
+// getJSON - universal function that returns JSON (or error) based on the address provided
 func getJSON(address string) ([]byte, error) {
 	r, err := http.Get(address)
 	if err != nil {
@@ -34,12 +36,12 @@ func getJSON(address string) ([]byte, error) {
 	return data, nil
 }
 
-// aby nie męczyć serwera NBP za bardzo...
+// littleDelay - delay function, so as not to bother the NBP server too much...
 func littleDelay() {
 	time.Sleep(time.Millisecond * 500)
 }
 
-// inSlice - funkcja sprawdza czy podany string występuje we wskazanym wycinku
+// inSlice - function checks if the specified string is present in the specified slice
 func inSlice(slice []string, val string) bool {
 	for _, item := range slice {
 		if item == val {
@@ -49,7 +51,7 @@ func inSlice(slice []string, val string) bool {
 	return false
 }
 
-// checkArg - funkcja weryfikuje poprawność parametrów wywołania programu
+// checkArg - function verifies the correctness of program call parameters
 func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, cFlag string) error {
 	tableValues := []string{"A", "B", "C"}
 	outputValues := []string{"table", "json", "csv"}

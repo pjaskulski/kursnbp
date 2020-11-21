@@ -1,3 +1,5 @@
+// gold' subcommand support - downloading gold prices in the JSON format
+
 package main
 
 import (
@@ -16,8 +18,9 @@ type rateGold struct {
 	Cena float64 `json:"cena"`
 }
 
-// getGold - funkcja wywołuje wariant pobierania danych zależnie
-// od zweryfikowanych wcześniej parametrów wejścia
+// getGold - main function for gold prices, selects
+// a data download variant depending on previously
+// verified input parameters (--date or --last)
 func getGold(dFlag string, lFlag int) ([]byte, error) {
 	var result []byte
 	var err error
@@ -37,36 +40,36 @@ func getGold(dFlag string, lFlag int) ([]byte, error) {
 	return result, err
 }
 
-// getGoldToday - funkcja zwraca dzisiejszą cenę złota
-// w formie json, lub błąd
+// getGoldToday - function returns today's gold price
+// in json form, or error
 func getGoldToday() ([]byte, error) {
 	address := fmt.Sprintf(baseAddressGold + "/today?format=json")
 	return getJSON(address)
 }
 
-// getGoldCurrent - funkcja zwraca bieżącą cenę złota
-// (ostatnio opublikowaną cenę) w formie json, lub błąd
+// getGoldCurrent - function returns current gold price
+// (last published price) in json form, or error
 func getGoldCurrent() ([]byte, error) {
 	address := fmt.Sprintf(baseAddressGold + "?format=json")
 	return getJSON(address)
 }
 
-// getGoldLast - funkcja zwraca ostatnich n cen złota
-// w formie json, lub błąd
+// getGoldLast - function returns last <last> gold prices
+// in json form, or error
 func getGoldLast(last string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddressGold+"/last/%s?format=json", last)
 	return getJSON(address)
 }
 
-// getGoldDay - funkcja zwraca cenę złota w podanym dniu
-// w formie json, lub błąd
+// getGoldDay - function returns gold price on the given date (RRRR-MM-DD)
+// in json form, or error
 func getGoldDay(day string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddressGold+"/%s?format=json", day)
 	return getJSON(address)
 }
 
-// getGoldRange - funkcja zwraca ceny złota w podanym zakresie dat
-// w formie json, lub błąd
+// getGoldRange - function returns gold prices within the given date range
+// (RRRR-MM-DD:RRRR-MM-DD) in json form, or error
 func getGoldRange(day string) ([]byte, error) {
 	var startDate string
 	var stopDate string
@@ -83,7 +86,8 @@ func getGoldRange(day string) ([]byte, error) {
 	return getJSON(address)
 }
 
-// printGold - funkcja drukuje ceny złota w konsoli
+// printGold - functions displays a formatted table of gold prices
+// in the console window
 func printGold(result []byte) {
 	var nbpGold []rateGold
 	err := json.Unmarshal(result, &nbpGold)
@@ -111,7 +115,8 @@ func printGold(result []byte) {
 	fmt.Println()
 }
 
-// printGoldCSV - funkcja drukuje ceny złota w konsoli w formie CSV
+// printGoldCSV - function prints gold prices in CSV format
+// (comma separated data)
 func printGoldCSV(result []byte) {
 	var nbpGold []rateGold
 	err := json.Unmarshal(result, &nbpGold)

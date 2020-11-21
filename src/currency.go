@@ -1,3 +1,5 @@
+// 'currency' subcommand support - particular currency exchange rates
+
 package main
 
 import (
@@ -38,8 +40,9 @@ type exchangeCurrencyC struct {
 	Rates    []rateCurrencyC `json:"rates"`
 }
 
-// getCurrency - funkcja wywołuje wariant pobierania danych zależnie
-// od zweryfikowanych wcześniej parametrów wejścia
+// getCurrency - main function for currrency, selects
+// a data download variant depending on previously
+// verified input parameters (--table, --code, --date or --last)
 func getCurrency(tFlag string, dFlag string, lFlag int, cFlag string) ([]byte, error) {
 	var result []byte
 	var err error
@@ -59,34 +62,36 @@ func getCurrency(tFlag string, dFlag string, lFlag int, cFlag string) ([]byte, e
 	return result, err
 }
 
-// getCurrencyLast - funkcja zwraca ostatnich n kursów waluty danego typu
-// w formie json (lub błąd)
+// getCurrencyLast - function returns last <last> currency exchange
+// rates in json form, or error
 func getCurrencyLast(tableType string, last string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/last/%s/?format=json", tableType, currency, last)
 	return getJSON(address)
 }
 
-// getCurrencyToday - funkcja zwraca json z kursem waluty podanego typu na dziś (lub błąd)
+// getCurrencyToday - function returns today's currency exchange rate
+// in json form, or error
 func getCurrencyToday(tableType string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/today/?format=json", tableType, currency)
 	return getJSON(address)
 }
 
-// getCurrencyCurrent - funkcja zwraca bieżący kurs waluty danego typu (ostatnio
-// opublikowany kurs waluty danego typu) w formie json
+// getCurrencyCurrent - function returns current exchange rate for
+// particular currency (last published price) in json form, or error
 func getCurrencyCurrent(tableType string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/?format=json", tableType, currency)
 	return getJSON(address)
 }
 
-// getCurrencyDay - funkcja zwraca kurs waluty (json) danego typu dla podanego dnia (lub błąd)
+// getCurrencyDay - function returns exchange rate for particular currency
+// on the given date (YYYY-MM-DD) in json form, or error
 func getCurrencyDay(tableType string, day string, currency string) ([]byte, error) {
 	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/?format=json", tableType, currency, day)
 	return getJSON(address)
 }
 
-// getCurrencyRange - funkcja zwraca tabele kursów danego typu dla podanego
-// zakresu dat w formie json (lub błąd)
+// getCurrencyRange - function returns exchange rate for particular currency
+// within the given date range (RRRR-MM-DD:RRRR-MM-DD) in json form, or error
 func getCurrencyRange(tableType string, day string, currency string) ([]byte, error) {
 	var startDate string
 	var stopDate string
@@ -103,7 +108,11 @@ func getCurrencyRange(tableType string, day string, currency string) ([]byte, er
 	return getJSON(address)
 }
 
-// printCurrency - funkcja drukuje kursy waluty w konsoli
+// printCurrency - function prints exchange rates as formatted table
+// in the console window
+// depending on the tableType parameter: for type A and B tables
+// a column with an average rate is printed, for type C two columns:
+// buy price and sell price
 func printCurrency(result []byte, tableType string) {
 	var nbpCurrency exchangeCurrency
 	var nbpCurrencyC exchangeCurrencyC
@@ -156,7 +165,10 @@ func printCurrency(result []byte, tableType string) {
 	fmt.Println()
 }
 
-// printCurrencyCSV - funkcja drukuje kursy waluty w konsoli
+// printCurrencyCSV - function prints currency rates in the console,
+// in the form of CSV (data separated by a comma), depending on the
+// tableType parameter: for type A and B tables a column with an average
+// rate is printed, for type C two columns: buy price and sell price
 func printCurrencyCSV(result []byte, tableType string) {
 	var nbpCurrency exchangeCurrency
 	var nbpCurrencyC exchangeCurrencyC

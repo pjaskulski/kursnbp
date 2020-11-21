@@ -92,7 +92,7 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 
 	temp := strings.Split(day, ":")
 	if len(temp) != 2 {
-		log.Fatal(errors.New("Nieprawidłowy format zakresu dat"))
+		log.Fatal(errors.New(l.Get("Invalid date range format")))
 	}
 
 	startDate = temp[0]
@@ -131,13 +131,13 @@ func printTable(result []byte, tableType string) {
 
 		for _, item := range nbpTables {
 			fmt.Println()
-			fmt.Println("Typ tabeli:\t\t", item.Table)
-			fmt.Println("Numer tabeli:\t\t", item.No)
-			fmt.Println("Data publikacji:\t", item.EffectiveDate)
+			fmt.Println(l.Get("Table type:")+"\t\t", item.Table)
+			fmt.Println(l.Get("Table number:")+"\t\t", item.No)
+			fmt.Println(l.Get("Publication date:")+"\t", item.EffectiveDate)
 			fmt.Println()
 
-			fmt.Fprintln(w, "KOD \t NAZWA \t ŚREDNI")
-			fmt.Fprintln(w, "--- \t ----- \t -------")
+			fmt.Fprintln(w, l.Get("CODE \t NAME \t AVERAGE (PLN)"))
+			fmt.Fprintln(w, l.Get("---- \t ---- \t -------------"))
 			for _, currencyItem := range item.Rates {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 				fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValue)
@@ -153,14 +153,14 @@ func printTable(result []byte, tableType string) {
 
 		for _, item := range nbpTablesC {
 			fmt.Println()
-			fmt.Println("Typ tabeli:\t\t", item.Table)
-			fmt.Println("Numer tabeli:\t\t", item.No)
-			fmt.Println("Data notowania:\t\t", item.TradingDate)
-			fmt.Println("Data publikacji:\t", item.EffectiveDate)
+			fmt.Println(l.Get("Table type:")+"\t\t", item.Table)
+			fmt.Println(l.Get("Table number:")+"\t\t", item.No)
+			fmt.Println(l.Get("Trading date:")+"\t\t", item.TradingDate)
+			fmt.Println(l.Get("Publication date:")+"\t", item.EffectiveDate)
 			fmt.Println()
 
-			fmt.Fprintln(w, "KOD \t NAZWA \t KUPNO \t SPRZEDAŻ ")
-			fmt.Fprintln(w, "--- \t ----- \t ----- \t -------- ")
+			fmt.Fprintln(w, l.Get("CODE \t NAME \t BUY (PLN) \t SELL (PLN) "))
+			fmt.Fprintln(w, l.Get("---- \t ---- \t --------- \t ---------- "))
 			for _, currencyItem := range item.Rates {
 				currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
 				currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
@@ -189,7 +189,7 @@ func printTableCSV(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		fmt.Println("TABELA,KOD,NAZWA,ŚREDNI")
+		fmt.Println(l.Get("TABLE,CODE,NAME,AVERAGE (PLN)"))
 
 		for _, item := range nbpTables {
 			tableNo = item.No
@@ -204,7 +204,7 @@ func printTableCSV(result []byte, tableType string) {
 			log.Fatal(err)
 		}
 
-		fmt.Println("TABELA,KOD,NAZWA,KUPNO,SPRZEDAŻ")
+		fmt.Println(l.Get("TABLE,CODE,NAME,BUY (PLN),SELL (PLN)"))
 
 		for _, item := range nbpTablesC {
 			tableNo = item.No

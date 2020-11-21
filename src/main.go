@@ -36,6 +36,7 @@ var (
 	outputFlag string = "table"
 	lastFlag   int
 	codeFlag   string = ""
+	langFlag   string = "en"
 )
 
 func init() {
@@ -48,29 +49,32 @@ func init() {
 
 	// table subcommand
 	cmdTable = flaggy.NewSubcommand("table")
-	cmdTable.Description = "zwraca tabelę kursów wymiany walut (lub serię tabel)"
-	cmdTable.String(&tableFlag, "t", "table", "typ tabeli kursów, 'A', 'B' lub 'C'")
-	cmdTable.String(&dateFlag, "d", "date", "data 'RRRR-MM-DD', lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD', lub 'today' lub 'current' (defalut: current)")
-	cmdTable.Int(&lastFlag, "l", "last", "seria <number> ostatnich tabel kursów")
-	cmdTable.String(&outputFlag, "o", "output", "format wyjścia: 'table', 'json', 'csv'")
+	cmdTable.Description = "returns a table of exchange rates (or a series of tables)"
+	cmdTable.String(&tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
+	cmdTable.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or date range 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdTable.Int(&lastFlag, "l", "last", "a series of the last <number> of exchange rate tables")
+	cmdTable.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdTable.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdTable, 1)
 
 	// currency subcommand
 	cmdCurrency = flaggy.NewSubcommand("currency")
-	cmdCurrency.Description = "zwraca kurs wskazanej waluty lub serię kursów"
-	cmdCurrency.String(&tableFlag, "t", "table", "typ tabeli kursów, A, B lub C")
-	cmdCurrency.String(&dateFlag, "d", "date", "data RRRR-MM-DD, lub zakres dat RRRR-MM-DD:RRRR-MM-DD, lub 'today' lub 'current' (defalut: current)")
-	cmdCurrency.String(&codeFlag, "c", "code", "kod waluty zgodny z ISO 4217 np. CHF")
-	cmdCurrency.Int(&lastFlag, "l", "last", "seria <number> ostatnich kursów waluty")
-	cmdCurrency.String(&outputFlag, "o", "output", "format wyjścia: table, json, csv")
+	cmdCurrency.Description = "returns the rate of the indicated currency or a series of rates"
+	cmdCurrency.String(&tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
+	cmdCurrency.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or date range 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdCurrency.String(&codeFlag, "c", "code", "currency code according to ISO 4217 e.g. CHF")
+	cmdCurrency.Int(&lastFlag, "l", "last", "series of last <number> exchange rates of the indicated currency")
+	cmdCurrency.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdCurrency.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdCurrency, 1)
 
 	// gold subcommand
 	cmdGold = flaggy.NewSubcommand("gold")
-	cmdGold.Description = "zwraca cenę złota lub serię notowań cen złota"
-	cmdGold.String(&dateFlag, "d", "date", "data 'RRRR-MM-DD', lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD', lub 'today' lub 'current' (defalut: current)")
-	cmdGold.Int(&lastFlag, "l", "last", "seria <number> ostatnich notowań cen złota")
-	cmdGold.String(&outputFlag, "o", "output", "format wyjścia: table, json, csv")
+	cmdGold.Description = "returns a gold price or a series of gold price quotations"
+	cmdGold.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or date range 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdGold.Int(&lastFlag, "l", "last", "a series of recent <number> gold price quotations")
+	cmdGold.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdGold.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdGold, 1)
 
 	flaggy.SetVersion(version)
@@ -92,6 +96,12 @@ func init() {
 	if codeFlag != "" {
 		codeFlag = strings.ToUpper(codeFlag)
 	}
+	// modifications to the flag values: the characters of the --lang values
+	// are changed to lower, therefore it is acceptable to call --lang=PL, or --lang=Pl,
+	// the application will support such call correctly
+	if langFlag != "" {
+		langFlag = strings.ToLower(langFlag)
+	}
 }
 
 // kursnbp - command line tool for downloading exchange rates and gold prices
@@ -99,6 +109,13 @@ func init() {
 func main() {
 	var result []byte
 	var err error
+
+	// set output message language
+	if langFlag == "pl" {
+		l = langTexts["pl"]
+	} else {
+		l = langTexts["en"]
+	}
 
 	if cmdTable.Used {
 		err = checkArg("table", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)

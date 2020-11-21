@@ -27,7 +27,11 @@ Do pobrania:<br>
       -h --help      Wyświetla pomoc z opisem poleceń i flag programu
       -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
                      json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), domyślnie: table 
+                     nazwy pól w pierwszym wierszu), domyślnie: table
+      -i --lang      Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
   
     Flagi dla poleceń:
       table: 
@@ -111,6 +115,9 @@ Downloads:<br>
       -o --output     Output format: table (formatted text table),
                       json (json format), csv (data with comma separated fields,
                       field names on the first line), default: table
+      -i --lang       Output language (also error messages), currency names 
+                      returned by the NBP service always in Polish, allowed
+                      values: 'en', 'pl', default: 'en'
   
     Flags for commands:
       table:

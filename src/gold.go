@@ -76,7 +76,7 @@ func getGoldRange(day string) ([]byte, error) {
 
 	temp := strings.Split(day, ":")
 	if len(temp) != 2 {
-		log.Fatal(errors.New("Nieprawidłowy format zakresu dat"))
+		log.Fatal(errors.New(l.Get("Invalid date range format")))
 	}
 
 	startDate = temp[0]
@@ -101,11 +101,11 @@ func printGold(result []byte) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
 
 	fmt.Println()
-	fmt.Println("Cena złota (1 g złota w próbie 1000)")
+	fmt.Println(l.Get("The price of 1g of gold (of 1000 millesimal fineness)"))
 	fmt.Println()
 
-	fmt.Fprintln(w, "DATA \t CENA")
-	fmt.Fprintln(w, "---- \t ---- ")
+	fmt.Fprintln(w, l.Get("DATE \t PRICE (PLN)"))
+	fmt.Fprintln(w, l.Get("---- \t ----- "))
 	for _, goldItem := range nbpGold {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
 		fmt.Fprintln(w, goldItem.Data+" \t "+goldValue)
@@ -124,7 +124,7 @@ func printGoldCSV(result []byte) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("DATA,CENA")
+	fmt.Println(l.Get("DATE,PRICE (PLN)"))
 	for _, goldItem := range nbpGold {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
 		fmt.Println(goldItem.Data + "," + goldValue)

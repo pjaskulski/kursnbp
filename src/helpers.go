@@ -76,21 +76,21 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 
 	// output
 	if oFlag == "" {
-		return errors.New("Brak wartości parametru --output, należy podać format danych wyjściowych")
+		return errors.New(l.Get("No --output parameter value, output format must be specified"))
 	}
 	if !inSlice(outputValues, oFlag) {
-		return errors.New("Nieprawidłowa wartość parametru --output, dozwolone: table, json, csv")
+		return errors.New(l.Get("Invalid --output parameter value, allowed: table, json, csv"))
 	}
 
 	// last
 	if lFlag == 0 && dFlag == "" {
-		return errors.New("Należy podać wartość jednego z parametrów: --date lub --last")
+		return errors.New(l.Get("Value of one of the parameters should be given: --date or --last"))
 	}
 	if lFlag < 0 {
-		return errors.New("Nieprawidłowa wartość parametru --last, dozwolona wartość > 0")
+		return errors.New(l.Get("Invalid --last parameter value, allowed value > 0"))
 	}
 	if lFlag > 0 && dFlag != "" {
-		return errors.New("Należy podać wartość tylko jednego z parametrów: albo --date albo --last")
+		return errors.New(l.Get("Only one of the parameters must be given: either --date or --last"))
 	}
 
 	// date
@@ -114,8 +114,7 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 				}
 			}
 			if !isValid {
-				return errors.New(`Nieprawidłowa wartość parametru --date, dozwolone wartości: 
-'today', 'current', 'RRRR-MM-DD' lub 'RRRR-MM-DD:RRRR-MM-DD'`)
+				return errors.New(l.Get("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD: YYYY-MM-DD'"))
 			}
 		}
 	}
@@ -123,10 +122,10 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 	// table
 	if cmd == "table" {
 		if tFlag == "" {
-			return errors.New("Brak wartości parametru --table, należy podać typ tabeli kursów")
+			return errors.New(l.Get("The --table parameter value is missing, the type of the exchange table should be specified"))
 		}
 		if !inSlice(tableValues, tFlag) {
-			return errors.New("Nieprawidłowa wartość parametru --table, dozwolone: A, B lub C")
+			return errors.New(l.Get("Invalid parameter --table value, allowed values: A, B or C"))
 		}
 	}
 
@@ -135,34 +134,34 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 
 	if cmd == "currency" {
 		if cFlag == "" {
-			return errors.New("Brak wartości parametru --code, należy podać kod waluty")
+			return errors.New(l.Get("No value of parameter --code, currency code should be given"))
 		}
 		if tFlag == "" {
-			return errors.New("Brak wartości parametru --table, należy podać typ tabeli kursów")
+			return errors.New(l.Get("No value of parameter --table, please specify type of exchange rate table"))
 		}
 
 		if !inSlice(tableValues, tFlag) {
-			return errors.New("Nieprawidłowa wartość parametru --table, dozwolone: A, B lub C")
+			return errors.New(l.Get("Incorrect parameter value --table, allowed values: A, B or C"))
 		}
 
 		if tFlag == "A" {
 			if !inSlice(currencyValuesA, cFlag) {
-				errMessage = "Nieprawidłowa wartość parametru --code, "
-				errMessage += "dozwolony poprawny kod waluty z dostępnych dla tabeli A: "
+				errMessage = l.Get("Incorrect value of the --code parameter, ")
+				errMessage += l.Get("valid currency code from those available for Table A is allowed: ")
 				errMessage += strings.Join(currencyValuesA, ", ")
 				return errors.New(errMessage)
 			}
 		} else if tFlag == "B" {
 			if !inSlice(currencyValuesB, cFlag) {
-				errMessage = "Nieprawidłowa wartość parametru --code, "
-				errMessage += "dozwolony poprawny kod waluty z dostępnych dla tabeli B: "
+				errMessage = l.Get("Incorrect value of the --code parameter, ")
+				errMessage += l.Get("valid currency code from those available for Table B is allowed: ")
 				errMessage += strings.Join(currencyValuesB, ", ")
 				return errors.New(errMessage)
 			}
 		} else if tFlag == "C" {
 			if !inSlice(currencyValuesC, cFlag) {
-				errMessage = "Nieprawidłowa wartość parametru --code, "
-				errMessage += "dozwolony poprawny kod waluty z dostępnych dla tabeli C: "
+				errMessage = l.Get("Incorrect value of the --code parameter, ")
+				errMessage += l.Get("valid currency code from those available for Table C is allowed: ")
 				errMessage += strings.Join(currencyValuesC, ", ")
 				return errors.New(errMessage)
 			}

@@ -10,9 +10,9 @@
 kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
 
 Do pobrania:<br> 
-[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.2/kursnbp_v0.2_linux.tar.gz) 
-[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.2/kursnbp_v0.2_windows.zip) 
-[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.2/kursnbp_v0.2_macos.tar.gz) 
+[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_linux.tar.gz) 
+[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_windows.zip) 
+[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_macos.tar.gz) 
 
     Użycie:
       kursnbp table|currency|gold [--flag]
@@ -98,9 +98,9 @@ Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http:/
 kursNBP - a command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland
 
 Downloads:<br> 
-[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.2/kursnbp_v0.2_linux.tar.gz) 
-[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.2/kursnbp_v0.2_windows.zip) 
-[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.2/kursnbp_v0.2_macos.tar.gz) 
+[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_linux.tar.gz) 
+[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_windows.zip) 
+[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_macos.tar.gz) 
 
     Usage:
       kursnbp table | currency | gold [--flag]

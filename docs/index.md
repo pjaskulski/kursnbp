@@ -133,69 +133,68 @@ Downloads:<br>
       table       returns a table of exchange rates (or a series of tables)
       currency    returns the rate of the specified currency or a series of 
                   rates
-      gold        returns the price of gold (or series), the price of 1g of 
+      gold        returns the price of gold (or series), the price of 1g of
                   gold (of 1000 millesimal fineness) calculated at NBP
 
     Global Flags:
          --version    Displays the version of the program
-      -h --help       Displays help describing program commands and flags      
+      -h --help       Displays help describing program commands and flags
   
     Flags for commands:
       table:
         -t --table    Table type: A, B or C, default: A
-        -d --date     Date in the format: 'YYYY-MM-DD', or a date range
-                      'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for today) 
-                      or 'current' - current table / rate (last published)
-                      default: current
-        -l --last     As an alternative to --date, the last <n> 
-                      tables / rates can be retrieved e.g. --last = 5, 
-                      default: 0
+        -d --date     Date in the format: 'YYYY-MM-DD', or a range of
+                      dates in the format: 'YYYY-MM-DD:YYYY-MM-DD' or 'today'
+                      (rate for today) or 'current' - current table / rate 
+                      (last published) default: current
+        -l --last     As an alternative to --date, the last <n> tables/rates
+                      can be retrieved e.g. -l = 5, default: 0
         -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated 
-                      fields, field names on the first line), default: table
-        -i --lang     Output language (also error messages), currency names 
-                      returned by the NBP service always in Polish, allowed
-                      values: 'en', 'pl', default: 'en'
+                      fields, field names in the first line), default: table
+        -i --lang     Output language (also error messages), allowed
+                      values: 'en', 'pl', default: 'en', currency names 
+                      returned by the NBP service are always in Polish
     
       currency:
         -t --table    Table type: A, B or C, default: A
-        -d --date     Date in the format: 'YYYY-MM-DD', or a date
-                      range 'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for 
-                      today) or 'current' - current table / rate (last 
-                      published) default: current
-        -l --last     As an alternative to --date, the last <n> 
-                      tables / rates can be retrieved e.g. --last = 5, 
-                      default: 0
+        -d --date     Date in the format: 'YYYY-MM-DD', or a range of 
+                      dates in format: 'YYYY-MM-DD:YYYY-MM-DD' or 'today' 
+                      (rate for today) or 'current' - current table/rate 
+                      (last published) default: current
+        -l --last     As an alternative to --date, the last <n> tables/rates
+                      can be retrieved e.g. -l = 5, default: 0
         -c --code     ISO 4217 currency code, depending on the type of the 
                       table available currencies may vary
         -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated 
-                      fields, field names on the first line), default: table
-        -i --lang     Output language (also error messages), currency names 
-                      returned by the NBP service always in Polish, allowed
-                      values: 'en', 'pl', default: 'en'
+                      fields, field names in the first line), default: 
+                      table
+        -i --lang     Output language (also error messages), allowed
+                      values: 'en', 'pl', default: 'en', currency names 
+                      returned by the NBP service are always in Polish
 
       gold:
-        -d --date    Date in the format: 'YYYY-MM-DD', or a date range
-                     'YYYY-MM-DD: YYYY-MM-DD' or 'today' (today's price) or
-                     'current' - current price (last published)
+        -d --date    Date in the format: 'YYYY-MM-DD', or a range of dates
+                     in format: 'YYYY-MM-DD: YYYY-MM-DD' or 'today' (today's
+                     price) or 'current' - current price (last published) 
                      default: current
         -l --last    As an alternative to --date, the last <n> gold price 
-                     can be retrieved e.g. --last = 5, default: 0
+                     can be retrieved e.g. -last=5, default: 0
         -o --output  Output format: table (formatted text table),
                      json (json format), csv (data with comma separated 
-                     fields, field names on the first line), default: table
-        -i --lang    Output language (also error messages), currency names 
-                     returned by the NBP service always in Polish, allowed
-                     values: 'en', 'pl', default: 'en'
+                     fields, field names in the first line), default: table
+        -i --lang    Output language (also error messages), allowed
+                     values: 'en', 'pl', default: 'en', currency names 
+                     returned by the NBP service are always in Polish
 
 Examples:
     
     kursnbp --help
     Displays help describing program commands and global flags
 
-    kursnbp --help gold
-    Displays help for 'gold' command
+    kursnbp --help currency
+    Displays help for 'currency' command
     
     kursnbp table
     Displays the current table of exchange rate of type A
@@ -218,10 +217,12 @@ Examples:
     from the exchange rate table of type A
 
     kursnbp gold
-    Current gold price
+    Current price od gold
 
     kursnbp gold --date=2020-11-12:2020-11-19
-    Series of gold prices published from 12 November 2020 to 19 November 2020
+    Series of gold prices published from 12 November 2020 
+    to 19 November 2020
+
 
 Documentation of the API service of the National Bank of Poland
 [http://api.nbp.pl/en.html](http://api.nbp.pl/en.html)

@@ -27,7 +27,8 @@ Do pobrania (wersja 0.3):<br>
     Polecenia: 
       table      Zwraca tabelę kursów wymiany walut (lub serię tabel)
       currency   Zwraca kurs wskazanej waluty lub serię kursów
-      gold       Zwraca cenę złota lub serię notowań cen złota (cena 1 g złota, w próbie 1000)
+      gold       Zwraca cenę złota lub serię notowań cen złota (cena 1 g 
+                 złota, w próbie 1000)
 
     Flagi globalne: 
          --version   Wyświetla wersję programu
@@ -37,14 +38,15 @@ Do pobrania (wersja 0.3):<br>
       table: 
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
         -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
-                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) lub
-                     'current' - bieżąca tabela/kurs (ostatnio opublikowany)
-                     domyślnie: current
-        -l --last    Alternatywnie do --date można pobrać ostatnich <n> tabel/kursów 
-                     np. -l=5, domyślnie: 0
-        -o --output  Format danych wyjściowych: table (sformatowana tabela tekstowa),
-                     json (format json), csv (dane z polami rozdzielanymi przecinkiem,                      
-                     nazwy pól w pierwszym wierszu), xml (format xml), domyślnie: table
+                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) 
+                     lub 'current' - bieżąca tabela/kurs (ostatnio 
+                     opublikowany) domyślnie: current
+        -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
+                     tabel/kursów np. -l=5, domyślnie: 0
+        -o --output  Format danych wyjściowych: table (sformatowana tabela 
+                     tekstowa), json (format json), csv (dane z polami 
+                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
+                     wierszu), xml (format xml), domyślnie: table
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
@@ -53,31 +55,33 @@ Do pobrania (wersja 0.3):<br>
       currency:
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
         -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
-                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) lub
-                     'current' - bieżąca tabela/kurs (ostatnio opublikowany)
-                     domyślnie: current
-        -l --last    Alternatywnie do --date można pobrać ostatnich <n> tabel/kursów 
-                     np. -l=5, domyślnie: 0
-        -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu tabeli lista 
-                     dostępnych walut może się różnić
-        -o --output  Format danych wyjściowych: table (sformatowana tabela tekstowa),
-                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), xml (format xml), domyślnie: table
+                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) 
+                     lub 'current' - bieżąca tabela/kurs (ostatnio 
+                     opublikowany) domyślnie: current
+        -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
+                     tabel/kursów np. -l=5, domyślnie: 0
+        -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu 
+                     tabeli lista dostępnych walut może się różnić
+        -o --output  Format danych wyjściowych: table (sformatowana tabela 
+                     tekstowa), json (format json), csv (dane z polami 
+                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
+                     wierszu), xml (format xml), domyślnie: table
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
                      domyślnie 'en'
 
       gold:
-        -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', lub zakres 
-                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na dziś) lub
-                     'current' - bieżąca cena (ostatnio opublikowana)
-                     domyślnie: current
-        -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen złota 
-                     np. -l=5, domyślnie: 0
-        -o --output  Format danych wyjściowych: table (sformatowana tabela tekstowa),
-                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), xml (format xml), domyślnie: table
+        -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', lub 
+                     zakres dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na 
+                     dziś) lub 'current' - bieżąca cena (ostatnio 
+                     opublikowana) domyślnie: current
+        -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen 
+                     złota np. -l=5, domyślnie: 0
+        -o --output  Format danych wyjściowych: table (sformatowana tabela 
+                     tekstowa), json (format json), csv (dane z polami 
+                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
+                     wierszu), xml (format xml), domyślnie: table
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 

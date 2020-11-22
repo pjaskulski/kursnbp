@@ -13,6 +13,7 @@ Do pobrania:<br>
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_linux.tar.gz) 
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_windows.zip) 
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_macos.tar.gz) 
+[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_freebsd_amd64.tar.gz)
 
     Użycie:
       kursnbp table|currency|gold [--flag]
@@ -123,6 +124,7 @@ Downloads:<br>
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_linux.tar.gz) 
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_windows.zip) 
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_macos.tar.gz) 
+[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_freebsd_amd64.tar.gz)
 
     Usage:
       kursnbp table | currency | gold [--flag]

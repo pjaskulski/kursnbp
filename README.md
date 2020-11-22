@@ -9,7 +9,7 @@
 
 kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
 
-Do pobrania:<br> 
+Do pobrania (wersja 0.3):<br> 
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_linux.tar.gz) 
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_windows.zip) 
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3/kursnbp_v0.3_macos.tar.gz) 
@@ -24,16 +24,9 @@ Do pobrania:<br>
 
     Flagi globalne: 
          --version   Wyświetla wersję programu
-      -h --help      Wyświetla pomoc z opisem poleceń i flag programu
-      -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
-                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), domyślnie: table
-      -i --lang      Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
-                     domyślnie 'en'
+      -h --help      Wyświetla pomoc z opisem poleceń i flag programu      
   
-    Flagi dla poleceń:
+    Flagi:
       table: 
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
         -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
@@ -42,6 +35,13 @@ Do pobrania:<br>
                      domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> tabel/kursów 
                      np. -l=5, domyślnie: 0
+        -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
+                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
+                     nazwy pól w pierwszym wierszu), domyślnie: table
+        -i --lang    Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
     
       currency:
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
@@ -53,6 +53,13 @@ Do pobrania:<br>
                      np. -l=5, domyślnie: 0
         -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu tabeli lista 
                      dostępnych walut może się różnić
+        -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
+                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
+                     nazwy pól w pierwszym wierszu), domyślnie: table
+        -i --lang    Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
 
       gold:
         -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', lub zakres 
@@ -60,10 +67,23 @@ Do pobrania:<br>
                      'current' - bieżąca cena (ostatnio opublikowana)
                      domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen złota 
-                   np. -l=5, domyślnie: 0
+                     np. -l=5, domyślnie: 0
+        -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
+                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
+                     nazwy pól w pierwszym wierszu), domyślnie: table
+        -i --lang    Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
 
 Przykłady:
     
+    kursnbp --help
+    Wyświetla ogólny help do programu
+
+    kursnbp --help gold
+    Wyświetla szczegółowy help do polecenia gold
+
     kursnbp table
     Wyświetla bieżącą tabelę kursów typu A
     
@@ -111,13 +131,7 @@ Downloads:<br>
 
     Global Flags:
          --version    Displays the version of the program
-      -h --help       Displays help describing program commands and flags
-      -o --output     Output format: table (formatted text table),
-                      json (json format), csv (data with comma separated fields,
-                      field names on the first line), default: table
-      -i --lang       Output language (also error messages), currency names 
-                      returned by the NBP service always in Polish, allowed
-                      values: 'en', 'pl', default: 'en'
+      -h --help       Displays help describing program commands and flags      
   
     Flags for commands:
       table:
@@ -128,6 +142,12 @@ Downloads:<br>
                       default: current
         -l --last     As an alternative to --date, the last <n> tables / rates can be retrieved
                       e.g. -l = 5, default: 0
+        -o --output     Output format: table (formatted text table),
+                      json (json format), csv (data with comma separated fields,
+                      field names on the first line), default: table
+        -i --lang     Output language (also error messages), currency names 
+                      returned by the NBP service always in Polish, allowed
+                      values: 'en', 'pl', default: 'en'
     
       currency:
         -t --table    Table type: A, B or C, default: A
@@ -139,6 +159,12 @@ Downloads:<br>
                       retrieved e.g. -l = 5, default: 0
         -c --code     ISO 4217 currency code, depending on the type of the table available 
                       currencies may vary
+        -o --output     Output format: table (formatted text table),
+                      json (json format), csv (data with comma separated fields,
+                      field names on the first line), default: table
+        -i --lang     Output language (also error messages), currency names 
+                      returned by the NBP service always in Polish, allowed
+                      values: 'en', 'pl', default: 'en'
 
       gold:
         -d --date    Date in the format: 'YYYY-MM-DD', or a date range
@@ -147,8 +173,20 @@ Downloads:<br>
                      default: current
         -l --last    As an alternative to --date, the last <n> gold price can be retrieved
                      e.g. -l = 5, default: 0
+        -o --output  Output format: table (formatted text table),
+                     json (json format), csv (data with comma separated fields,
+                     field names on the first line), default: table
+        -i --lang    Output language (also error messages), currency names 
+                     returned by the NBP service always in Polish, allowed
+                     values: 'en', 'pl', default: 'en'
 
 Examples:
+    
+    kursnbp --help
+    Displays help describing program commands and global flags
+
+    kursnbp --help gold
+    Displays help for 'gold' command
     
     kursnbp table
     Displays the current table of exchange rate of type A

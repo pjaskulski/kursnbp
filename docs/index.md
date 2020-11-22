@@ -40,7 +40,7 @@ Do pobrania:<br>
         -o --output  Format danych wyjściowych: table (sformatowana tabela 
                      tekstowa), json (format json), csv (dane z polami 
                      rozdzielanymi przecinkiem, nazwy pól w pierwszym 
-                     wierszu), domyślnie: table 
+                     wierszu), xml (xml format), domyślnie: table 
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 
@@ -59,7 +59,7 @@ Do pobrania:<br>
         -o --output  Format danych wyjściowych: table (sformatowana tabela 
                      tekstowa), json (format json), csv (dane z polami 
                      rozdzielanymi przecinkiem, nazwy pól w pierwszym 
-                     wierszu), domyślnie: table 
+                     wierszu), xml (xml format), domyślnie: table 
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 
@@ -75,7 +75,7 @@ Do pobrania:<br>
         -o --output  Format danych wyjściowych: table (sformatowana tabela 
                      tekstowa), json (format json), csv (dane z polami 
                      rozdzielanymi przecinkiem, nazwy pól w pierwszym 
-                     wierszu), domyślnie: table 
+                     wierszu), xml (xml format), domyślnie: table 
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 
@@ -100,6 +100,9 @@ Przykłady:
 
     kursnbp table --date=today --output=csv
     Wyświetla dzisiejszą tabelę kursów w formacie csv
+
+    kursnbp table --date=today --output=xml
+    Wyświetla dzisiejszą tabelę kursów w formacie xml
 
     kursnbp currency --code=CHF
     Wyświetla bieżący kurs waluty CHF (frank szwajcarski)
@@ -151,7 +154,8 @@ Downloads:<br>
                       can be retrieved e.g. -l = 5, default: 0
         -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated 
-                      fields, field names in the first line), default: table
+                      fields, field names in the first line), xml (xml 
+                      format), default: table
         -i --lang     Output language (also error messages), allowed
                       values: 'en', 'pl', default: 'en', currency names 
                       returned by the NBP service are always in Polish
@@ -168,8 +172,8 @@ Downloads:<br>
                       table available currencies may vary
         -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated 
-                      fields, field names in the first line), default: 
-                      table
+                      fields, field names in the first line), xml ( xml 
+                      format), default: table
         -i --lang     Output language (also error messages), allowed
                       values: 'en', 'pl', default: 'en', currency names 
                       returned by the NBP service are always in Polish
@@ -183,7 +187,8 @@ Downloads:<br>
                      can be retrieved e.g. -last=5, default: 0
         -o --output  Output format: table (formatted text table),
                      json (json format), csv (data with comma separated 
-                     fields, field names in the first line), default: table
+                     fields, field names in the first line), xml (xml 
+                     format), default: table
         -i --lang    Output language (also error messages), allowed
                      values: 'en', 'pl', default: 'en', currency names 
                      returned by the NBP service are always in Polish
@@ -208,6 +213,9 @@ Examples:
     kursnbp table --date=today --output=csv
     Exchange rate table of type A published today in csv format
 
+    kursnbp table --date=today --output=xml
+    Exchange rate table of type A published today, in xml format
+
     kursnbp currency --code=CHF
     Current exchange rate CHF (Swiss franc) from the exchange rate 
     table of type A
@@ -217,7 +225,7 @@ Examples:
     from the exchange rate table of type A
 
     kursnbp gold
-    Current price od gold
+    Current price of gold
 
     kursnbp gold --date=2020-11-12:2020-11-19
     Series of gold prices published from 12 November 2020 

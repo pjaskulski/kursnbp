@@ -43,28 +43,28 @@ func getGold(dFlag string, lFlag int) ([]byte, error) {
 // getGoldToday - function returns today's gold price
 // in json form, or error
 func getGoldToday() ([]byte, error) {
-	address := fmt.Sprintf(baseAddressGold + "/today?format=json")
+	address := fmt.Sprintf(baseAddressGold + "/today?format=" + repFormat)
 	return getJSON(address)
 }
 
 // getGoldCurrent - function returns current gold price
 // (last published price) in json form, or error
 func getGoldCurrent() ([]byte, error) {
-	address := fmt.Sprintf(baseAddressGold + "?format=json")
+	address := fmt.Sprintf(baseAddressGold + "?format=" + repFormat)
 	return getJSON(address)
 }
 
 // getGoldLast - function returns last <last> gold prices
 // in json form, or error
 func getGoldLast(last string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddressGold+"/last/%s?format=json", last)
+	address := fmt.Sprintf(baseAddressGold+"/last/%s?format="+repFormat, last)
 	return getJSON(address)
 }
 
 // getGoldDay - function returns gold price on the given date (RRRR-MM-DD)
 // in json form, or error
 func getGoldDay(day string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddressGold+"/%s?format=json", day)
+	address := fmt.Sprintf(baseAddressGold+"/%s?format="+repFormat, day)
 	return getJSON(address)
 }
 
@@ -82,7 +82,7 @@ func getGoldRange(day string) ([]byte, error) {
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf(baseAddressGold+"/%s/%s?format=json", startDate, stopDate)
+	address := fmt.Sprintf(baseAddressGold+"/%s/%s?format="+repFormat, startDate, stopDate)
 	return getJSON(address)
 }
 

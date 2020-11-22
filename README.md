@@ -42,9 +42,9 @@ Do pobrania (wersja 0.3):<br>
                      domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> tabel/kursów 
                      np. -l=5, domyślnie: 0
-        -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
-                     json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), domyślnie: table
+        -o --output  Format danych wyjściowych: table (sformatowana tabela tekstowa),
+                     json (format json), csv (dane z polami rozdzielanymi przecinkiem,                      
+                     nazwy pól w pierwszym wierszu), xml (format xml), domyślnie: table
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
@@ -60,9 +60,9 @@ Do pobrania (wersja 0.3):<br>
                      np. -l=5, domyślnie: 0
         -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu tabeli lista 
                      dostępnych walut może się różnić
-        -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
+        -o --output  Format danych wyjściowych: table (sformatowana tabela tekstowa),
                      json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), domyślnie: table
+                     nazwy pól w pierwszym wierszu), xml (format xml), domyślnie: table
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
@@ -75,9 +75,9 @@ Do pobrania (wersja 0.3):<br>
                      domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen złota 
                      np. -l=5, domyślnie: 0
-        -o --output    Format danych wyjściowych: table (sformatowana tabela tekstowa),
+        -o --output  Format danych wyjściowych: table (sformatowana tabela tekstowa),
                      json (format json), csv (dane z polami rozdzielanymi przecinkiem, 
-                     nazwy pól w pierwszym wierszu), domyślnie: table
+                     nazwy pól w pierwszym wierszu), xml (format xml), domyślnie: table
         -i --lang    Język danych wyjściowych (także komunikatów 
                      o błędach), nazwy walut zwracane przez serwis NBP
                      zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
@@ -102,6 +102,9 @@ Przykłady:
 
     kursnbp table --date=today --output=csv
     Wyświetla dzisiejszą tabelę kursów w formacie csv
+    
+    kursnbp table --date=today --output=xml
+    Wyświetla dzisiejszą tabelę kursów w formacie xml
 
     kursnbp currency --code=CHF
     Wyświetla bieżący kurs waluty CHF (frank szwajcarski)
@@ -153,7 +156,8 @@ Downloads:<br>
                       can be retrieved e.g. -l = 5, default: 0
         -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated 
-                      fields, field names in the first line), default: table
+                      fields, field names in the first line), xml (xml 
+                      format), default: table
         -i --lang     Output language (also error messages), allowed
                       values: 'en', 'pl', default: 'en', currency names 
                       returned by the NBP service are always in Polish
@@ -170,8 +174,8 @@ Downloads:<br>
                       table available currencies may vary
         -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated 
-                      fields, field names in the first line), default: 
-                      table
+                      fields, field names in the first line), xml (xml 
+                      format), default: table
         -i --lang     Output language (also error messages), allowed
                       values: 'en', 'pl', default: 'en', currency names 
                       returned by the NBP service are always in Polish
@@ -185,7 +189,8 @@ Downloads:<br>
                      can be retrieved e.g. -last=5, default: 0
         -o --output  Output format: table (formatted text table),
                      json (json format), csv (data with comma separated 
-                     fields, field names in the first line), default: table
+                     fields, field names in the first line), xml (xml 
+                     format), default: table
         -i --lang    Output language (also error messages), allowed
                      values: 'en', 'pl', default: 'en', currency names 
                      returned by the NBP service are always in Polish
@@ -208,7 +213,10 @@ Examples:
     Exchange rate table of type A published on 19 November 2020
 
     kursnbp table --date=today --output=csv
-    Exchange rate table of type A published today in csv format
+    Exchange rate table of type A published today,  in csv format
+
+    kursnbp table --date=today --output=xml
+    Exchange rate table of type A published today, in xml format
 
     kursnbp currency --code=CHF
     Current exchange rate CHF (Swiss franc) from the exchange rate 
@@ -219,7 +227,7 @@ Examples:
     from the exchange rate table of type A
 
     kursnbp gold
-    Current price od gold
+    Current price of gold
 
     kursnbp gold --date=2020-11-12:2020-11-19
     Series of gold prices published from 12 November 2020 

@@ -65,28 +65,28 @@ func getCurrency(tFlag string, dFlag string, lFlag int, cFlag string) ([]byte, e
 // getCurrencyLast - function returns last <last> currency exchange
 // rates in json form, or error
 func getCurrencyLast(tableType string, last string, currency string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/last/%s/?format=json", tableType, currency, last)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/last/%s/?format="+repFormat, tableType, currency, last)
 	return getJSON(address)
 }
 
 // getCurrencyToday - function returns today's currency exchange rate
 // in json form, or error
 func getCurrencyToday(tableType string, currency string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/today/?format=json", tableType, currency)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/today/?format="+repFormat, tableType, currency)
 	return getJSON(address)
 }
 
 // getCurrencyCurrent - function returns current exchange rate for
 // particular currency (last published price) in json form, or error
 func getCurrencyCurrent(tableType string, currency string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/?format=json", tableType, currency)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/?format="+repFormat, tableType, currency)
 	return getJSON(address)
 }
 
 // getCurrencyDay - function returns exchange rate for particular currency
 // on the given date (YYYY-MM-DD) in json form, or error
 func getCurrencyDay(tableType string, day string, currency string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/?format=json", tableType, currency, day)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/?format="+repFormat, tableType, currency, day)
 	return getJSON(address)
 }
 
@@ -104,7 +104,7 @@ func getCurrencyRange(tableType string, day string, currency string) ([]byte, er
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/%s/?format=json", tableType, currency, startDate, stopDate)
+	address := fmt.Sprintf(baseAddress+"/rates/%s/%s/%s/%s/?format="+repFormat, tableType, currency, startDate, stopDate)
 	return getJSON(address)
 }
 

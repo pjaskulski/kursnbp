@@ -54,7 +54,7 @@ func inSlice(slice []string, val string) bool {
 // checkArg - function verifies the correctness of program call parameters
 func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, cFlag string) error {
 	tableValues := []string{"A", "B", "C"}
-	outputValues := []string{"table", "json", "csv"}
+	outputValues := []string{"table", "json", "csv", "xml"}
 	currencyValuesA := []string{"THB", "USD", "AUD", "HKD", "CAD", "NZD", "SGD", "EUR", "HUF", "CHF",
 		"GBP", "UAH", "JPY", "CZK", "DKK", "ISK", "NOK", "SEK", "HRK", "RON",
 		"BGN", "TRY", "ILS", "CLP", "PHP", "MXN", "ZAR", "BRL", "MYR", "RUB",

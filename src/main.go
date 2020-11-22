@@ -39,6 +39,8 @@ var (
 	langFlag   string = "en"
 )
 
+var repFormat string = "json"
+
 func init() {
 	// command line support through the flaggy package
 	flaggy.SetName(appName)
@@ -102,6 +104,10 @@ func init() {
 	if langFlag != "" {
 		langFlag = strings.ToLower(langFlag)
 	}
+
+	if outputFlag == "xml" {
+		repFormat = "xml"
+	}
 }
 
 // kursnbp - command line tool for downloading exchange rates and gold prices
@@ -132,7 +138,7 @@ func main() {
 		switch outputFlag {
 		case "table":
 			printTable(result, tableFlag)
-		case "json":
+		case "json", "xml":
 			fmt.Println(string(result))
 		case "csv":
 			printTableCSV(result, tableFlag)
@@ -152,7 +158,7 @@ func main() {
 		switch outputFlag {
 		case "table":
 			printCurrency(result, tableFlag)
-		case "json":
+		case "json", "xml":
 			fmt.Println(string(result))
 		case "csv":
 			printCurrencyCSV(result, tableFlag)
@@ -172,7 +178,7 @@ func main() {
 		switch outputFlag {
 		case "table":
 			printGold(result)
-		case "json":
+		case "json", "xml":
 			fmt.Println(string(result))
 		case "csv":
 			printGoldCSV(result)

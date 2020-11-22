@@ -142,7 +142,7 @@ Downloads:<br>
                       default: current
         -l --last     As an alternative to --date, the last <n> tables / rates can be retrieved
                       e.g. -l = 5, default: 0
-        -o --output     Output format: table (formatted text table),
+        -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated fields,
                       field names on the first line), default: table
         -i --lang     Output language (also error messages), currency names 
@@ -159,7 +159,7 @@ Downloads:<br>
                       retrieved e.g. -l = 5, default: 0
         -c --code     ISO 4217 currency code, depending on the type of the table available 
                       currencies may vary
-        -o --output     Output format: table (formatted text table),
+        -o --output   Output format: table (formatted text table),
                       json (json format), csv (data with comma separated fields,
                       field names on the first line), default: table
         -i --lang     Output language (also error messages), currency names 

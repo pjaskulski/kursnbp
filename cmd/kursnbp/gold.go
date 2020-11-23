@@ -4,7 +4,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -75,10 +74,6 @@ func getGoldRange(day string) ([]byte, error) {
 	var stopDate string
 
 	temp := strings.Split(day, ":")
-	if len(temp) != 2 {
-		log.Fatal(errors.New(l.Get("Invalid date range format")))
-	}
-
 	startDate = temp[0]
 	stopDate = temp[1]
 

@@ -1,8 +1,8 @@
-build:
+compile:
 	go build -o kursnbp ./cmd/kursnbp
 
 run:
-	go run ./cmd/kursnbp
+	go run ./cmd/kursnbp gold
 
 linux: 
 	go build -ldflags="-s -w" -o kursnbp ./cmd/kursnbp

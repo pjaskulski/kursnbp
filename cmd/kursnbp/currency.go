@@ -40,30 +40,6 @@ type exchangeCurrencyC struct {
 	Rates    []rateCurrencyC `json:"rates"`
 }
 
-// currencyCommand - function for 'currency' command (currency exchange rates)
-func currencyCommand() {
-	var result []byte
-
-	err := checkArg("currency", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	result, err = getCurrency(tableFlag, dateFlag, lastFlag, codeFlag)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	switch outputFlag {
-	case "table":
-		printCurrency(result, tableFlag)
-	case "json", "xml":
-		fmt.Println(string(result))
-	case "csv":
-		printCurrencyCSV(result, tableFlag)
-	}
-}
-
 // getCurrency - main function for currrency, selects
 // a data download variant depending on previously
 // verified input parameters (--table, --code, --date or --last)

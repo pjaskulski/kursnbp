@@ -19,7 +19,7 @@ build/
 release/
 
 # app binary
-kursnbp
+/kursnbp
 
 # release scripts
 release_linux.sh

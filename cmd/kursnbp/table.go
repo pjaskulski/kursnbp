@@ -1,4 +1,4 @@
-// 'table' sumcommand support - complete tables of currency exchange rates
+// 'table' subcommand support - complete tables of currency exchange rates
 
 package main
 
@@ -39,30 +39,6 @@ type exchangeTableC struct {
 	TradingDate   string       `json:"tradingDate"`
 	EffectiveDate string       `json:"effectiveDate"`
 	Rates         []rateTableC `json:"rates"`
-}
-
-// tableCommand - function for 'table' command (tables with exchange rates)
-func tableCommand() {
-	var result []byte
-
-	err := checkArg("table", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	result, err = getTable(tableFlag, dateFlag, lastFlag)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	switch outputFlag {
-	case "table":
-		printTable(result, tableFlag)
-	case "json", "xml":
-		fmt.Println(string(result))
-	case "csv":
-		printTableCSV(result, tableFlag)
-	}
 }
 
 // getTable - main download function for table, selects

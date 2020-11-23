@@ -85,41 +85,45 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 	// last
 	if lFlag == 0 && dFlag == "" {
 		return errors.New(l.Get("Value of one of the parameters should be given: --date or --last"))
+	} else if lFlag != 0 && dFlag != "" {
+		return errors.New(l.Get("Only one of the parameters must be given: either --date or --last"))
 	} else if lFlag < 0 {
 		return errors.New(l.Get("Invalid --last parameter value, allowed value > 0"))
-	} else if lFlag > 0 && dFlag != "" {
-		return errors.New(l.Get("Only one of the parameters must be given: either --date or --last"))
 	}
 
 	// date
-	if lFlag == 0 && dFlag != "" {
-		var isValid bool = true
-
-		if dFlag != "today" && dFlag != "current" {
-			if len(dFlag) != 10 && len(dFlag) != 21 {
-				isValid = false
-			} else if len(dFlag) == 10 {
-				re10 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
-				if !re10.MatchString(dFlag) {
-					isValid = false
-				}
-			} else if len(dFlag) == 21 {
-				re21 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}\\:\\d{4}-\\d{2}-\\d{2}")
-				if !re21.MatchString(dFlag) {
-					isValid = false
-				}
-			}
-			if !isValid {
-				return errors.New(l.Get("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD: YYYY-MM-DD'"))
-			}
-		}
+	err := chkArgDate(dFlag, lFlag)
+	if err != nil {
+		return err
 	}
 
 	// table or currency
-	if cmd == "table" {
+	switch cmd {
+	case "table":
 		return checkArgTable(tFlag)
-	} else if cmd == "currency" {
+	case "currency":
 		return checkArgCurrency(tFlag, cFlag)
+	}
+
+	return nil
+}
+
+func chkArgDate(dFlag string, lFlag int) error {
+	var isValid bool = true
+
+	if lFlag == 0 && dFlag != "" && dFlag != "today" && dFlag != "current" {
+		if len(dFlag) != 10 && len(dFlag) != 21 {
+			isValid = false
+		} else if len(dFlag) == 10 {
+			re10 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
+			isValid = re10.MatchString(dFlag) == true
+		} else if len(dFlag) == 21 {
+			re21 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}\\:\\d{4}-\\d{2}-\\d{2}")
+			isValid = re21.MatchString(dFlag) == true
+		}
+		if !isValid {
+			return errors.New(l.Get("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD: YYYY-MM-DD'"))
+		}
 	}
 
 	return nil

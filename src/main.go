@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -105,17 +103,6 @@ func init() {
 		langFlag = strings.ToLower(langFlag)
 	}
 
-	if outputFlag == "xml" {
-		repFormat = "xml"
-	}
-}
-
-// kursnbp - command line tool for downloading exchange rates and gold prices
-// from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
-func main() {
-	var result []byte
-	var err error
-
 	// set output message language based on --lang flag, English is default,
 	// if flag --lang is different than 'pl' or 'en' English is set
 	if langFlag == "pl" {
@@ -124,66 +111,21 @@ func main() {
 		l = langTexts["en"]
 	}
 
+	if outputFlag == "xml" {
+		repFormat = "xml"
+	}
+}
+
+// kursnbp - command line tool for downloading exchange rates and gold prices
+// from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
+func main() {
+
 	if cmdTable.Used {
-		err = checkArg("table", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		result, err = getTable(tableFlag, dateFlag, lastFlag)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		switch outputFlag {
-		case "table":
-			printTable(result, tableFlag)
-		case "json", "xml":
-			fmt.Println(string(result))
-		case "csv":
-			printTableCSV(result, tableFlag)
-		}
-
+		tableCommand()
 	} else if cmdCurrency.Used {
-		err := checkArg("currency", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		result, err = getCurrency(tableFlag, dateFlag, lastFlag, codeFlag)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		switch outputFlag {
-		case "table":
-			printCurrency(result, tableFlag)
-		case "json", "xml":
-			fmt.Println(string(result))
-		case "csv":
-			printCurrencyCSV(result, tableFlag)
-		}
-
+		currencyCommand()
 	} else if cmdGold.Used {
-		err := checkArg("gold", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		result, err = getGold(dateFlag, lastFlag)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		switch outputFlag {
-		case "table":
-			printGold(result)
-		case "json", "xml":
-			fmt.Println(string(result))
-		case "csv":
-			printGoldCSV(result)
-		}
-
+		goldCommand()
 	} else {
 		// if no correct subcommand is given, a general help is displayed
 		// and the program ends

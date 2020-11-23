@@ -18,6 +18,30 @@ type rateGold struct {
 	Cena float64 `json:"cena"`
 }
 
+// goldCommand - function for 'gold' command (prices of gold)
+func goldCommand() {
+	var result []byte
+
+	err := checkArg("gold", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	result, err = getGold(dateFlag, lastFlag)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	switch outputFlag {
+	case "table":
+		printGold(result)
+	case "json", "xml":
+		fmt.Println(string(result))
+	case "csv":
+		printGoldCSV(result)
+	}
+}
+
 // getGold - main function for gold prices, selects
 // a data download variant depending on previously
 // verified input parameters (--date or --last)

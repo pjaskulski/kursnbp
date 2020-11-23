@@ -41,7 +41,31 @@ type exchangeTableC struct {
 	Rates         []rateTableC `json:"rates"`
 }
 
-// getTable - main function for table, selects
+// tableCommand - function for 'table' command (tables with exchange rates)
+func tableCommand() {
+	var result []byte
+
+	err := checkArg("table", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	result, err = getTable(tableFlag, dateFlag, lastFlag)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	switch outputFlag {
+	case "table":
+		printTable(result, tableFlag)
+	case "json", "xml":
+		fmt.Println(string(result))
+	case "csv":
+		printTableCSV(result, tableFlag)
+	}
+}
+
+// getTable - main download function for table, selects
 // a data download variant depending on previously
 // verified input parameters (--table, --date or --last)
 func getTable(tFlag string, dFlag string, lFlag int) ([]byte, error) {

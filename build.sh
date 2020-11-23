@@ -1,2 +1,2 @@
-go build -o kursnbp ./src
+go build -o kursnbp ./cmd/kursnbp
 cp kursnbp build/linux/kursnbp

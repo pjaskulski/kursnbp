@@ -1,1 +1,1 @@
-go test -v -run TestCheckArg ./src
+go test -v -run TestCheckArg ./cmd/kursnbp

@@ -1,1 +1,1 @@
-go test -v ./src
+go test -v ./cmd/kursnbp

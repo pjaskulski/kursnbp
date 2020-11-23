@@ -5,7 +5,7 @@ package main
 type lTexts map[string]string
 
 // variable declaration for strings translation, the value
-// of the variable is determined at program startup by the --lang flag
+// of the variable is determined at program startup by the value of --lang flag
 var l lTexts
 
 // Get - method of Texts type, return localized string for key,

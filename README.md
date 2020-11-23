@@ -1,10 +1,10 @@
 # kursNBP
 
 
-![GitHub](https://img.shields.io/github/license/pjaskulski/kursnbp) 
+[![GitHub](https://img.shields.io/github/license/pjaskulski/kursnbp)](https://opensource.org/licenses/MIT) 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/pjaskulski/kursnbp?include_prereleases) 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/pjaskulski/kursnbp) 
-![go report](https://goreportcard.com/badge/github.com/pjaskulski/kursnbp) 
+[![go report](https://goreportcard.com/badge/github.com/pjaskulski/kursnbp)](https://goreportcard.com/report/github.com/pjaskulski/kursnbp) 
 
 **[Opis](#opis)**<br>
 **[Description](#description)**<br>

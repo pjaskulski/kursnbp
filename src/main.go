@@ -53,7 +53,7 @@ func init() {
 	cmdTable = flaggy.NewSubcommand("table")
 	cmdTable.Description = "returns a table of exchange rates (or a series of tables)"
 	cmdTable.String(&tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
-	cmdTable.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or date range 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdTable.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
 	cmdTable.Int(&lastFlag, "l", "last", "a series of the last <number> of exchange rate tables")
 	cmdTable.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
 	cmdTable.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
@@ -63,7 +63,7 @@ func init() {
 	cmdCurrency = flaggy.NewSubcommand("currency")
 	cmdCurrency.Description = "returns the rate of the indicated currency or a series of rates"
 	cmdCurrency.String(&tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
-	cmdCurrency.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or date range 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdCurrency.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
 	cmdCurrency.String(&codeFlag, "c", "code", "currency code according to ISO 4217 e.g. CHF")
 	cmdCurrency.Int(&lastFlag, "l", "last", "series of last <number> exchange rates of the indicated currency")
 	cmdCurrency.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
@@ -73,7 +73,7 @@ func init() {
 	// gold subcommand
 	cmdGold = flaggy.NewSubcommand("gold")
 	cmdGold.Description = "returns a gold price or a series of gold price quotations"
-	cmdGold.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or date range 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdGold.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
 	cmdGold.Int(&lastFlag, "l", "last", "a series of recent <number> gold price quotations")
 	cmdGold.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
 	cmdGold.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")

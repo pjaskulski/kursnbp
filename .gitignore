@@ -15,7 +15,7 @@
 # vendor/
 
 # release and build folders
-build/
+builds/
 release/
 
 # app binary

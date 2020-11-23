@@ -20,7 +20,6 @@ func (t *lTexts) Get(key string) string {
 
 var langTexts = map[string]lTexts{
 	"pl": {
-		"Invalid date range format":                                         "Nieprawidłowy format zakresu dat",
 		"Table type:":                                                       "Typ tabeli:",
 		"Table number:":                                                     "Numer tabeli:",
 		"Publication date:":                                                 "Data publikacji:",
@@ -60,7 +59,6 @@ var langTexts = map[string]lTexts{
 		"TABLE,DATE,BUY (PLN),SELL (PLN)":           "TABELA,DATA,KUPNO (PLN),SPRZEDAŻ (PLN)",
 	},
 	"en": {
-		"Invalid date range format":    "Invalid date range format",
 		"Table type:":                  "Table type:",
 		"Table number:":                "Table number:",
 		"Publication date:":            "Publication date:",

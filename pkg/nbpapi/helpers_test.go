@@ -1,4 +1,4 @@
-package main
+package nbpapi
 
 import "testing"
 
@@ -151,7 +151,7 @@ func TestCheckArg(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := checkArg(tt.cmd, tt.tFlag, tt.dFlag, tt.lFlag, tt.oFlag, tt.cFlag)
+			result := CheckArg(tt.cmd, tt.tFlag, tt.dFlag, tt.lFlag, tt.oFlag, tt.cFlag)
 			if tt.occursError == false && result != nil {
 				t.Errorf("expected: no errors; received: error")
 			} else if tt.occursError == true && result == nil {

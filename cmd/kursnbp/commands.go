@@ -3,49 +3,50 @@ package main
 
 import (
 	"log"
+
+	"github.com/pjaskulski/kursnbp/pkg/nbpapi"
 )
 
 // goldCommand - function for 'gold' command (prices of gold)
 func goldCommand() {
-	err := checkArg("gold", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
+	err := nbpapi.CheckArg("gold", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var gold Gold
+	nbpGold := nbpapi.NewGold()
 
-	err = gold.GetGold(dateFlag, lastFlag)
+	err = nbpGold.GetGold(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	switch outputFlag {
+	switch cfg.outputFlag {
 	case "table":
-		gold.PrintGold()
+		nbpGold.PrintGold()
 	case "json", "xml":
-		gold.PrintResult()
+		nbpGold.PrintResult()
 	case "csv":
-		gold.PrintGoldCSV()
+		nbpGold.PrintGoldCSV()
 	}
 }
 
 // currencyCommand - function for 'currency' command (currency exchange rates)
 func currencyCommand() {
 
-	err := checkArg("currency", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
+	err := nbpapi.CheckArg("currency", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var nbpCurrency NBPCurrency
-	nbpCurrency.tableType = tableFlag
+	nbpCurrency := nbpapi.NewCurrency(cfg.tableFlag)
 
-	err = nbpCurrency.GetCurrency(dateFlag, lastFlag, codeFlag)
+	err = nbpCurrency.GetCurrency(cfg.dateFlag, cfg.lastFlag, cfg.codeFlag, cfg.repFormat)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	switch outputFlag {
+	switch cfg.outputFlag {
 	case "table":
 		nbpCurrency.PrintCurrency()
 	case "json", "xml":
@@ -58,20 +59,19 @@ func currencyCommand() {
 // tableCommand - function for 'table' command (tables with exchange rates)
 func tableCommand() {
 
-	err := checkArg("table", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
+	err := nbpapi.CheckArg("table", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var nbpTable NBPTable
-	nbpTable.tableType = tableFlag
+	nbpTable := nbpapi.NewTable(cfg.tableFlag)
 
-	err = nbpTable.GetTable(dateFlag, lastFlag)
+	err = nbpTable.GetTable(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	switch outputFlag {
+	switch cfg.outputFlag {
 	case "table":
 		nbpTable.PrintTable()
 	case "json", "xml":

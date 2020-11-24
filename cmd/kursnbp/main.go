@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/integrii/flaggy"
+	"github.com/pjaskulski/kursnbp/pkg/nbpapi"
 )
 
 // app name, version and description
@@ -22,18 +23,23 @@ var (
 )
 
 // flags
-var (
-	tableFlag  string = "A"
+var cfg struct {
+	tableFlag  string
 	dateFlag   string
-	outputFlag string = "table"
+	outputFlag string
 	lastFlag   int
 	codeFlag   string
-	langFlag   string = "en"
-)
-
-var repFormat string = "json"
+	langFlag   string
+	repFormat  string
+}
 
 func init() {
+	// ini cfg (default values)
+	cfg.tableFlag = "A"
+	cfg.outputFlag = "table"
+	cfg.langFlag = "en"
+	cfg.repFormat = "json"
+
 	// command line support through the flaggy package
 	flaggy.SetName(appName)
 	flaggy.SetDescription(appDesc)
@@ -44,31 +50,31 @@ func init() {
 	// table subcommand
 	cmdTable = flaggy.NewSubcommand("table")
 	cmdTable.Description = "returns a table of exchange rates (or a series of tables)"
-	cmdTable.String(&tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
-	cmdTable.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
-	cmdTable.Int(&lastFlag, "l", "last", "a series of the last <number> of exchange rate tables")
-	cmdTable.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
-	cmdTable.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
+	cmdTable.String(&cfg.tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
+	cmdTable.String(&cfg.dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdTable.Int(&cfg.lastFlag, "l", "last", "a series of the last <number> of exchange rate tables")
+	cmdTable.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdTable.String(&cfg.langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdTable, 1)
 
 	// currency subcommand
 	cmdCurrency = flaggy.NewSubcommand("currency")
 	cmdCurrency.Description = "returns the rate of the indicated currency or a series of rates"
-	cmdCurrency.String(&tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
-	cmdCurrency.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
-	cmdCurrency.String(&codeFlag, "c", "code", "currency code according to ISO 4217 e.g. CHF")
-	cmdCurrency.Int(&lastFlag, "l", "last", "series of last <number> exchange rates of the indicated currency")
-	cmdCurrency.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
-	cmdCurrency.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
+	cmdCurrency.String(&cfg.tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
+	cmdCurrency.String(&cfg.dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdCurrency.String(&cfg.codeFlag, "c", "code", "currency code according to ISO 4217 e.g. CHF")
+	cmdCurrency.Int(&cfg.lastFlag, "l", "last", "series of last <number> exchange rates of the indicated currency")
+	cmdCurrency.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdCurrency.String(&cfg.langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdCurrency, 1)
 
 	// gold subcommand
 	cmdGold = flaggy.NewSubcommand("gold")
 	cmdGold.Description = "returns a gold price or a series of gold price quotations"
-	cmdGold.String(&dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
-	cmdGold.Int(&lastFlag, "l", "last", "a series of recent <number> gold price quotations")
-	cmdGold.String(&outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
-	cmdGold.String(&langFlag, "i", "lang", "output language: 'en', 'pl'")
+	cmdGold.String(&cfg.dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
+	cmdGold.Int(&cfg.lastFlag, "l", "last", "a series of recent <number> gold price quotations")
+	cmdGold.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdGold.String(&cfg.langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdGold, 1)
 
 	flaggy.SetVersion(version)
@@ -78,41 +84,37 @@ func init() {
 	// value of the flag --date is set this way, because the flags --date and --last
 	// are alternative, the default value --date makes sense only if the user has not
 	// set --last
-	if lastFlag == 0 && dateFlag == "" {
-		dateFlag = "current"
+	if cfg.lastFlag == 0 && cfg.dateFlag == "" {
+		cfg.dateFlag = "current"
 	}
 	// modifications to the flag values: the characters of the --table and --code values
 	// are changed to upper, therefore it is acceptable to call --code=chf, or --code=CHf,
 	// the application will support such call correctly
-	if tableFlag != "" {
-		tableFlag = strings.ToUpper(tableFlag)
+	if cfg.tableFlag != "" {
+		cfg.tableFlag = strings.ToUpper(cfg.tableFlag)
 	}
-	if codeFlag != "" {
-		codeFlag = strings.ToUpper(codeFlag)
+	if cfg.codeFlag != "" {
+		cfg.codeFlag = strings.ToUpper(cfg.codeFlag)
 	}
 	// modifications to the flag values: the characters of the --lang values
 	// are changed to lower, therefore it is acceptable to call --lang=PL, or --lang=Pl,
 	// the application will support such call correctly
-	if langFlag != "" {
-		langFlag = strings.ToLower(langFlag)
+	if cfg.langFlag != "" {
+		cfg.langFlag = strings.ToLower(cfg.langFlag)
 	}
 
-	// set output message language based on --lang flag, English is default,
-	// if flag --lang is different than 'pl' or 'en' English is set
-	if langFlag == "pl" {
-		l = langTexts["pl"]
-	} else {
-		l = langTexts["en"]
-	}
-
-	if outputFlag == "xml" {
-		repFormat = "xml"
+	if cfg.outputFlag == "xml" {
+		cfg.repFormat = "xml"
 	}
 }
 
 // kursnbp - command line tool for downloading exchange rates and gold prices
 // from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
 func main() {
+
+	// set output message language based on --lang flag, English is default,
+	// if flag --lang is different than 'pl' or 'en' English is set
+	nbpapi.SetLang(cfg.langFlag)
 
 	if cmdTable.Used {
 		tableCommand()

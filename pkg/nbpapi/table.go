@@ -1,6 +1,6 @@
 // 'table' subcommand support - complete tables of currency exchange rates
 
-package main
+package nbpapi
 
 import (
 	"encoding/json"
@@ -53,22 +53,29 @@ type exchangeTableC struct {
 	Rates         []rateTableC `json:"rates"`
 }
 
+// NewTable - function creates new table type
+func NewTable(tFlag string) *NBPTable {
+	return &NBPTable{
+		tableType: tFlag,
+	}
+}
+
 // GetTable - main download function for table, selects
 // a data download variant depending on previously
 // verified input parameters (--table, --date or --last)
-func (t *NBPTable) GetTable(dFlag string, lFlag int) error {
+func (t *NBPTable) GetTable(dFlag string, lFlag int, repFormat string) error {
 	var err error
 
 	if lFlag != 0 {
-		t.result, err = getTableLast(t.tableType, strconv.Itoa(lFlag))
+		t.result, err = getTableLast(t.tableType, strconv.Itoa(lFlag), repFormat)
 	} else if dFlag == "today" {
-		t.result, err = getTableToday(t.tableType)
+		t.result, err = getTableToday(t.tableType, repFormat)
 	} else if dFlag == "current" {
-		t.result, err = getTableCurrent(t.tableType)
+		t.result, err = getTableCurrent(t.tableType, repFormat)
 	} else if len(dFlag) == 10 {
-		t.result, err = getTableDay(t.tableType, dFlag)
+		t.result, err = getTableDay(t.tableType, dFlag, repFormat)
 	} else if len(dFlag) == 21 {
-		t.result, err = getTableRange(t.tableType, dFlag)
+		t.result, err = getTableRange(t.tableType, dFlag, repFormat)
 	}
 
 	if t.tableType != "C" {
@@ -85,28 +92,28 @@ func (t *NBPTable) GetTable(dFlag string, lFlag int) error {
 
 // getTableToday - function returns exchange rate table published today
 // in JSON form, or error
-func getTableToday(tableType string) ([]byte, error) {
+func getTableToday(tableType string, repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/tables/%s/today/?format=%s", baseAddressTable, tableType, repFormat)
 	return getJSON(address)
 }
 
 // getTableCurrent - function returns current table of exchange rates
 // (last published table) in JSON form, or error
-func getTableCurrent(tableType string) ([]byte, error) {
+func getTableCurrent(tableType string, repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/tables/%s/?format=%s", baseAddressTable, tableType, repFormat)
 	return getJSON(address)
 }
 
 // getTableDay - functions returns table of exchange rates
 // on the given date (YYYY-MM-DD) in JSON form, or error
-func getTableDay(tableType string, day string) ([]byte, error) {
+func getTableDay(tableType string, day string, repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/tables/%s/%s/?format=%s", baseAddressTable, tableType, day, repFormat)
 	return getJSON(address)
 }
 
 // getTableRange - function returns table of exchange rates  within
 // the given date range (RRRR-MM-DD:RRRR-MM-DD) in JSON form, or error
-func getTableRange(tableType string, day string) ([]byte, error) {
+func getTableRange(tableType string, day string, repFormat string) ([]byte, error) {
 	var startDate string
 	var stopDate string
 
@@ -120,7 +127,7 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 
 // getTableLast - function returns last <last> tables of exchange rates
 // in JSON form, or error
-func getTableLast(tableType string, last string) ([]byte, error) {
+func getTableLast(tableType string, last string, repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/tables/%s/last/%s/?format=%s", baseAddressTable, tableType, last, repFormat)
 	return getJSON(address)
 }

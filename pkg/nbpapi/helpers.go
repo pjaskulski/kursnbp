@@ -1,6 +1,6 @@
 // auxiliary program functions
 
-package main
+package nbpapi
 
 import (
 	"errors"
@@ -33,7 +33,8 @@ var currencyValuesB = []string{"MGA", "PAB", "ETB", "AFN", "VES", "BOB", "CRC", 
 var currencyValuesC = []string{"USD", "AUD", "CAD", "EUR", "HUF", "GBP", "JPY", "CZK", "DKK", "NOK",
 	"SEK", "XDR"}
 
-// getJSON - universal function that returns JSON (or error) based on the address provided
+// getJSON - universal function that returns JSON/XML (or error)
+// based on the address provided
 func getJSON(address string) ([]byte, error) {
 	r, err := http.Get(address)
 	if err != nil {
@@ -72,8 +73,8 @@ func inSlice(slice []string, val string) bool {
 	return false
 }
 
-// checkArg - function verifies the correctness of program call parameters
-func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, cFlag string) error {
+// CheckArg - function verifies the correctness of program call parameters
+func CheckArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, cFlag string) error {
 
 	// output
 	if oFlag == "" {

@@ -1,4 +1,4 @@
-package main
+package nbpapi
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ func TestGetCurrencyCurrent(t *testing.T) {
 	var currency string = "CHF"
 
 	littleDelay()
-	result, err := getCurrencyCurrent(table, currency)
+	result, err := getCurrencyCurrent(table, currency, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -27,7 +27,7 @@ func TestGetCurrencyCurrentXXX(t *testing.T) {
 	var currency string = "XXX" // niepoprawny kod waluty
 
 	littleDelay()
-	_, err := getCurrencyCurrent(table, currency)
+	_, err := getCurrencyCurrent(table, currency, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}
@@ -39,7 +39,7 @@ func TestGetCurrencyDay(t *testing.T) {
 	var day string = "2020-11-13" // Friday - ok, kurs CHF = 4.1605
 
 	littleDelay()
-	result, err := getCurrencyDay(table, day, currency)
+	result, err := getCurrencyDay(table, day, currency, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -55,7 +55,7 @@ func TestGetCurrencyDaySaturday(t *testing.T) {
 	var day string = "2020-11-14" // Saturday - no table of exchange rates
 
 	littleDelay()
-	_, err := getCurrencyDay(table, day, currency)
+	_, err := getCurrencyDay(table, day, currency, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}
@@ -67,7 +67,7 @@ func TestGetCurrencyLast(t *testing.T) {
 	var last string = "5"
 
 	littleDelay()
-	_, err := getCurrencyLast(table, last, currency)
+	_, err := getCurrencyLast(table, last, currency, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -79,7 +79,7 @@ func TestGetCurrencyLastFailed(t *testing.T) {
 	var last string = "500" // za dużo kursów, max = 255
 
 	littleDelay()
-	_, err := getCurrencyLast(table, last, currency)
+	_, err := getCurrencyLast(table, last, currency, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}
@@ -91,7 +91,7 @@ func TestGetCurrencyRange(t *testing.T) {
 	var day string = "2020-11-12:2020-11-13" // poprawny zakres dat, spodziewane 2 kursy
 
 	littleDelay()
-	result, err := getCurrencyRange(table, day, currency)
+	result, err := getCurrencyRange(table, day, currency, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -113,7 +113,7 @@ func TestGetCurrencyRangeFailed(t *testing.T) {
 	var day string = "2020-11-12:2020-11-10" // niepoprawny zakres dat
 
 	littleDelay()
-	_, err := getCurrencyRange(table, day, currency)
+	_, err := getCurrencyRange(table, day, currency, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}
@@ -126,9 +126,9 @@ func TestGetCurrencyToday(t *testing.T) {
 	var day string = today.Format("2006-01-02")
 
 	littleDelay()
-	_, err := getCurrencyDay(table, day, currency)
+	_, err := getCurrencyDay(table, day, currency, "json")
 	if err == nil {
-		_, err := getCurrencyToday(table, currency)
+		_, err := getCurrencyToday(table, currency, "json")
 		if err != nil {
 			t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 		}

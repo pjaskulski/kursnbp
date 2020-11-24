@@ -19,10 +19,14 @@ freebsd:
 all: linux windows macos freebsd
 
 test:
-	go test -v ./cmd/kursnbp
+	go test -v ./pkg/nbpapi
 
 testcheck:
-	go test -v -run TestCheckArg ./cmd/kursnbp	
+	go test -v -run TestCheckArg ./pkg/nbpapi
 
 cover:
-	go test -cover ./cmd/kursnbp
+	go test -cover ./pkg/nbpapi
+
+release:
+	sh release.sh
+

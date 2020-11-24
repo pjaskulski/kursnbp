@@ -1,6 +1,6 @@
 // simple translation system
 
-package main
+package nbpapi
 
 type lTexts map[string]string
 

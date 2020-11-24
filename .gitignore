@@ -16,14 +16,10 @@
 
 # release and build folders
 builds/
-release/
+releases/
 
 # app binary
 /kursnbp
 
 # release scripts
-release_linux.sh
-release_windows.sh
-release_macos.sh
-release_freebsd.sh
-release_all.sh
+#release.sh

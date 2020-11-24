@@ -1,4 +1,4 @@
-package main
+package nbpapi
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 
 func TestGetGoldCurrent(t *testing.T) {
 	littleDelay()
-	result, err := getGoldCurrent()
+	result, err := getGoldCurrent("json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -24,9 +24,9 @@ func TestGetGoldToday(t *testing.T) {
 	var day string = today.Format("2006-01-02")
 
 	littleDelay()
-	_, err := getGoldDay(day)
+	_, err := getGoldDay(day, "json")
 	if err == nil {
-		_, err := getGoldToday()
+		_, err := getGoldToday("json")
 		if err != nil {
 			t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 		}
@@ -38,7 +38,7 @@ func TestGetGoldDay(t *testing.T) {
 	var cena float64 = 229.03
 
 	littleDelay()
-	result, err := getGoldDay(day)
+	result, err := getGoldDay(day, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -64,7 +64,7 @@ func TestGetGoldDayFailed(t *testing.T) {
 	var day string = "2020-11-15" // brak notowań w tym dniu
 
 	littleDelay()
-	_, err := getGoldDay(day)
+	_, err := getGoldDay(day, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}
@@ -74,7 +74,7 @@ func TestGetGoldLast(t *testing.T) {
 	var lastNo int = 5
 
 	littleDelay()
-	result, err := getGoldLast(strconv.Itoa(lastNo))
+	result, err := getGoldLast(strconv.Itoa(lastNo), "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -97,7 +97,7 @@ func TestGetGoldRange(t *testing.T) {
 	var day string = "2020-11-16:2020-11-17"
 
 	littleDelay()
-	result, err := getGoldRange(day)
+	result, err := getGoldRange(day, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}

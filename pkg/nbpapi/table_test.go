@@ -1,4 +1,4 @@
-package main
+package nbpapi
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ func TestGetTableCurrent(t *testing.T) {
 	var table string = "A"
 
 	littleDelay()
-	result, err := getTableCurrent(table)
+	result, err := getTableCurrent(table, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -26,7 +26,7 @@ func TestGetTableDay(t *testing.T) {
 	var tableNo string = "224/A/NBP/2020"
 
 	littleDelay()
-	result, err := getTableDay(table, day)
+	result, err := getTableDay(table, day, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -56,7 +56,7 @@ func TestGetTableRange(t *testing.T) {
 	var day string = "2020-11-16:2020-11-17"
 
 	littleDelay()
-	result, err := getTableRange(table, day)
+	result, err := getTableRange(table, day, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -88,7 +88,7 @@ func TestGetTableLast(t *testing.T) {
 	var lastNo string = "5"
 
 	littleDelay()
-	result, err := getTableLast(table, lastNo)
+	result, err := getTableLast(table, lastNo, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -113,9 +113,9 @@ func TestGetTableToday(t *testing.T) {
 	var day string = today.Format("2006-01-02")
 
 	littleDelay()
-	_, err := getTableDay(table, day)
+	_, err := getTableDay(table, day, "json")
 	if err == nil {
-		_, err := getTableToday(table)
+		_, err := getTableToday(table, "json")
 		if err != nil {
 			t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 		}
@@ -126,7 +126,7 @@ func TestGetTableTodayFailed(t *testing.T) {
 	var table string = "D"
 
 	littleDelay()
-	_, err := getTableToday(table)
+	_, err := getTableToday(table, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err != nil")
 	}

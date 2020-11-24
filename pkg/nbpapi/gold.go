@@ -1,6 +1,6 @@
 // gold' subcommand support - downloading gold prices in the JSON format
 
-package main
+package nbpapi
 
 import (
 	"encoding/json"
@@ -23,27 +23,32 @@ type rateGold struct {
 }
 
 // Gold type
-type Gold struct {
+type NBPGold struct {
 	goldRates []rateGold
 	result    []byte
+}
+
+// NewGold - function creates new gold type
+func NewGold() *NBPGold {
+	return &NBPGold{}
 }
 
 // GetGold - main function for gold prices, selects
 // a data download variant depending on previously
 // verified input parameters (--date or --last)
-func (g *Gold) GetGold(dFlag string, lFlag int) error {
+func (g *NBPGold) GetGold(dFlag string, lFlag int, repFormat string) error {
 	var err error
 
 	if lFlag != 0 {
-		g.result, err = getGoldLast(strconv.Itoa(lFlag))
+		g.result, err = getGoldLast(strconv.Itoa(lFlag), repFormat)
 	} else if dFlag == "today" {
-		g.result, err = getGoldToday()
+		g.result, err = getGoldToday(repFormat)
 	} else if dFlag == "current" {
-		g.result, err = getGoldCurrent()
+		g.result, err = getGoldCurrent(repFormat)
 	} else if len(dFlag) == 10 {
-		g.result, err = getGoldDay(dFlag)
+		g.result, err = getGoldDay(dFlag, repFormat)
 	} else if len(dFlag) == 21 {
-		g.result, err = getGoldRange(dFlag)
+		g.result, err = getGoldRange(dFlag, repFormat)
 	}
 
 	if err != nil {
@@ -60,35 +65,35 @@ func (g *Gold) GetGold(dFlag string, lFlag int) error {
 
 // getGoldToday - function returns today's gold price
 // in json form, or error
-func getGoldToday() ([]byte, error) {
+func getGoldToday(repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/today?format=%s", baseAddressGold, repFormat)
 	return getJSON(address)
 }
 
 // getGoldCurrent - function returns current gold price
 // (last published price) in json form, or error
-func getGoldCurrent() ([]byte, error) {
+func getGoldCurrent(repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s?format=%s", baseAddressGold, repFormat)
 	return getJSON(address)
 }
 
 // getGoldLast - function returns last <last> gold prices
 // in json form, or error
-func getGoldLast(last string) ([]byte, error) {
+func getGoldLast(last string, repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/last/%s?format=%s", baseAddressGold, last, repFormat)
 	return getJSON(address)
 }
 
 // getGoldDay - function returns gold price on the given date (RRRR-MM-DD)
 // in json form, or error
-func getGoldDay(day string) ([]byte, error) {
+func getGoldDay(day string, repFormat string) ([]byte, error) {
 	address := fmt.Sprintf("%s/%s?format=%s", baseAddressGold, day, repFormat)
 	return getJSON(address)
 }
 
 // getGoldRange - function returns gold prices within the given date range
 // (RRRR-MM-DD:RRRR-MM-DD) in json form, or error
-func getGoldRange(day string) ([]byte, error) {
+func getGoldRange(day string, repFormat string) ([]byte, error) {
 	var startDate string
 	var stopDate string
 
@@ -102,7 +107,7 @@ func getGoldRange(day string) ([]byte, error) {
 
 // PrintGold - functions displays a formatted table of gold prices
 // in the console window
-func (g *Gold) PrintGold() {
+func (g *NBPGold) PrintGold() {
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
 
@@ -123,7 +128,7 @@ func (g *Gold) PrintGold() {
 
 // PrintGoldCSV - function prints gold prices in CSV format
 // (comma separated data)
-func (g *Gold) PrintGoldCSV() {
+func (g *NBPGold) PrintGoldCSV() {
 	fmt.Println(l.Get("DATE,PRICE (PLN)"))
 	for _, goldItem := range g.goldRates {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
@@ -134,6 +139,6 @@ func (g *Gold) PrintGoldCSV() {
 }
 
 // PrintResult - function print just result of request (json or xml)
-func (g *Gold) PrintResult() {
+func (g *NBPGold) PrintResult() {
 	fmt.Println(string(g.result))
 }

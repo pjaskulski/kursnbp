@@ -12,31 +12,50 @@ import (
 	"text/tabwriter"
 )
 
+// base addresses of the NBP API service
+const (
+	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
+)
+
 type rateGold struct {
 	Data string  `json:"data"`
 	Cena float64 `json:"cena"`
 }
 
-// getGold - main function for gold prices, selects
+// Gold type
+type Gold struct {
+	goldRates []rateGold
+	result    []byte
+}
+
+// GetGold - main function for gold prices, selects
 // a data download variant depending on previously
 // verified input parameters (--date or --last)
-func getGold(dFlag string, lFlag int) ([]byte, error) {
-	var result []byte
+func (g *Gold) GetGold(dFlag string, lFlag int) error {
 	var err error
 
 	if lFlag != 0 {
-		result, err = getGoldLast(strconv.Itoa(lFlag))
+		g.result, err = getGoldLast(strconv.Itoa(lFlag))
 	} else if dFlag == "today" {
-		result, err = getGoldToday()
+		g.result, err = getGoldToday()
 	} else if dFlag == "current" {
-		result, err = getGoldCurrent()
+		g.result, err = getGoldCurrent()
 	} else if len(dFlag) == 10 {
-		result, err = getGoldDay(dFlag)
+		g.result, err = getGoldDay(dFlag)
 	} else if len(dFlag) == 21 {
-		result, err = getGoldRange(dFlag)
+		g.result, err = getGoldRange(dFlag)
 	}
 
-	return result, err
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(g.result, &g.goldRates)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
 // getGoldToday - function returns today's gold price
@@ -81,17 +100,9 @@ func getGoldRange(day string) ([]byte, error) {
 	return getJSON(address)
 }
 
-// printGold - functions displays a formatted table of gold prices
+// PrintGold - functions displays a formatted table of gold prices
 // in the console window
-func printGold(result []byte) {
-	var nbpGold []rateGold
-	err := json.Unmarshal(result, &nbpGold)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(appName, "-", appDesc)
-
+func (g *Gold) PrintGold() {
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
 
@@ -101,7 +112,7 @@ func printGold(result []byte) {
 
 	fmt.Fprintln(w, l.Get("DATE \t PRICE (PLN)"))
 	fmt.Fprintln(w, l.Get("---- \t ----- "))
-	for _, goldItem := range nbpGold {
+	for _, goldItem := range g.goldRates {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
 		fmt.Fprintln(w, goldItem.Data+" \t "+goldValue)
 	}
@@ -110,20 +121,19 @@ func printGold(result []byte) {
 	fmt.Println()
 }
 
-// printGoldCSV - function prints gold prices in CSV format
+// PrintGoldCSV - function prints gold prices in CSV format
 // (comma separated data)
-func printGoldCSV(result []byte) {
-	var nbpGold []rateGold
-	err := json.Unmarshal(result, &nbpGold)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func (g *Gold) PrintGoldCSV() {
 	fmt.Println(l.Get("DATE,PRICE (PLN)"))
-	for _, goldItem := range nbpGold {
+	for _, goldItem := range g.goldRates {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
 		fmt.Println(goldItem.Data + "," + goldValue)
 	}
 
 	fmt.Println()
+}
+
+// PrintResult - function print just result of request (json or xml)
+func (g *Gold) PrintResult() {
+	fmt.Println(string(g.result))
 }

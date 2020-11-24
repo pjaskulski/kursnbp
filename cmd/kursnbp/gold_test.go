@@ -9,7 +9,6 @@ import (
 )
 
 func TestGetGoldCurrent(t *testing.T) {
-
 	littleDelay()
 	result, err := getGoldCurrent()
 	if err != nil {

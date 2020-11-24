@@ -7,12 +7,6 @@ import (
 	"github.com/integrii/flaggy"
 )
 
-// base addresses of the NBP API service for currency rates and gold prices
-const (
-	baseAddress     string = "http://api.nbp.pl/api/exchangerates"
-	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
-)
-
 // app name, version and description
 var (
 	version string = "0.3.1"

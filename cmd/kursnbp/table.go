@@ -12,6 +12,19 @@ import (
 	"text/tabwriter"
 )
 
+// base addresses of the NBP API service
+const (
+	baseAddressTable string = "http://api.nbp.pl/api/exchangerates"
+)
+
+// NBPTable type
+type NBPTable struct {
+	tableType string
+	result    []byte
+	exchange  []exchangeTable
+	exchangeC []exchangeTableC
+}
+
 type rateTable struct {
 	Currency string  `json:"currency"`
 	Code     string  `json:"code"`
@@ -40,46 +53,54 @@ type exchangeTableC struct {
 	Rates         []rateTableC `json:"rates"`
 }
 
-// getTable - main download function for table, selects
+// GetTable - main download function for table, selects
 // a data download variant depending on previously
 // verified input parameters (--table, --date or --last)
-func getTable(tFlag string, dFlag string, lFlag int) ([]byte, error) {
-	var result []byte
+func (t *NBPTable) GetTable(dFlag string, lFlag int) error {
 	var err error
 
 	if lFlag != 0 {
-		result, err = getTableLast(tFlag, strconv.Itoa(lFlag))
+		t.result, err = getTableLast(t.tableType, strconv.Itoa(lFlag))
 	} else if dFlag == "today" {
-		result, err = getTableToday(tFlag)
+		t.result, err = getTableToday(t.tableType)
 	} else if dFlag == "current" {
-		result, err = getTableCurrent(tFlag)
+		t.result, err = getTableCurrent(t.tableType)
 	} else if len(dFlag) == 10 {
-		result, err = getTableDay(tFlag, dFlag)
+		t.result, err = getTableDay(t.tableType, dFlag)
 	} else if len(dFlag) == 21 {
-		result, err = getTableRange(tFlag, dFlag)
+		t.result, err = getTableRange(t.tableType, dFlag)
 	}
 
-	return result, err
+	if t.tableType != "C" {
+		err = json.Unmarshal(t.result, &t.exchange)
+	} else {
+		err = json.Unmarshal(t.result, &t.exchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
 // getTableToday - function returns exchange rate table published today
 // in JSON form, or error
 func getTableToday(tableType string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/today/?format=%s", baseAddress, tableType, repFormat)
+	address := fmt.Sprintf("%s/tables/%s/today/?format=%s", baseAddressTable, tableType, repFormat)
 	return getJSON(address)
 }
 
 // getTableCurrent - function returns current table of exchange rates
 // (last published table) in JSON form, or error
 func getTableCurrent(tableType string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/?format=%s", baseAddress, tableType, repFormat)
+	address := fmt.Sprintf("%s/tables/%s/?format=%s", baseAddressTable, tableType, repFormat)
 	return getJSON(address)
 }
 
 // getTableDay - functions returns table of exchange rates
 // on the given date (YYYY-MM-DD) in JSON form, or error
 func getTableDay(tableType string, day string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/%s/?format=%s", baseAddress, tableType, day, repFormat)
+	address := fmt.Sprintf("%s/tables/%s/%s/?format=%s", baseAddressTable, tableType, day, repFormat)
 	return getJSON(address)
 }
 
@@ -93,38 +114,28 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf("%s/tables/%s/%s/%s/?format=%s", baseAddress, tableType, startDate, stopDate, repFormat)
+	address := fmt.Sprintf("%s/tables/%s/%s/%s/?format=%s", baseAddressTable, tableType, startDate, stopDate, repFormat)
 	return getJSON(address)
 }
 
 // getTableLast - function returns last <last> tables of exchange rates
 // in JSON form, or error
 func getTableLast(tableType string, last string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/last/%s/?format=%s", baseAddress, tableType, last, repFormat)
+	address := fmt.Sprintf("%s/tables/%s/last/%s/?format=%s", baseAddressTable, tableType, last, repFormat)
 	return getJSON(address)
 }
 
-// printTable - function prints tables of exchange rates as
+// PrintTable - function prints tables of exchange rates as
 // formatted table in the console window,
-// depending on the tableType parameter: for type A and B tables
+// depending on the tableType field: for type A and B tables
 // a column with an average rate is printed, for type C two columns:
 // buy price and sell price
-func printTable(result []byte, tableType string) {
-	var nbpTables []exchangeTable
-	var nbpTablesC []exchangeTableC
-
-	fmt.Println(appName, "-", appDesc)
-
+func (t *NBPTable) PrintTable() {
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
 
-	if tableType != "C" {
-		err := json.Unmarshal(result, &nbpTables)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for _, item := range nbpTables {
+	if t.tableType != "C" {
+		for _, item := range t.exchange {
 			fmt.Println()
 			fmt.Println(l.Get("Table type:")+"\t\t", item.Table)
 			fmt.Println(l.Get("Table number:")+"\t\t", item.No)
@@ -137,16 +148,10 @@ func printTable(result []byte, tableType string) {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 				fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValue)
 			}
-
 			w.Flush()
 		}
 	} else {
-		err := json.Unmarshal(result, &nbpTablesC)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for _, item := range nbpTablesC {
+		for _, item := range t.exchangeC {
 			fmt.Println()
 			fmt.Println(l.Get("Table type:")+"\t\t", item.Table)
 			fmt.Println(l.Get("Table number:")+"\t\t", item.No)
@@ -161,7 +166,6 @@ func printTable(result []byte, tableType string) {
 				currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
 				fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValueBid+" \t "+currencyValueAsk)
 			}
-
 			w.Flush()
 		}
 	}
@@ -169,24 +173,17 @@ func printTable(result []byte, tableType string) {
 	fmt.Println()
 }
 
-// printTableCSV - function prints tables of exchange rates in the console,
+// PrintTableCSV - function prints tables of exchange rates in the console,
 // in the form of CSV (data separated by a comma), depending on the
-// tableType parameter: for type A and B tables a column with an average
+// tableType field: for type A and B tables a column with an average
 // rate is printed, for type C two columns: buy price and sell price
-func printTableCSV(result []byte, tableType string) {
-	var nbpTables []exchangeTable
-	var nbpTablesC []exchangeTableC
+func (t *NBPTable) PrintTableCSV() {
 	var tableNo string
 
-	if tableType != "C" {
-		err := json.Unmarshal(result, &nbpTables)
-		if err != nil {
-			log.Fatal(err)
-		}
-
+	if t.tableType != "C" {
 		fmt.Println(l.Get("TABLE,CODE,NAME,AVERAGE (PLN)"))
 
-		for _, item := range nbpTables {
+		for _, item := range t.exchange {
 			tableNo = item.No
 			for _, currencyItem := range item.Rates {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
@@ -194,14 +191,9 @@ func printTableCSV(result []byte, tableType string) {
 			}
 		}
 	} else {
-		err := json.Unmarshal(result, &nbpTablesC)
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		fmt.Println(l.Get("TABLE,CODE,NAME,BUY (PLN),SELL (PLN)"))
 
-		for _, item := range nbpTablesC {
+		for _, item := range t.exchangeC {
 			tableNo = item.No
 			for _, currencyItem := range item.Rates {
 				currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
@@ -211,6 +203,10 @@ func printTableCSV(result []byte, tableType string) {
 			fmt.Println()
 		}
 	}
-
 	fmt.Println()
+}
+
+// PrintResult - function print just result of request (json or xml)
+func (t *NBPTable) PrintResult() {
+	fmt.Println(string(t.result))
 }

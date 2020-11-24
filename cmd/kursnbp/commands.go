@@ -2,78 +2,81 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
 // goldCommand - function for 'gold' command (prices of gold)
 func goldCommand() {
-	var result []byte
-
 	err := checkArg("gold", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	result, err = getGold(dateFlag, lastFlag)
+	var gold Gold
+
+	err = gold.GetGold(dateFlag, lastFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	switch outputFlag {
 	case "table":
-		printGold(result)
+		gold.PrintGold()
 	case "json", "xml":
-		fmt.Println(string(result))
+		gold.PrintResult()
 	case "csv":
-		printGoldCSV(result)
+		gold.PrintGoldCSV()
 	}
 }
 
 // currencyCommand - function for 'currency' command (currency exchange rates)
 func currencyCommand() {
-	var result []byte
 
 	err := checkArg("currency", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	result, err = getCurrency(tableFlag, dateFlag, lastFlag, codeFlag)
+	var nbpCurrency NBPCurrency
+	nbpCurrency.tableType = tableFlag
+
+	err = nbpCurrency.GetCurrency(dateFlag, lastFlag, codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	switch outputFlag {
 	case "table":
-		printCurrency(result, tableFlag)
+		nbpCurrency.PrintCurrency()
 	case "json", "xml":
-		fmt.Println(string(result))
+		nbpCurrency.PrintResult()
 	case "csv":
-		printCurrencyCSV(result, tableFlag)
+		nbpCurrency.PrintCurrencyCSV()
 	}
 }
 
 // tableCommand - function for 'table' command (tables with exchange rates)
 func tableCommand() {
-	var result []byte
 
 	err := checkArg("table", tableFlag, dateFlag, lastFlag, outputFlag, codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	result, err = getTable(tableFlag, dateFlag, lastFlag)
+	var nbpTable NBPTable
+	nbpTable.tableType = tableFlag
+
+	err = nbpTable.GetTable(dateFlag, lastFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	switch outputFlag {
 	case "table":
-		printTable(result, tableFlag)
+		nbpTable.PrintTable()
 	case "json", "xml":
-		fmt.Println(string(result))
+		nbpTable.PrintResult()
 	case "csv":
-		printTableCSV(result, tableFlag)
+		nbpTable.PrintTableCSV()
 	}
 }

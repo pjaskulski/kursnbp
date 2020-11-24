@@ -80,14 +80,15 @@ func (c *NBPCurrency) GetCurrency(dFlag string, lFlag int, cFlag string, repForm
 		log.Fatal(err)
 	}
 
-	if c.tableType != "C" {
-		err = json.Unmarshal(c.result, &c.exchange)
-	} else {
-		err = json.Unmarshal(c.result, &c.exchangeC)
-	}
-
-	if err != nil {
-		log.Fatal(err)
+	if repFormat != "xml" && repFormat != "json" {
+		if c.tableType != "C" {
+			err = json.Unmarshal(c.result, &c.exchange)
+		} else {
+			err = json.Unmarshal(c.result, &c.exchangeC)
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	return err

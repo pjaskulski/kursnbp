@@ -81,13 +81,15 @@ func (t *NBPTable) GetTable(dFlag string, lFlag int, repFormat string) error {
 		log.Fatal(err)
 	}
 
-	if t.tableType != "C" {
-		err = json.Unmarshal(t.result, &t.exchange)
-	} else {
-		err = json.Unmarshal(t.result, &t.exchangeC)
-	}
-	if err != nil {
-		log.Fatal(err)
+	if repFormat != "xml" && repFormat != "json" {
+		if t.tableType != "C" {
+			err = json.Unmarshal(t.result, &t.exchange)
+		} else {
+			err = json.Unmarshal(t.result, &t.exchangeC)
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	return err

@@ -55,9 +55,11 @@ func (g *NBPGold) GetGold(dFlag string, lFlag int, repFormat string) error {
 		log.Fatal(err)
 	}
 
-	err = json.Unmarshal(g.result, &g.goldRates)
-	if err != nil {
-		log.Fatal(err)
+	if repFormat != "xml" && repFormat != "json" {
+		err = json.Unmarshal(g.result, &g.goldRates)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	return err

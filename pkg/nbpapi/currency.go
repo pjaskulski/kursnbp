@@ -199,7 +199,6 @@ func (c *NBPCurrency) GetCSV() string {
 			output += fmt.Sprintln(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValueBid + "," + currencyValueAsk)
 		}
 	}
-	output += fmt.Sprintln()
 
 	return output
 }

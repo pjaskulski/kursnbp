@@ -139,7 +139,6 @@ func (g *NBPGold) GetCSV() string {
 		output += fmt.Sprintln(goldItem.Data + "," + goldValue)
 	}
 
-	output += fmt.Sprintln()
 	return output
 }
 

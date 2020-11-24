@@ -217,7 +217,6 @@ func (t *NBPTable) GetCSV() string {
 			output += fmt.Sprintln()
 		}
 	}
-	output += fmt.Sprintln()
 
 	return output
 }

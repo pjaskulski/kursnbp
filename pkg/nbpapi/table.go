@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 	"text/tabwriter"
@@ -81,7 +80,7 @@ func (t *NBPTable) GetTable(dFlag string, lFlag int, repFormat string) error {
 		log.Fatal(err)
 	}
 
-	if repFormat != "xml" && repFormat != "json" {
+	if repFormat != "xml" {
 		if t.tableType != "C" {
 			err = json.Unmarshal(t.result, &t.exchange)
 		} else {
@@ -137,22 +136,24 @@ func getTableLast(tableType string, last string, repFormat string) ([]byte, erro
 	return getJSON(address)
 }
 
-// PrintTable - function prints tables of exchange rates as
-// formatted table in the console window,
+// GetPretty - function returns tables of exchange rates as
+// formatted table,
 // depending on the tableType field: for type A and B tables
 // a column with an average rate is printed, for type C two columns:
 // buy price and sell price
-func (t *NBPTable) PrintTable() {
+func (t *NBPTable) GetPretty() string {
 	const padding = 3
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
+	var builder strings.Builder
+	var output string
+	w := tabwriter.NewWriter(&builder, 0, 0, padding, ' ', tabwriter.Debug)
 
 	if t.tableType != "C" {
 		for _, item := range t.exchange {
-			fmt.Println()
-			fmt.Println(l.Get("Table type:")+"\t\t", item.Table)
-			fmt.Println(l.Get("Table number:")+"\t\t", item.No)
-			fmt.Println(l.Get("Publication date:")+"\t", item.EffectiveDate)
-			fmt.Println()
+			output += fmt.Sprintln()
+			output += fmt.Sprintln(l.Get("Table type:")+"\t\t", item.Table)
+			output += fmt.Sprintln(l.Get("Table number:")+"\t\t", item.No)
+			output += fmt.Sprintln(l.Get("Publication date:")+"\t", item.EffectiveDate)
+			output += fmt.Sprintln()
 
 			fmt.Fprintln(w, l.Get("CODE \t NAME \t AVERAGE (PLN)"))
 			fmt.Fprintln(w, l.Get("---- \t ---- \t -------------"))
@@ -164,12 +165,12 @@ func (t *NBPTable) PrintTable() {
 		}
 	} else {
 		for _, item := range t.exchangeC {
-			fmt.Println()
-			fmt.Println(l.Get("Table type:")+"\t\t", item.Table)
-			fmt.Println(l.Get("Table number:")+"\t\t", item.No)
-			fmt.Println(l.Get("Trading date:")+"\t\t", item.TradingDate)
-			fmt.Println(l.Get("Publication date:")+"\t", item.EffectiveDate)
-			fmt.Println()
+			output += fmt.Sprintln()
+			output += fmt.Sprintln(l.Get("Table type:")+"\t\t", item.Table)
+			output += fmt.Sprintln(l.Get("Table number:")+"\t\t", item.No)
+			output += fmt.Sprintln(l.Get("Trading date:")+"\t\t", item.TradingDate)
+			output += fmt.Sprintln(l.Get("Publication date:")+"\t", item.EffectiveDate)
+			output += fmt.Sprintln()
 
 			fmt.Fprintln(w, l.Get("CODE \t NAME \t BUY (PLN) \t SELL (PLN) "))
 			fmt.Fprintln(w, l.Get("---- \t ---- \t --------- \t ---------- "))
@@ -182,43 +183,46 @@ func (t *NBPTable) PrintTable() {
 		}
 	}
 
-	fmt.Println()
+	return output + builder.String()
 }
 
-// PrintTableCSV - function prints tables of exchange rates in the console,
+// GetCSV - function prints tables of exchange rates in the console,
 // in the form of CSV (data separated by a comma), depending on the
 // tableType field: for type A and B tables a column with an average
 // rate is printed, for type C two columns: buy price and sell price
-func (t *NBPTable) PrintTableCSV() {
+func (t *NBPTable) GetCSV() string {
 	var tableNo string
+	var output string = ""
 
 	if t.tableType != "C" {
-		fmt.Println(l.Get("TABLE,CODE,NAME,AVERAGE (PLN)"))
+		output += fmt.Sprintln(l.Get("TABLE,CODE,NAME,AVERAGE (PLN)"))
 
 		for _, item := range t.exchange {
 			tableNo = item.No
 			for _, currencyItem := range item.Rates {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
-				fmt.Println(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValue)
+				output += fmt.Sprintln(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValue)
 			}
 		}
 	} else {
-		fmt.Println(l.Get("TABLE,CODE,NAME,BUY (PLN),SELL (PLN)"))
+		output += fmt.Sprintln(l.Get("TABLE,CODE,NAME,BUY (PLN),SELL (PLN)"))
 
 		for _, item := range t.exchangeC {
 			tableNo = item.No
 			for _, currencyItem := range item.Rates {
 				currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
 				currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
-				fmt.Println(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValueBid + "," + currencyValueAsk)
+				output += fmt.Sprintln(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValueBid + "," + currencyValueAsk)
 			}
-			fmt.Println()
+			output += fmt.Sprintln()
 		}
 	}
-	fmt.Println()
+	output += fmt.Sprintln()
+
+	return output
 }
 
-// PrintResult - function print just result of request (json or xml)
-func (t *NBPTable) PrintResult() {
-	fmt.Println(string(t.result))
+// GetRaw - function returns just result of request (json or xml)
+func (t *NBPTable) GetRaw() string {
+	return string(t.result)
 }

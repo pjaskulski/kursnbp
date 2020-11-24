@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 	"text/tabwriter"
@@ -55,7 +54,7 @@ func (g *NBPGold) GetGold(dFlag string, lFlag int, repFormat string) error {
 		log.Fatal(err)
 	}
 
-	if repFormat != "xml" && repFormat != "json" {
+	if repFormat != "xml" {
 		err = json.Unmarshal(g.result, &g.goldRates)
 		if err != nil {
 			log.Fatal(err)
@@ -107,40 +106,44 @@ func getGoldRange(day string, repFormat string) ([]byte, error) {
 	return getJSON(address)
 }
 
-// PrintGold - functions displays a formatted table of gold prices
-// in the console window
-func (g *NBPGold) PrintGold() {
-	const padding = 3
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
+// GetPretty - function returns a formatted table of gold prices
+func (g *NBPGold) GetPretty() string {
 
-	fmt.Println()
-	fmt.Println(l.Get("The price of 1g of gold (of 1000 millesimal fineness)"))
-	fmt.Println()
+	const padding = 3
+	var builder strings.Builder
+	w := tabwriter.NewWriter(&builder, 0, 0, padding, ' ', tabwriter.Debug)
+
+	fmt.Fprintln(w)
+	fmt.Fprintln(w, l.Get("The price of 1g of gold (of 1000 millesimal fineness)"))
+	fmt.Fprintln(w)
 
 	fmt.Fprintln(w, l.Get("DATE \t PRICE (PLN)"))
-	fmt.Fprintln(w, l.Get("---- \t ----- "))
+	fmt.Fprintln(w, l.Get("---- \t ----------- "))
 	for _, goldItem := range g.goldRates {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
 		fmt.Fprintln(w, goldItem.Data+" \t "+goldValue)
 	}
 	w.Flush()
 
-	fmt.Println()
+	return builder.String()
 }
 
-// PrintGoldCSV - function prints gold prices in CSV format
+// GetCSV - function returns prices of gold in CSV format
 // (comma separated data)
-func (g *NBPGold) PrintGoldCSV() {
-	fmt.Println(l.Get("DATE,PRICE (PLN)"))
+func (g *NBPGold) GetCSV() string {
+	var output string = ""
+
+	output += fmt.Sprintln(l.Get("DATE,PRICE (PLN)"))
 	for _, goldItem := range g.goldRates {
 		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
-		fmt.Println(goldItem.Data + "," + goldValue)
+		output += fmt.Sprintln(goldItem.Data + "," + goldValue)
 	}
 
-	fmt.Println()
+	output += fmt.Sprintln()
+	return output
 }
 
-// PrintResult - function print just result of request (json or xml)
-func (g *NBPGold) PrintResult() {
-	fmt.Println(string(g.result))
+// GetRaw - function returns just result of request (json or xml)
+func (g *NBPGold) GetRaw() string {
+	return string(g.result)
 }

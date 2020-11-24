@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/pjaskulski/kursnbp/pkg/nbpapi"
@@ -21,14 +22,18 @@ func goldCommand() {
 		log.Fatal(err)
 	}
 
+	var output string
+
 	switch cfg.outputFlag {
 	case "table":
-		nbpGold.PrintGold()
+		output = nbpGold.GetPretty()
 	case "json", "xml":
-		nbpGold.PrintResult()
+		output = nbpGold.GetRaw()
 	case "csv":
-		nbpGold.PrintGoldCSV()
+		output = nbpGold.GetCSV()
 	}
+
+	fmt.Println(output)
 }
 
 // currencyCommand - function for 'currency' command (currency exchange rates)
@@ -46,14 +51,18 @@ func currencyCommand() {
 		log.Fatal(err)
 	}
 
+	var output string
+
 	switch cfg.outputFlag {
 	case "table":
-		nbpCurrency.PrintCurrency()
+		output = nbpCurrency.GetPretty()
 	case "json", "xml":
-		nbpCurrency.PrintResult()
+		output = nbpCurrency.GetRaw()
 	case "csv":
-		nbpCurrency.PrintCurrencyCSV()
+		output = nbpCurrency.GetCSV()
 	}
+
+	fmt.Println(output)
 }
 
 // tableCommand - function for 'table' command (tables with exchange rates)
@@ -71,12 +80,16 @@ func tableCommand() {
 		log.Fatal(err)
 	}
 
+	var output string
+
 	switch cfg.outputFlag {
 	case "table":
-		nbpTable.PrintTable()
+		output = nbpTable.GetPretty()
 	case "json", "xml":
-		nbpTable.PrintResult()
+		output = nbpTable.GetRaw()
 	case "csv":
-		nbpTable.PrintTableCSV()
+		output = nbpTable.GetCSV()
 	}
+
+	fmt.Println(output)
 }

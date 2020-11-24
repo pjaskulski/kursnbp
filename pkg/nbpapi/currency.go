@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 	"text/tabwriter"
@@ -80,7 +79,7 @@ func (c *NBPCurrency) GetCurrency(dFlag string, lFlag int, cFlag string, repForm
 		log.Fatal(err)
 	}
 
-	if repFormat != "xml" && repFormat != "json" {
+	if repFormat != "xml" {
 		if c.tableType != "C" {
 			err = json.Unmarshal(c.result, &c.exchange)
 		} else {
@@ -136,36 +135,38 @@ func getCurrencyRange(tableType string, day string, currency string, repFormat s
 	return getJSON(address)
 }
 
-// PrintCurrency - function prints exchange rates as formatted table
-// in the console window depending on the tableType field:
+// GetPretty - function returns exchange rates as formatted table
+// depending on the tableType field:
 // for type A and B tables a column with an average rate is printed,
 // for type C two columns: buy price and sell price
-func (c *NBPCurrency) PrintCurrency() {
+func (c *NBPCurrency) GetPretty() string {
 	const padding = 3
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', tabwriter.Debug)
+	var builder strings.Builder
+	var output string
+	w := tabwriter.NewWriter(&builder, 0, 0, padding, ' ', tabwriter.Debug)
 
 	if c.tableType != "C" {
-		fmt.Println()
-		fmt.Println(l.Get("Table type:")+"\t", c.exchange.Table)
-		fmt.Println(l.Get("Currency name:")+"\t", c.exchange.Currency)
-		fmt.Println(l.Get("Currency code:")+"\t", c.exchange.Code)
-		fmt.Println()
+		output += fmt.Sprintln()
+		output += fmt.Sprintln(l.Get("Table type:")+"\t", c.exchange.Table)
+		output += fmt.Sprintln(l.Get("Currency name:")+"\t", c.exchange.Currency)
+		output += fmt.Sprintln(l.Get("Currency code:")+"\t", c.exchange.Code)
+		output += fmt.Sprintln()
 
 		fmt.Fprintln(w, l.Get("TABLE \t DATE \t AVERAGE (PLN)"))
-		fmt.Fprintln(w, l.Get("----- \t ---- \t -------"))
+		fmt.Fprintln(w, l.Get("----- \t ---- \t -------------"))
 		for _, currencyItem := range c.exchange.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 			fmt.Fprintln(w, currencyItem.No+" \t "+currencyItem.EffectiveDate+" \t "+currencyValue)
 		}
 	} else {
-		fmt.Println()
-		fmt.Println(l.Get("Table type:")+"\t", c.exchangeC.Table)
-		fmt.Println(l.Get("Currency name:")+"\t", c.exchangeC.Currency)
-		fmt.Println(l.Get("Currency code:")+"\t", c.exchangeC.Code)
-		fmt.Println()
+		output += fmt.Sprintln()
+		output += fmt.Sprintln(l.Get("Table type:")+"\t", c.exchangeC.Table)
+		output += fmt.Sprintln(l.Get("Currency name:")+"\t", c.exchangeC.Currency)
+		output += fmt.Sprintln(l.Get("Currency code:")+"\t", c.exchangeC.Code)
+		output += fmt.Sprintln()
 
 		fmt.Fprintln(w, l.Get("TABLE \t DATE \t BUY (PLN) \t SELL (PLN) "))
-		fmt.Fprintln(w, l.Get("----- \t ---- \t --- \t ---- "))
+		fmt.Fprintln(w, l.Get("----- \t ---- \t --------- \t ---------- "))
 		for _, currencyItem := range c.exchangeC.Rates {
 			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
 			currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
@@ -173,32 +174,37 @@ func (c *NBPCurrency) PrintCurrency() {
 		}
 	}
 	w.Flush()
-	fmt.Println()
+
+	return output + builder.String()
 }
 
-// PrintCurrencyCSV - function prints currency rates in the console,
+// GetCSV - function returns currency rates,
 // in the form of CSV (data separated by a comma), depending on the
 // tableType field: for type A and B tables a column with an average
 // rate is printed, for type C two columns: buy price and sell price
-func (c *NBPCurrency) PrintCurrencyCSV() {
+func (c *NBPCurrency) GetCSV() string {
+	var output string = ""
+
 	if c.tableType != "C" {
-		fmt.Println(l.Get("TABLE,DATE,AVERAGE (PLN)"))
+		output += fmt.Sprintln(l.Get("TABLE,DATE,AVERAGE (PLN)"))
 		for _, currencyItem := range c.exchange.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
-			fmt.Println(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValue)
+			output += fmt.Sprintln(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValue)
 		}
 	} else {
-		fmt.Println(l.Get("TABLE,DATE,BUY (PLN),SELL (PLN)"))
+		output += fmt.Sprintln(l.Get("TABLE,DATE,BUY (PLN),SELL (PLN)"))
 		for _, currencyItem := range c.exchangeC.Rates {
 			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
 			currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
-			fmt.Println(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValueBid + "," + currencyValueAsk)
+			output += fmt.Sprintln(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValueBid + "," + currencyValueAsk)
 		}
 	}
-	fmt.Println()
+	output += fmt.Sprintln()
+
+	return output
 }
 
-// PrintResult - function print just result of request (json or xml)
-func (c *NBPCurrency) PrintResult() {
-	fmt.Println(string(c.result))
+// GetRaw - function print just result of request (json or xml)
+func (c *NBPCurrency) GetRaw() string {
+	return string(c.result)
 }

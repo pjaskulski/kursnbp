@@ -76,12 +76,16 @@ func (c *NBPCurrency) GetCurrency(dFlag string, lFlag int, cFlag string, repForm
 	} else if len(dFlag) == 21 {
 		c.result, err = getCurrencyRange(c.tableType, dFlag, cFlag, repFormat)
 	}
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if c.tableType != "C" {
 		err = json.Unmarshal(c.result, &c.exchange)
 	} else {
 		err = json.Unmarshal(c.result, &c.exchangeC)
 	}
+
 	if err != nil {
 		log.Fatal(err)
 	}

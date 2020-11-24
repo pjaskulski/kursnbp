@@ -77,6 +77,9 @@ func (t *NBPTable) GetTable(dFlag string, lFlag int, repFormat string) error {
 	} else if len(dFlag) == 21 {
 		t.result, err = getTableRange(t.tableType, dFlag, repFormat)
 	}
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if t.tableType != "C" {
 		err = json.Unmarshal(t.result, &t.exchange)

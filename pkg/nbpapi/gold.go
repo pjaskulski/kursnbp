@@ -22,7 +22,7 @@ type rateGold struct {
 	Cena float64 `json:"cena"`
 }
 
-// Gold type
+// NBPGold type
 type NBPGold struct {
 	goldRates []rateGold
 	result    []byte

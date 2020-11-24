@@ -65,21 +65,21 @@ func getTable(tFlag string, dFlag string, lFlag int) ([]byte, error) {
 // getTableToday - function returns exchange rate table published today
 // in JSON form, or error
 func getTableToday(tableType string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/tables/%s/today/?format="+repFormat, tableType)
+	address := fmt.Sprintf("%s/tables/%s/today/?format=%s", baseAddress, tableType, repFormat)
 	return getJSON(address)
 }
 
 // getTableCurrent - function returns current table of exchange rates
 // (last published table) in JSON form, or error
 func getTableCurrent(tableType string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/tables/%s/?format="+repFormat, tableType)
+	address := fmt.Sprintf("%s/tables/%s/?format=%s", baseAddress, tableType, repFormat)
 	return getJSON(address)
 }
 
 // getTableDay - functions returns table of exchange rates
 // on the given date (YYYY-MM-DD) in JSON form, or error
 func getTableDay(tableType string, day string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/tables/%s/%s/?format="+repFormat, tableType, day)
+	address := fmt.Sprintf("%s/tables/%s/%s/?format=%s", baseAddress, tableType, day, repFormat)
 	return getJSON(address)
 }
 
@@ -93,14 +93,14 @@ func getTableRange(tableType string, day string) ([]byte, error) {
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf(baseAddress+"/tables/%s/%s/%s/?format="+repFormat, tableType, startDate, stopDate)
+	address := fmt.Sprintf("%s/tables/%s/%s/%s/?format=%s", baseAddress, tableType, startDate, stopDate, repFormat)
 	return getJSON(address)
 }
 
 // getTableLast - function returns last <last> tables of exchange rates
 // in JSON form, or error
 func getTableLast(tableType string, last string) ([]byte, error) {
-	address := fmt.Sprintf(baseAddress+"/tables/%s/last/%s/?format="+repFormat, tableType, last)
+	address := fmt.Sprintf("%s/tables/%s/last/%s/?format=%s", baseAddress, tableType, last, repFormat)
 	return getJSON(address)
 }
 

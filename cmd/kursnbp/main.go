@@ -10,7 +10,7 @@ import (
 
 // app name, version and description
 var (
-	version string = "0.3.1"
+	version string = "0.3.2"
 	appName string = "kursNBP"
 	appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
 )
@@ -118,7 +118,7 @@ func init() {
 func main() {
 
 	// set output message language based on --lang flag, English is default,
-	// if flag --lang is different than 'pl' or 'en' English is set
+	// if flag --lang is different than 'pl' or 'en' - English is set
 	nbpapi.SetLang(cfg.langFlag)
 
 	if cmdTable.Used {

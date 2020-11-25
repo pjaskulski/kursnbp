@@ -28,5 +28,5 @@ cover:
 	go test -cover ./pkg/nbpapi
 
 release:
-	sh release.sh
+	sh scripts/release.sh
 

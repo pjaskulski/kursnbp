@@ -10,10 +10,10 @@
 kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
 
 Do pobrania:<br> 
-[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_linux_amd64.tar.gz) 
-[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_windows_amd64.zip) 
-[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_macos_amd64.tar.gz) 
-[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_freebsd_amd64.tar.gz)
+[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_linux_amd64.tar.gz) 
+[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_windows_amd64.zip) 
+[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_macos_amd64.tar.gz) 
+[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_freebsd_amd64.tar.gz)
 
     Użycie:
       kursnbp table|currency|gold [--flag]
@@ -131,10 +131,10 @@ https://github.com/atotto/clipboard (BSD-3-Clause License)
 kursNBP - a command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland
 
 Downloads:<br> 
-[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_linux_amd64.tar.gz) 
-[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_windows_amd64.zip) 
-[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_macos_amd64.tar.gz) 
-[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.1/kursnbp_v0.3.1_freebsd_amd64.tar.gz)
+[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_linux_amd64.tar.gz) 
+[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_windows_amd64.zip) 
+[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_macos_amd64.tar.gz) 
+[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_freebsd_amd64.tar.gz)
 
     Usage:
       kursnbp table | currency | gold [--flag]

@@ -1,4 +1,4 @@
-version='0.3.1'
+version='0.3.2'
 
 pack_bsd=kursnbp_v${version}_freebsd_amd64.tar.gz
 pack_lin=kursnbp_v${version}_linux_amd64.tar.gz
@@ -7,9 +7,9 @@ pack_mac=kursnbp_v${version}_macos_amd64.tar.gz
 
 # FreeBSD
 echo "FreeBSD..."
-FILE=releases/freebsd/$pack_bsd
-if [ -f "$FILE" ]; then
-    rm $FILE
+if [ ! -n "$(find releases/freebsd/ -prune -empty 2>/dev/null)" ]
+then
+  rm releases/freebsd/kursnbp_*
 fi
 cd ./builds/freebsd
 tar czvf $pack_bsd kursnbp
@@ -17,9 +17,9 @@ mv $pack_bsd ../../releases/freebsd/$pack_bsd
 cd ../..
 
 # Linux
-FILE=releases/linux/$pack_lin
-if [ -f "$FILE" ]; then
-    rm $FILE
+if [ ! -n "$(find releases/linux/ -prune -empty 2>/dev/null)" ]
+then
+  rm releases/linux/kursnbp_*
 fi
 cd ./builds/linux
 tar czvf $pack_lin kursnbp
@@ -27,9 +27,9 @@ mv $pack_lin ../../releases/linux/$pack_lin
 cd ../..
 
 # Windows
-FILE=releases/windows/$pack_win
-if [ -f "$FILE" ]; then
-    rm $FILE
+if [ ! -n "$(find releases/windows/ -prune -empty 2>/dev/null)" ]
+then
+  rm releases/windows/kursnbp_*
 fi
 cd ./builds/windows
 zip $pack_win kursnbp.exe
@@ -37,9 +37,9 @@ mv $pack_win ../../releases/windows/$pack_win
 cd ../..
 
 # MacOS
-FILE=releases/macos/$pack_mac
-if [ -f "$FILE" ]; then
-    rm $FILE
+if [ ! -n "$(find releases/macos/ -prune -empty 2>/dev/null)" ]
+then
+  rm releases/macos/kursnbp_*
 fi
 cd ./builds/macos
 tar czvf $pack_mac kursnbp

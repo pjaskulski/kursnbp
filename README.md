@@ -33,7 +33,7 @@ Do pobrania (wersja 0.3.1):<br>
     Flagi globalne: 
          --version    Wyświetla wersję programu
       -h --help       Wyświetla pomoc z opisem poleceń i flag programu 
-      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiat drukowania
+      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiast drukowania
                       na ekranie (Linux/FreeBSD: dodatkowe programy 'xsel'
                       lub 'xclip' muszą być zainstalowane w systemie)
   
@@ -156,8 +156,8 @@ Downloads (v0.3.1):<br>
     Global Flags:
          --version    Displays the version of the program
       -h --help       Displays help describing program commands and flags
-      -b --clipboard  Copy output to clipboard instead of printing (
-                      Linux/FreeBSD: requires 'xclip' or 'xsel' command 
+      -b --clipboard  Copy output to clipboard instead of printing 
+                      (Linux/FreeBSD: requires 'xclip' or 'xsel' command 
                       to be installed)
   
     Flags for commands:

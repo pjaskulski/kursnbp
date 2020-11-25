@@ -27,7 +27,7 @@ Do pobrania:<br>
     Flagi globalne: 
          --version    Wyświetla wersję programu
       -h --help       Wyświetla pomoc z opisem poleceń i flag programu      
-      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiat drukowania
+      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiast drukowania
                       na ekranie (Linux/FreeBSD: dodatkowe programy 'xsel'
                       lub 'xclip' muszą być zainstalowane w systemie)
   

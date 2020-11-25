@@ -31,8 +31,11 @@ Do pobrania (wersja 0.3.1):<br>
                  złota, w próbie 1000)
 
     Flagi globalne: 
-         --version   Wyświetla wersję programu
-      -h --help      Wyświetla pomoc z opisem poleceń i flag programu      
+         --version    Wyświetla wersję programu
+      -h --help       Wyświetla pomoc z opisem poleceń i flag programu 
+      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiat drukowania
+                      na ekranie (Linux/FreeBSD: dodatkowe programy 'xsel'
+                      lub 'xclip' muszą być zainstalowane w systemie)
   
     Flagi:
       table: 
@@ -124,6 +127,11 @@ Przykłady:
 
 Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
 
+Licencja: MIT<br>
+Wykorzystano moduły:<br> 
+https://github.com/integrii/flaggy (Unlicense License)
+https://github.com/atotto/clipboard (BSD-3-Clause License)
+
 
 ## Description:
 
@@ -148,6 +156,9 @@ Downloads (v0.3.1):<br>
     Global Flags:
          --version    Displays the version of the program
       -h --help       Displays help describing program commands and flags
+      -b --clipboard  Copy output to clipboard instead of printing (
+                      Linux/FreeBSD: requires 'xclip' or 'xsel' command 
+                      to be installed)
   
     Flags for commands:
       table:
@@ -240,6 +251,10 @@ Examples:
 Documentation of the API service of the National Bank of Poland
 [http://api.nbp.pl/en.html](http://api.nbp.pl/en.html)
 
+License: MIT <br>
+Modules used: <br>
+https://github.com/integrii/flaggy (Unlicense License)
+https://github.com/atotto/clipboard (BSD-3-Clause License)
 
 ## Screenshots:
 

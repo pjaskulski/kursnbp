@@ -30,6 +30,7 @@ var cfg struct {
 	lastFlag   int
 	codeFlag   string
 	langFlag   string
+	clipFlag   bool
 	repFormat  string
 }
 
@@ -39,6 +40,7 @@ func init() {
 	cfg.outputFlag = "table"
 	cfg.langFlag = "en"
 	cfg.repFormat = "json"
+	cfg.clipFlag = false
 
 	// command line support through the flaggy package
 	flaggy.SetName(appName)
@@ -46,6 +48,9 @@ func init() {
 
 	flaggy.DefaultParser.ShowHelpOnUnexpected = true
 	flaggy.DefaultParser.AdditionalHelpPrepend = "https://pjaskulski.github.io/kursnbp/"
+
+	// global flags
+	flaggy.Bool(&cfg.clipFlag, "b", "clipboard", "copy output to clipboard instead of printing")
 
 	// table subcommand
 	cmdTable = flaggy.NewSubcommand("table")

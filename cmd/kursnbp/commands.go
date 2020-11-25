@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/atotto/clipboard"
 	"github.com/pjaskulski/kursnbp/pkg/nbpapi"
 )
 
@@ -33,7 +34,11 @@ func goldCommand() {
 		output = nbpGold.GetCSV()
 	}
 
-	fmt.Println(output)
+	if cfg.clipFlag {
+		clipboard.WriteAll(output)
+	} else {
+		fmt.Println(output)
+	}
 }
 
 // currencyCommand - function for 'currency' command (currency exchange rates)
@@ -62,7 +67,11 @@ func currencyCommand() {
 		output = nbpCurrency.GetCSV()
 	}
 
-	fmt.Println(output)
+	if cfg.clipFlag {
+		clipboard.WriteAll(output)
+	} else {
+		fmt.Println(output)
+	}
 }
 
 // tableCommand - function for 'table' command (tables with exchange rates)
@@ -91,5 +100,9 @@ func tableCommand() {
 		output = nbpTable.GetCSV()
 	}
 
-	fmt.Println(output)
+	if cfg.clipFlag {
+		clipboard.WriteAll(output)
+	} else {
+		fmt.Println(output)
+	}
 }

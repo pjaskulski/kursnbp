@@ -20,8 +20,8 @@ const (
 type NBPCurrency struct {
 	tableType string
 	result    []byte
-	exchange  exchangeCurrency
-	exchangeC exchangeCurrencyC
+	Exchange  exchangeCurrency
+	ExchangeC exchangeCurrencyC
 }
 
 type rateCurrency struct {
@@ -103,9 +103,9 @@ func (c *NBPCurrency) GetCurrencyByDate(dFlag string, cFlag string) error {
 	}
 
 	if c.tableType != "C" {
-		err = json.Unmarshal(c.result, &c.exchange)
+		err = json.Unmarshal(c.result, &c.Exchange)
 	} else {
-		err = json.Unmarshal(c.result, &c.exchangeC)
+		err = json.Unmarshal(c.result, &c.ExchangeC)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -126,9 +126,9 @@ func (c *NBPCurrency) GetCurrencyLast(lFlag int, cFlag string) error {
 	}
 
 	if c.tableType != "C" {
-		err = json.Unmarshal(c.result, &c.exchange)
+		err = json.Unmarshal(c.result, &c.Exchange)
 	} else {
-		err = json.Unmarshal(c.result, &c.exchangeC)
+		err = json.Unmarshal(c.result, &c.ExchangeC)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -187,27 +187,27 @@ func (c *NBPCurrency) GetPrettyOutput() string {
 
 	if c.tableType != "C" {
 		output += fmt.Sprintln()
-		output += fmt.Sprintln(l.Get("Table type:")+"\t", c.exchange.Table)
-		output += fmt.Sprintln(l.Get("Currency name:")+"\t", c.exchange.Currency)
-		output += fmt.Sprintln(l.Get("Currency code:")+"\t", c.exchange.Code)
+		output += fmt.Sprintln(l.Get("Table type:")+"\t", c.Exchange.Table)
+		output += fmt.Sprintln(l.Get("Currency name:")+"\t", c.Exchange.Currency)
+		output += fmt.Sprintln(l.Get("Currency code:")+"\t", c.Exchange.Code)
 		output += fmt.Sprintln()
 
 		fmt.Fprintln(w, l.Get("TABLE \t DATE \t AVERAGE (PLN)"))
 		fmt.Fprintln(w, l.Get("----- \t ---- \t -------------"))
-		for _, currencyItem := range c.exchange.Rates {
+		for _, currencyItem := range c.Exchange.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 			fmt.Fprintln(w, currencyItem.No+" \t "+currencyItem.EffectiveDate+" \t "+currencyValue)
 		}
 	} else {
 		output += fmt.Sprintln()
-		output += fmt.Sprintln(l.Get("Table type:")+"\t", c.exchangeC.Table)
-		output += fmt.Sprintln(l.Get("Currency name:")+"\t", c.exchangeC.Currency)
-		output += fmt.Sprintln(l.Get("Currency code:")+"\t", c.exchangeC.Code)
+		output += fmt.Sprintln(l.Get("Table type:")+"\t", c.ExchangeC.Table)
+		output += fmt.Sprintln(l.Get("Currency name:")+"\t", c.ExchangeC.Currency)
+		output += fmt.Sprintln(l.Get("Currency code:")+"\t", c.ExchangeC.Code)
 		output += fmt.Sprintln()
 
 		fmt.Fprintln(w, l.Get("TABLE \t DATE \t BUY (PLN) \t SELL (PLN) "))
 		fmt.Fprintln(w, l.Get("----- \t ---- \t --------- \t ---------- "))
-		for _, currencyItem := range c.exchangeC.Rates {
+		for _, currencyItem := range c.ExchangeC.Rates {
 			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
 			currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
 			fmt.Fprintln(w, currencyItem.No+" \t "+currencyItem.EffectiveDate+" \t "+currencyValueBid+" \t "+currencyValueAsk)
@@ -227,13 +227,13 @@ func (c *NBPCurrency) GetCSVOutput() string {
 
 	if c.tableType != "C" {
 		output += fmt.Sprintln(l.Get("TABLE,DATE,AVERAGE (PLN)"))
-		for _, currencyItem := range c.exchange.Rates {
+		for _, currencyItem := range c.Exchange.Rates {
 			currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 			output += fmt.Sprintln(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValue)
 		}
 	} else {
 		output += fmt.Sprintln(l.Get("TABLE,DATE,BUY (PLN),SELL (PLN)"))
-		for _, currencyItem := range c.exchangeC.Rates {
+		for _, currencyItem := range c.ExchangeC.Rates {
 			currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)
 			currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
 			output += fmt.Sprintln(currencyItem.No + "," + currencyItem.EffectiveDate + "," + currencyValueBid + "," + currencyValueAsk)

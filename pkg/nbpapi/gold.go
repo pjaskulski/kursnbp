@@ -17,13 +17,13 @@ const (
 )
 
 type rateGold struct {
-	Data string  `json:"data"`
-	Cena float64 `json:"cena"`
+	Data  string  `json:"data"`
+	Price float64 `json:"cena"`
 }
 
 // NBPGold type
 type NBPGold struct {
-	goldRates []rateGold
+	GoldRates []rateGold
 	result    []byte
 }
 
@@ -76,7 +76,7 @@ func (g *NBPGold) GetGoldByDate(dFlag string) error {
 		log.Fatal(err)
 	}
 
-	err = json.Unmarshal(g.result, &g.goldRates)
+	err = json.Unmarshal(g.result, &g.GoldRates)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -95,7 +95,7 @@ func (g *NBPGold) GetGoldLast(lFlag int) error {
 		log.Fatal(err)
 	}
 
-	err = json.Unmarshal(g.result, &g.goldRates)
+	err = json.Unmarshal(g.result, &g.GoldRates)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -152,8 +152,8 @@ func (g *NBPGold) GetPrettyOutput() string {
 
 	fmt.Fprintln(w, l.Get("DATE \t PRICE (PLN)"))
 	fmt.Fprintln(w, l.Get("---- \t ----------- "))
-	for _, goldItem := range g.goldRates {
-		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
+	for _, goldItem := range g.GoldRates {
+		goldValue := fmt.Sprintf("%.4f", goldItem.Price)
 		fmt.Fprintln(w, goldItem.Data+" \t "+goldValue)
 	}
 	w.Flush()
@@ -167,8 +167,8 @@ func (g *NBPGold) GetCSVOutput() string {
 	var output string = ""
 
 	output += fmt.Sprintln(l.Get("DATE,PRICE (PLN)"))
-	for _, goldItem := range g.goldRates {
-		goldValue := fmt.Sprintf("%.4f", goldItem.Cena)
+	for _, goldItem := range g.GoldRates {
+		goldValue := fmt.Sprintf("%.4f", goldItem.Price)
 		output += fmt.Sprintln(goldItem.Data + "," + goldValue)
 	}
 

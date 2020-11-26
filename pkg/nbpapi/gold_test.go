@@ -60,8 +60,8 @@ func TestGetGoldDay(t *testing.T) {
 	if nbpGold[0].Data != day {
 		t.Errorf("niepoprawna data, oczekiwano %s, otrzymano %s", day, nbpGold[0].Data)
 	}
-	if nbpGold[0].Cena != cena {
-		t.Errorf("niepoprawny cena, oczekiwano %.4f, otrzymano %.4f", cena, nbpGold[0].Cena)
+	if nbpGold[0].Price != cena {
+		t.Errorf("niepoprawny cena, oczekiwano %.4f, otrzymano %.4f", cena, nbpGold[0].Price)
 	}
 }
 

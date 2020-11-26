@@ -20,8 +20,8 @@ const (
 type NBPTable struct {
 	tableType string
 	result    []byte
-	exchange  []exchangeTable
-	exchangeC []exchangeTableC
+	Exchange  []exchangeTable
+	ExchangeC []exchangeTableC
 }
 
 type rateTable struct {
@@ -104,9 +104,9 @@ func (t *NBPTable) GetTableByDate(dFlag string) error {
 	}
 
 	if t.tableType != "C" {
-		err = json.Unmarshal(t.result, &t.exchange)
+		err = json.Unmarshal(t.result, &t.Exchange)
 	} else {
-		err = json.Unmarshal(t.result, &t.exchangeC)
+		err = json.Unmarshal(t.result, &t.ExchangeC)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -127,9 +127,9 @@ func (t *NBPTable) GetTableLast(lFlag int) error {
 	}
 
 	if t.tableType != "C" {
-		err = json.Unmarshal(t.result, &t.exchange)
+		err = json.Unmarshal(t.result, &t.Exchange)
 	} else {
-		err = json.Unmarshal(t.result, &t.exchangeC)
+		err = json.Unmarshal(t.result, &t.ExchangeC)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -185,7 +185,7 @@ func (t *NBPTable) GetPrettyOutput() string {
 	w := tabwriter.NewWriter(&builder, 0, 0, padding, ' ', tabwriter.Debug)
 
 	if t.tableType != "C" {
-		for _, item := range t.exchange {
+		for _, item := range t.Exchange {
 			output += fmt.Sprintln()
 			output += fmt.Sprintln(l.Get("Table type:")+"\t\t", item.Table)
 			output += fmt.Sprintln(l.Get("Table number:")+"\t\t", item.No)
@@ -203,7 +203,7 @@ func (t *NBPTable) GetPrettyOutput() string {
 			builder.Reset()
 		}
 	} else {
-		for _, item := range t.exchangeC {
+		for _, item := range t.ExchangeC {
 			output += fmt.Sprintln()
 			output += fmt.Sprintln(l.Get("Table type:")+"\t\t", item.Table)
 			output += fmt.Sprintln(l.Get("Table number:")+"\t\t", item.No)
@@ -238,7 +238,7 @@ func (t *NBPTable) GetCSVOutput() string {
 	if t.tableType != "C" {
 		output += fmt.Sprintln(l.Get("TABLE,CODE,NAME,AVERAGE (PLN)"))
 
-		for _, item := range t.exchange {
+		for _, item := range t.Exchange {
 			tableNo = item.No
 			for _, currencyItem := range item.Rates {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
@@ -248,7 +248,7 @@ func (t *NBPTable) GetCSVOutput() string {
 	} else {
 		output += fmt.Sprintln(l.Get("TABLE,CODE,NAME,BUY (PLN),SELL (PLN)"))
 
-		for _, item := range t.exchangeC {
+		for _, item := range t.ExchangeC {
 			tableNo = item.No
 			for _, currencyItem := range item.Rates {
 				currencyValueBid := fmt.Sprintf("%.4f", currencyItem.Bid)

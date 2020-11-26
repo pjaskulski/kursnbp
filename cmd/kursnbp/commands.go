@@ -23,7 +23,7 @@ func goldCommand() {
 	} else if cfg.lastFlag > 0 {
 		err = nbpGold.GetGoldLast(cfg.lastFlag)
 	} else {
-		err = nbpGold.GetGoldDate(cfg.dateFlag)
+		err = nbpGold.GetGoldByDate(cfg.dateFlag)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -62,7 +62,7 @@ func currencyCommand() {
 	} else if cfg.lastFlag > 0 {
 		err = nbpCurrency.GetCurrencyLast(cfg.lastFlag, cfg.codeFlag)
 	} else {
-		err = nbpCurrency.GetCurrencyDate(cfg.dateFlag, cfg.codeFlag)
+		err = nbpCurrency.GetCurrencyByDate(cfg.dateFlag, cfg.codeFlag)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -100,7 +100,7 @@ func tableCommand() {
 	} else if cfg.lastFlag > 0 {
 		err = nbpTable.GetTableLast(cfg.lastFlag)
 	} else {
-		err = nbpTable.GetTableDate(cfg.dateFlag)
+		err = nbpTable.GetTableByDate(cfg.dateFlag)
 	}
 	if err != nil {
 		log.Fatal(err)

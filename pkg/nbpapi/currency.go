@@ -91,9 +91,9 @@ func (c *NBPCurrency) GetCurrencyRaw(dFlag string, lFlag int, cFlag string, repF
 	return err
 }
 
-// GetCurrencyDate - function downloads and writes data to exchange (exchangeC) slice,
+// GetCurrencyByDate - function downloads and writes data to exchange (exchangeC) slice,
 // raw data (json) still available in result field
-func (c *NBPCurrency) GetCurrencyDate(dFlag string, cFlag string) error {
+func (c *NBPCurrency) GetCurrencyByDate(dFlag string, cFlag string) error {
 	var err error
 
 	address := getCurrencyAddress(c.tableType, dFlag, 0, cFlag)

@@ -92,9 +92,9 @@ func (t *NBPTable) GetTableRaw(dFlag string, lFlag int, repFormat string) error 
 	return err
 }
 
-// GetTableDate - function downloads and writes data to exchange (exchangeC) slice,
+// GetTableByDate - function downloads and writes data to exchange (exchangeC) slice,
 // raw data (json) still available in result field
-func (t *NBPTable) GetTableDate(dFlag string) error {
+func (t *NBPTable) GetTableByDate(dFlag string) error {
 	var err error
 
 	address := getTableAddress(t.tableType, dFlag, 0)

@@ -65,9 +65,9 @@ func (g *NBPGold) GetGoldRaw(dFlag string, lFlag int, repFormat string) error {
 	return err
 }
 
-// GetGoldDate - function downloads and writes data to goldRates slice,
+// GetGoldByDate - function downloads and writes data to goldRates slice,
 // raw data (json) still available in result field
-func (g *NBPGold) GetGoldDate(dFlag string) error {
+func (g *NBPGold) GetGoldByDate(dFlag string) error {
 	var err error
 
 	address := getGoldAddress(dFlag, 0)

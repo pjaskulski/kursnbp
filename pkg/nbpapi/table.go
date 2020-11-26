@@ -161,9 +161,9 @@ func (t *NBPTable) GetPretty() string {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 				fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValue)
 			}
+			w.Flush()
 			output += builder.String()
 			builder.Reset()
-			w.Flush()
 		}
 	} else {
 		for _, item := range t.exchangeC {

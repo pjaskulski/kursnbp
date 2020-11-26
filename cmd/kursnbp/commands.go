@@ -18,7 +18,13 @@ func goldCommand() {
 
 	nbpGold := nbpapi.NewGold()
 
-	err = nbpGold.GetGold(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
+	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
+		err = nbpGold.GetGoldRaw(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
+	} else if cfg.lastFlag > 0 {
+		err = nbpGold.GetGoldLast(cfg.lastFlag)
+	} else {
+		err = nbpGold.GetGoldDate(cfg.dateFlag)
+	}
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,11 +33,11 @@ func goldCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpGold.GetPretty()
+		output = nbpGold.GetPrettyOutput()
 	case "json", "xml":
-		output = nbpGold.GetRaw()
+		output = nbpGold.GetRawOutput()
 	case "csv":
-		output = nbpGold.GetCSV()
+		output = nbpGold.GetCSVOutput()
 	}
 
 	if cfg.clipFlag {
@@ -51,7 +57,13 @@ func currencyCommand() {
 
 	nbpCurrency := nbpapi.NewCurrency(cfg.tableFlag)
 
-	err = nbpCurrency.GetCurrency(cfg.dateFlag, cfg.lastFlag, cfg.codeFlag, cfg.repFormat)
+	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
+		err = nbpCurrency.GetCurrencyRaw(cfg.dateFlag, cfg.lastFlag, cfg.codeFlag, cfg.repFormat)
+	} else if cfg.lastFlag > 0 {
+		err = nbpCurrency.GetCurrencyLast(cfg.lastFlag, cfg.codeFlag)
+	} else {
+		err = nbpCurrency.GetCurrencyDate(cfg.dateFlag, cfg.codeFlag)
+	}
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,11 +72,11 @@ func currencyCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpCurrency.GetPretty()
+		output = nbpCurrency.GetPrettyOutput()
 	case "json", "xml":
-		output = nbpCurrency.GetRaw()
+		output = nbpCurrency.GetRawOutput()
 	case "csv":
-		output = nbpCurrency.GetCSV()
+		output = nbpCurrency.GetCSVOutput()
 	}
 
 	if cfg.clipFlag {
@@ -83,8 +95,13 @@ func tableCommand() {
 	}
 
 	nbpTable := nbpapi.NewTable(cfg.tableFlag)
-
-	err = nbpTable.GetTable(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
+	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
+		err = nbpTable.GetTableRaw(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
+	} else if cfg.lastFlag > 0 {
+		err = nbpTable.GetTableLast(cfg.lastFlag)
+	} else {
+		err = nbpTable.GetTableDate(cfg.dateFlag)
+	}
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -93,11 +110,11 @@ func tableCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpTable.GetPretty()
+		output = nbpTable.GetPrettyOutput()
 	case "json", "xml":
-		output = nbpTable.GetRaw()
+		output = nbpTable.GetRawOutput()
 	case "csv":
-		output = nbpTable.GetCSV()
+		output = nbpTable.GetCSVOutput()
 	}
 
 	if cfg.clipFlag {

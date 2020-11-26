@@ -31,7 +31,7 @@ var langTexts = map[string]lTexts{
 		"TABLE,CODE,NAME,AVERAGE (PLN)":                                     "TABELA,KOD,NAZWA,ŚREDNI (PLN)",
 		"TABLE,CODE,NAME,BUY (PLN),SELL (PLN)":                              "TABELA,KOD,NAZWA,KUPNO (PLN),SPRZEDAŻ (PLN)",
 		"No --output parameter value, output format must be specified":      "Brak wartości parametru --output, należy podać format danych wyjściowych",
-		"Invalid --output parameter value, allowed: table, json, csv":       "Nieprawidłowa wartość parametru --output, dozwolone: table, json, csv",
+		"Invalid --output parameter value, allowed: table, json, csv, xml":  "Nieprawidłowa wartość parametru --output, dozwolone: table, json, csv, xml",
 		"Value of one of the parameters should be given: --date or --last":  "Należy podać wartość jednego z parametrów: --date lub --last",
 		"Invalid --last parameter value, allowed value > 0":                 "Nieprawidłowa wartość parametru --last, dozwolona wartość > 0",
 		"Only one of the parameters must be given: either --date or --last": "Należy podać wartość tylko jednego z parametrów: albo --date albo --last",

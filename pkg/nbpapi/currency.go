@@ -58,72 +58,112 @@ func NewCurrency(tFlag string) *NBPCurrency {
 	}
 }
 
-// GetCurrency - main function for currrency, selects
-// a data download variant depending on previously
-// verified input parameters (--table, --code, --date or --last)
-func (c *NBPCurrency) GetCurrency(dFlag string, lFlag int, cFlag string, repFormat string) error {
-	var err error
+// getCurrencyAddress - function builds download address depending on previously
+// verified input parameters (--table, --date or --last, --code)
+func getCurrencyAddress(tableType string, dFlag string, lFlag int, cFlag string) string {
+	var address string
 
 	if lFlag != 0 {
-		c.result, err = getCurrencyLast(c.tableType, strconv.Itoa(lFlag), cFlag, repFormat)
+		address = queryCurrencyLast(tableType, strconv.Itoa(lFlag), cFlag)
 	} else if dFlag == "today" {
-		c.result, err = getCurrencyToday(c.tableType, cFlag, repFormat)
+		address = queryCurrencyToday(tableType, cFlag)
 	} else if dFlag == "current" {
-		c.result, err = getCurrencyCurrent(c.tableType, cFlag, repFormat)
+		address = queryCurrencyCurrent(tableType, cFlag)
 	} else if len(dFlag) == 10 {
-		c.result, err = getCurrencyDay(c.tableType, dFlag, cFlag, repFormat)
+		address = queryCurrencyDay(tableType, dFlag, cFlag)
 	} else if len(dFlag) == 21 {
-		c.result, err = getCurrencyRange(c.tableType, dFlag, cFlag, repFormat)
-	}
-	if err != nil {
-		log.Fatal(err)
+		address = queryCurrencyRange(tableType, dFlag, cFlag)
 	}
 
-	if repFormat != "xml" {
-		if c.tableType != "C" {
-			err = json.Unmarshal(c.result, &c.exchange)
-		} else {
-			err = json.Unmarshal(c.result, &c.exchangeC)
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
+	return address
+}
+
+// GetCurrencyRaw - function downloads data in json or xml form
+func (c *NBPCurrency) GetCurrencyRaw(dFlag string, lFlag int, cFlag string, repFormat string) error {
+	var err error
+
+	address := getCurrencyAddress(c.tableType, dFlag, lFlag, cFlag)
+	c.result, err = getData(address, repFormat)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	return err
 }
 
-// getCurrencyLast - function returns last <last> currency exchange
-// rates in json form, or error
-func getCurrencyLast(tableType string, last string, currency string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/rates/%s/%s/last/%s/?format=%s", baseAddressCurrency, tableType, currency, last, repFormat)
-	return getJSON(address)
+// GetCurrencyDate - function downloads and writes data to exchange (exchangeC) slice,
+// raw data (json) still available in result field
+func (c *NBPCurrency) GetCurrencyDate(dFlag string, cFlag string) error {
+	var err error
+
+	address := getCurrencyAddress(c.tableType, dFlag, 0, cFlag)
+	c.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if c.tableType != "C" {
+		err = json.Unmarshal(c.result, &c.exchange)
+	} else {
+		err = json.Unmarshal(c.result, &c.exchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
-// getCurrencyToday - function returns today's currency exchange rate
-// in json form, or error
-func getCurrencyToday(tableType string, currency string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/rates/%s/%s/today/?format=%s", baseAddressCurrency, tableType, currency, repFormat)
-	return getJSON(address)
+// GetCurrencyLast - function downloads and writes data to exchange (exchangeC) slice,
+// raw data (json) still available in result field
+func (c *NBPCurrency) GetCurrencyLast(lFlag int, cFlag string) error {
+	var err error
+
+	address := getCurrencyAddress(c.tableType, "", lFlag, cFlag)
+	c.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if c.tableType != "C" {
+		err = json.Unmarshal(c.result, &c.exchange)
+	} else {
+		err = json.Unmarshal(c.result, &c.exchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
-// getCurrencyCurrent - function returns current exchange rate for
-// particular currency (last published price) in json form, or error
-func getCurrencyCurrent(tableType string, currency string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/rates/%s/%s/?format=%s", baseAddressCurrency, tableType, currency, repFormat)
-	return getJSON(address)
+// queryCurrencyLast - returns query: last <number> currency exchange
+// rates in json/xml form, or error
+func queryCurrencyLast(tableType string, last string, currency string) string {
+	return fmt.Sprintf("%s/rates/%s/%s/last/%s/", baseAddressCurrency, tableType, currency, last)
+
 }
 
-// getCurrencyDay - function returns exchange rate for particular currency
-// on the given date (YYYY-MM-DD) in json form, or error
-func getCurrencyDay(tableType string, day string, currency string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/rates/%s/%s/%s/?format=%s", baseAddressCurrency, tableType, currency, day, repFormat)
-	return getJSON(address)
+// queryCurrencyToday - returns query: today's currency exchange rate
+func queryCurrencyToday(tableType string, currency string) string {
+	return fmt.Sprintf("%s/rates/%s/%s/today/", baseAddressCurrency, tableType, currency)
 }
 
-// getCurrencyRange - function returns exchange rate for particular currency
-// within the given date range (RRRR-MM-DD:RRRR-MM-DD) in json form, or error
-func getCurrencyRange(tableType string, day string, currency string, repFormat string) ([]byte, error) {
+// queryCurrencyCurrent - returns query: current exchange rate for
+// particular currency (last published price)
+func queryCurrencyCurrent(tableType string, currency string) string {
+	return fmt.Sprintf("%s/rates/%s/%s/", baseAddressCurrency, tableType, currency)
+}
+
+// queryCurrencyDay - returns query: exchange rate for particular currency
+// on the given date (YYYY-MM-DD)
+func queryCurrencyDay(tableType string, day string, currency string) string {
+	return fmt.Sprintf("%s/rates/%s/%s/%s/", baseAddressCurrency, tableType, currency, day)
+}
+
+// queryCurrencyRange - returns query: exchange rate for particular currency
+// within the given date range (RRRR-MM-DD:RRRR-MM-DD)
+func queryCurrencyRange(tableType string, day string, currency string) string {
 	var startDate string
 	var stopDate string
 
@@ -131,15 +171,15 @@ func getCurrencyRange(tableType string, day string, currency string, repFormat s
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf("%s/rates/%s/%s/%s/%s/?format=%s", baseAddressCurrency, tableType, currency, startDate, stopDate, repFormat)
-	return getJSON(address)
+	address := fmt.Sprintf("%s/rates/%s/%s/%s/%s/", baseAddressCurrency, tableType, currency, startDate, stopDate)
+	return address
 }
 
-// GetPretty - function returns exchange rates as formatted table
+// GetPrettyOutput - function returns exchange rates as formatted table
 // depending on the tableType field:
 // for type A and B tables a column with an average rate is printed,
 // for type C two columns: buy price and sell price
-func (c *NBPCurrency) GetPretty() string {
+func (c *NBPCurrency) GetPrettyOutput() string {
 	const padding = 3
 	var builder strings.Builder
 	var output string
@@ -178,11 +218,11 @@ func (c *NBPCurrency) GetPretty() string {
 	return output + builder.String()
 }
 
-// GetCSV - function returns currency rates,
+// GetCSVOutput - function returns currency rates,
 // in the form of CSV (data separated by a comma), depending on the
 // tableType field: for type A and B tables a column with an average
 // rate is printed, for type C two columns: buy price and sell price
-func (c *NBPCurrency) GetCSV() string {
+func (c *NBPCurrency) GetCSVOutput() string {
 	var output string = ""
 
 	if c.tableType != "C" {
@@ -203,7 +243,7 @@ func (c *NBPCurrency) GetCSV() string {
 	return output
 }
 
-// GetRaw - function print just result of request (json or xml)
-func (c *NBPCurrency) GetRaw() string {
+// GetRawOutput - function print just result of request (json or xml)
+func (c *NBPCurrency) GetRawOutput() string {
 	return string(c.result)
 }

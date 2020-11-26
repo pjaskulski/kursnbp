@@ -32,69 +32,102 @@ func NewGold() *NBPGold {
 	return &NBPGold{}
 }
 
-// GetGold - main function for gold prices, selects
-// a data download variant depending on previously
+// getGoldAddress - build download address depending on previously
 // verified input parameters (--date or --last)
-func (g *NBPGold) GetGold(dFlag string, lFlag int, repFormat string) error {
-	var err error
+func getGoldAddress(dFlag string, lFlag int) string {
+	var address string
 
 	if lFlag != 0 {
-		g.result, err = getGoldLast(strconv.Itoa(lFlag), repFormat)
+		address = queryGoldLast(strconv.Itoa(lFlag))
 	} else if dFlag == "today" {
-		g.result, err = getGoldToday(repFormat)
+		address = queryGoldToday()
 	} else if dFlag == "current" {
-		g.result, err = getGoldCurrent(repFormat)
+		address = queryGoldCurrent()
 	} else if len(dFlag) == 10 {
-		g.result, err = getGoldDay(dFlag, repFormat)
+		address = queryGoldDay(dFlag)
 	} else if len(dFlag) == 21 {
-		g.result, err = getGoldRange(dFlag, repFormat)
+		address = queryGoldRange(dFlag)
 	}
 
+	return address
+}
+
+// GetGoldRaw - function downloads data in json or xml form
+func (g *NBPGold) GetGoldRaw(dFlag string, lFlag int, repFormat string) error {
+	var err error
+
+	address := getGoldAddress(dFlag, lFlag)
+	g.result, err = getData(address, repFormat)
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	if repFormat != "xml" {
-		err = json.Unmarshal(g.result, &g.goldRates)
-		if err != nil {
-			log.Fatal(err)
-		}
 	}
 
 	return err
 }
 
-// getGoldToday - function returns today's gold price
-// in json form, or error
-func getGoldToday(repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/today?format=%s", baseAddressGold, repFormat)
-	return getJSON(address)
+// GetGoldDate - function downloads and writes data to goldRates slice,
+// raw data (json) still available in result field
+func (g *NBPGold) GetGoldDate(dFlag string) error {
+	var err error
+
+	address := getGoldAddress(dFlag, 0)
+	g.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(g.result, &g.goldRates)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
-// getGoldCurrent - function returns current gold price
-// (last published price) in json form, or error
-func getGoldCurrent(repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s?format=%s", baseAddressGold, repFormat)
-	return getJSON(address)
+// GetGoldLast - function downloads and writes data to goldRates slice,
+// raw data (json) still available in result field
+func (g *NBPGold) GetGoldLast(lFlag int) error {
+	var err error
+
+	address := getGoldAddress("", lFlag)
+	g.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(g.result, &g.goldRates)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
-// getGoldLast - function returns last <last> gold prices
-// in json form, or error
-func getGoldLast(last string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/last/%s?format=%s", baseAddressGold, last, repFormat)
-	return getJSON(address)
+// queryGoldToday - returns query: today's gold price
+func queryGoldToday() string {
+	return fmt.Sprintf("%s/today", baseAddressGold)
 }
 
-// getGoldDay - function returns gold price on the given date (RRRR-MM-DD)
-// in json form, or error
-func getGoldDay(day string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/%s?format=%s", baseAddressGold, day, repFormat)
-	return getJSON(address)
+// queryGoldCurrent - returns query: current gold price
+// (last published price)
+func queryGoldCurrent() string {
+	return baseAddressGold
 }
 
-// getGoldRange - function returns gold prices within the given date range
-// (RRRR-MM-DD:RRRR-MM-DD) in json form, or error
-func getGoldRange(day string, repFormat string) ([]byte, error) {
+// queryGoldLast - returns query: last <number> gold prices
+func queryGoldLast(last string) string {
+	return fmt.Sprintf("%s/last/%s", baseAddressGold, last)
+}
+
+// queryGoldDay - function returns gold price on the given date (RRRR-MM-DD)
+// in json/xml form, or error
+func queryGoldDay(day string) string {
+	return fmt.Sprintf("%s/%s", baseAddressGold, day)
+}
+
+// queryGoldRange - returns query: gold prices within the given date range
+// (RRRR-MM-DD:RRRR-MM-DD) in json/xml form, or error
+func queryGoldRange(day string) string {
 	var startDate string
 	var stopDate string
 
@@ -102,12 +135,12 @@ func getGoldRange(day string, repFormat string) ([]byte, error) {
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf("%s/%s/%s?format=%s", baseAddressGold, startDate, stopDate, repFormat)
-	return getJSON(address)
+	address := fmt.Sprintf("%s/%s/%s", baseAddressGold, startDate, stopDate)
+	return address
 }
 
-// GetPretty - function returns a formatted table of gold prices
-func (g *NBPGold) GetPretty() string {
+// GetPrettyOutput - function returns a formatted table of gold prices
+func (g *NBPGold) GetPrettyOutput() string {
 
 	const padding = 3
 	var builder strings.Builder
@@ -128,9 +161,9 @@ func (g *NBPGold) GetPretty() string {
 	return builder.String()
 }
 
-// GetCSV - function returns prices of gold in CSV format
+// GetCSVOutput - function returns prices of gold in CSV format
 // (comma separated data)
-func (g *NBPGold) GetCSV() string {
+func (g *NBPGold) GetCSVOutput() string {
 	var output string = ""
 
 	output += fmt.Sprintln(l.Get("DATE,PRICE (PLN)"))
@@ -142,7 +175,7 @@ func (g *NBPGold) GetCSV() string {
 	return output
 }
 
-// GetRaw - function returns just result of request (json or xml)
-func (g *NBPGold) GetRaw() string {
+// GetRawOutput - function returns just result of request (json or xml)
+func (g *NBPGold) GetRawOutput() string {
 	return string(g.result)
 }

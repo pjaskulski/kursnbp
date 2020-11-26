@@ -10,7 +10,8 @@ import (
 
 func TestGetGoldCurrent(t *testing.T) {
 	littleDelay()
-	result, err := getGoldCurrent("json")
+	address := queryGoldCurrent()
+	result, err := getData(address, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -21,12 +22,15 @@ func TestGetGoldCurrent(t *testing.T) {
 
 func TestGetGoldToday(t *testing.T) {
 	today := time.Now()
+	var address string
 	var day string = today.Format("2006-01-02")
 
 	littleDelay()
-	_, err := getGoldDay(day, "json")
+	address = queryGoldDay(day)
+	_, err := getData(address, "json")
 	if err == nil {
-		_, err := getGoldToday("json")
+		address = queryGoldToday()
+		_, err := getData(address, "json")
 		if err != nil {
 			t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 		}
@@ -38,7 +42,8 @@ func TestGetGoldDay(t *testing.T) {
 	var cena float64 = 229.03
 
 	littleDelay()
-	result, err := getGoldDay(day, "json")
+	address := queryGoldDay(day)
+	result, err := getData(address, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -64,7 +69,8 @@ func TestGetGoldDayFailed(t *testing.T) {
 	var day string = "2020-11-15" // brak notowań w tym dniu
 
 	littleDelay()
-	_, err := getGoldDay(day, "json")
+	address := queryGoldDay(day)
+	_, err := getData(address, "json")
 	if err == nil {
 		t.Errorf("oczekiwano err != nil, otrzymano err == nil")
 	}
@@ -74,7 +80,8 @@ func TestGetGoldLast(t *testing.T) {
 	var lastNo int = 5
 
 	littleDelay()
-	result, err := getGoldLast(strconv.Itoa(lastNo), "json")
+	address := queryGoldLast(strconv.Itoa(lastNo))
+	result, err := getData(address, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}
@@ -97,7 +104,8 @@ func TestGetGoldRange(t *testing.T) {
 	var day string = "2020-11-16:2020-11-17"
 
 	littleDelay()
-	result, err := getGoldRange(day, "json")
+	address := queryGoldRange(day)
+	result, err := getData(address, "json")
 	if err != nil {
 		t.Errorf("oczekiwano err == nil, otrzymano err != nil")
 	}

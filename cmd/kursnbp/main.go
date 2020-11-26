@@ -58,7 +58,7 @@ func init() {
 	cmdTable.String(&cfg.tableFlag, "t", "table", "type of exchange rate table, 'A', 'B' or 'C'")
 	cmdTable.String(&cfg.dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
 	cmdTable.Int(&cfg.lastFlag, "l", "last", "a series of the last <number> of exchange rate tables")
-	cmdTable.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdTable.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv', 'xml'")
 	cmdTable.String(&cfg.langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdTable, 1)
 
@@ -69,7 +69,7 @@ func init() {
 	cmdCurrency.String(&cfg.dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
 	cmdCurrency.String(&cfg.codeFlag, "c", "code", "currency code according to ISO 4217 e.g. CHF")
 	cmdCurrency.Int(&cfg.lastFlag, "l", "last", "series of last <number> exchange rates of the indicated currency")
-	cmdCurrency.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdCurrency.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv', 'xml'")
 	cmdCurrency.String(&cfg.langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdCurrency, 1)
 
@@ -78,7 +78,7 @@ func init() {
 	cmdGold.Description = "returns a gold price or a series of gold price quotations"
 	cmdGold.String(&cfg.dateFlag, "d", "date", "date 'YYYYY-MM-DD', or range of dates 'YYYY-MM-DD:YYYY-MM-DD', or 'today' or 'current' (default: current)")
 	cmdGold.Int(&cfg.lastFlag, "l", "last", "a series of recent <number> gold price quotations")
-	cmdGold.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv'")
+	cmdGold.String(&cfg.outputFlag, "o", "output", "output format: 'table', 'json', 'csv', 'xml'")
 	cmdGold.String(&cfg.langFlag, "i", "lang", "output language: 'en', 'pl'")
 	flaggy.AttachSubcommand(cmdGold, 1)
 

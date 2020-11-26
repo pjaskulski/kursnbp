@@ -33,10 +33,25 @@ var currencyValuesB = []string{"MGA", "PAB", "ETB", "AFN", "VES", "BOB", "CRC", 
 var currencyValuesC = []string{"USD", "AUD", "CAD", "EUR", "HUF", "GBP", "JPY", "CZK", "DKK", "NOK",
 	"SEK", "XDR"}
 
-// getJSON - universal function that returns JSON/XML (or error)
+// getData - universal function that returns JSON/XML (or error)
 // based on the address provided
-func getJSON(address string) ([]byte, error) {
-	r, err := http.Get(address)
+func getData(address string, format string) ([]byte, error) {
+	if format == "json" {
+		format = "application/json"
+	} else if format == "xml" {
+		format = "application/xml"
+	}
+
+	client := &http.Client{
+		Timeout: time.Second * 10,
+	}
+	req, err := http.NewRequest("GET", address, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req.Header.Set("Accept", format)
+	r, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +95,7 @@ func CheckArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 	if oFlag == "" {
 		return errors.New(l.Get("No --output parameter value, output format must be specified"))
 	} else if !inSlice(outputValues, oFlag) {
-		return errors.New(l.Get("Invalid --output parameter value, allowed: table, json, csv"))
+		return errors.New(l.Get("Invalid --output parameter value, allowed: table, json, csv, xml"))
 	}
 
 	// last

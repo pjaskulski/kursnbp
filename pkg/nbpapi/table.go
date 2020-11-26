@@ -59,65 +59,105 @@ func NewTable(tFlag string) *NBPTable {
 	}
 }
 
-// GetTable - main download function for table, selects
-// a data download variant depending on previously
+// getTableAddress - build download address depending on previously
 // verified input parameters (--table, --date or --last)
-func (t *NBPTable) GetTable(dFlag string, lFlag int, repFormat string) error {
-	var err error
+func getTableAddress(tableType string, dFlag string, lFlag int) string {
+	var address string
 
 	if lFlag != 0 {
-		t.result, err = getTableLast(t.tableType, strconv.Itoa(lFlag), repFormat)
+		address = queryTableLast(tableType, strconv.Itoa(lFlag))
 	} else if dFlag == "today" {
-		t.result, err = getTableToday(t.tableType, repFormat)
+		address = queryTableToday(tableType)
 	} else if dFlag == "current" {
-		t.result, err = getTableCurrent(t.tableType, repFormat)
+		address = queryTableCurrent(tableType)
 	} else if len(dFlag) == 10 {
-		t.result, err = getTableDay(t.tableType, dFlag, repFormat)
+		address = queryTableDay(tableType, dFlag)
 	} else if len(dFlag) == 21 {
-		t.result, err = getTableRange(t.tableType, dFlag, repFormat)
-	}
-	if err != nil {
-		log.Fatal(err)
+		address = queryTableRange(tableType, dFlag)
 	}
 
-	if repFormat != "xml" {
-		if t.tableType != "C" {
-			err = json.Unmarshal(t.result, &t.exchange)
-		} else {
-			err = json.Unmarshal(t.result, &t.exchangeC)
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
+	return address
+}
+
+// GetTableRaw - function downloads data in json or xml form
+func (t *NBPTable) GetTableRaw(dFlag string, lFlag int, repFormat string) error {
+	var err error
+
+	address := getTableAddress(t.tableType, dFlag, lFlag)
+	t.result, err = getData(address, repFormat)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	return err
 }
 
-// getTableToday - function returns exchange rate table published today
-// in JSON form, or error
-func getTableToday(tableType string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/today/?format=%s", baseAddressTable, tableType, repFormat)
-	return getJSON(address)
+// GetTableDate - function downloads and writes data to exchange (exchangeC) slice,
+// raw data (json) still available in result field
+func (t *NBPTable) GetTableDate(dFlag string) error {
+	var err error
+
+	address := getTableAddress(t.tableType, dFlag, 0)
+	t.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if t.tableType != "C" {
+		err = json.Unmarshal(t.result, &t.exchange)
+	} else {
+		err = json.Unmarshal(t.result, &t.exchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
-// getTableCurrent - function returns current table of exchange rates
-// (last published table) in JSON form, or error
-func getTableCurrent(tableType string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/?format=%s", baseAddressTable, tableType, repFormat)
-	return getJSON(address)
+// GetTableLast - function downloads and writes data to exchange (exchangeC) slice,
+// raw data (json) still available in result field
+func (t *NBPTable) GetTableLast(lFlag int) error {
+	var err error
+
+	address := getTableAddress(t.tableType, "", lFlag)
+	t.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if t.tableType != "C" {
+		err = json.Unmarshal(t.result, &t.exchange)
+	} else {
+		err = json.Unmarshal(t.result, &t.exchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
 }
 
-// getTableDay - functions returns table of exchange rates
-// on the given date (YYYY-MM-DD) in JSON form, or error
-func getTableDay(tableType string, day string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/%s/?format=%s", baseAddressTable, tableType, day, repFormat)
-	return getJSON(address)
+// queryTableToday - returns query: exchange rate table published today
+func queryTableToday(tableType string) string {
+	return fmt.Sprintf("%s/tables/%s/today/", baseAddressTable, tableType)
 }
 
-// getTableRange - function returns table of exchange rates  within
-// the given date range (RRRR-MM-DD:RRRR-MM-DD) in JSON form, or error
-func getTableRange(tableType string, day string, repFormat string) ([]byte, error) {
+// queryTableCurrent - returns query: current table of exchange rates
+// (last published table)
+func queryTableCurrent(tableType string) string {
+	return fmt.Sprintf("%s/tables/%s/", baseAddressTable, tableType)
+}
+
+// queryTableDay - returns query: table of exchange rates
+// on the given date (YYYY-MM-DD)
+func queryTableDay(tableType string, day string) string {
+	return fmt.Sprintf("%s/tables/%s/%s/", baseAddressTable, tableType, day)
+}
+
+// queryTableRange - returns query: table of exchange rates  within
+// the given date range (RRRR-MM-DD:RRRR-MM-DD)
+func queryTableRange(tableType string, day string) string {
 	var startDate string
 	var stopDate string
 
@@ -125,23 +165,20 @@ func getTableRange(tableType string, day string, repFormat string) ([]byte, erro
 	startDate = temp[0]
 	stopDate = temp[1]
 
-	address := fmt.Sprintf("%s/tables/%s/%s/%s/?format=%s", baseAddressTable, tableType, startDate, stopDate, repFormat)
-	return getJSON(address)
+	address := fmt.Sprintf("%s/tables/%s/%s/%s/", baseAddressTable, tableType, startDate, stopDate)
+	return address
 }
 
-// getTableLast - function returns last <last> tables of exchange rates
-// in JSON form, or error
-func getTableLast(tableType string, last string, repFormat string) ([]byte, error) {
-	address := fmt.Sprintf("%s/tables/%s/last/%s/?format=%s", baseAddressTable, tableType, last, repFormat)
-	return getJSON(address)
+// queryTableLast - returns query: last <number> tables of exchange rates
+func queryTableLast(tableType string, last string) string {
+	return fmt.Sprintf("%s/tables/%s/last/%s/", baseAddressTable, tableType, last)
 }
 
-// GetPretty - function returns tables of exchange rates as
-// formatted table,
-// depending on the tableType field: for type A and B tables
+// GetPrettyOutput - function returns tables of exchange rates as
+// formatted table, depending on the tableType field: for type A and B tables
 // a column with an average rate is printed, for type C two columns:
 // buy price and sell price
-func (t *NBPTable) GetPretty() string {
+func (t *NBPTable) GetPrettyOutput() string {
 	const padding = 3
 	var builder strings.Builder
 	var output string
@@ -190,11 +227,11 @@ func (t *NBPTable) GetPretty() string {
 	return output
 }
 
-// GetCSV - function prints tables of exchange rates in the console,
+// GetCSVOutput - function prints tables of exchange rates in the console,
 // in the form of CSV (data separated by a comma), depending on the
 // tableType field: for type A and B tables a column with an average
 // rate is printed, for type C two columns: buy price and sell price
-func (t *NBPTable) GetCSV() string {
+func (t *NBPTable) GetCSVOutput() string {
 	var tableNo string
 	var output string = ""
 
@@ -218,14 +255,13 @@ func (t *NBPTable) GetCSV() string {
 				currencyValueAsk := fmt.Sprintf("%.4f", currencyItem.Ask)
 				output += fmt.Sprintln(tableNo + "," + currencyItem.Code + "," + currencyItem.Currency + "," + currencyValueBid + "," + currencyValueAsk)
 			}
-			output += fmt.Sprintln()
 		}
 	}
 
 	return output
 }
 
-// GetRaw - function returns just result of request (json or xml)
-func (t *NBPTable) GetRaw() string {
+// GetRawOutput - function returns just result of request (json or xml)
+func (t *NBPTable) GetRawOutput() string {
 	return string(t.result)
 }

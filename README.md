@@ -109,6 +109,10 @@ Przykłady:
 
     kursnbp table --date=today --output=csv
     Wyświetla dzisiejszą tabelę kursów w formacie csv
+
+    kursnbp table --date=today --output=csv --clipboard
+    Pobiera dzisiejszą tabelę kursów w formacie csv 
+    i kopiuje do schowka
     
     kursnbp table --date=today --output=xml
     Wyświetla dzisiejszą tabelę kursów w formacie xml
@@ -229,6 +233,10 @@ Examples:
 
     kursnbp table --date=today --output=csv
     Exchange rate table of type A published today,  in csv format
+
+    kursnbp table --date=today --output=csv --clipboard
+    Exchange rate table of type A published today,  in csv format, 
+    copied to the clipboard
 
     kursnbp table --date=today --output=xml
     Exchange rate table of type A published today, in xml format

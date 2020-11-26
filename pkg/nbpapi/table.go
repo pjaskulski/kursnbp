@@ -161,6 +161,8 @@ func (t *NBPTable) GetPretty() string {
 				currencyValue := fmt.Sprintf("%.4f", currencyItem.Mid)
 				fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValue)
 			}
+			output += builder.String()
+			builder.Reset()
 			w.Flush()
 		}
 	} else {
@@ -180,10 +182,12 @@ func (t *NBPTable) GetPretty() string {
 				fmt.Fprintln(w, currencyItem.Code+" \t "+currencyItem.Currency+" \t "+currencyValueBid+" \t "+currencyValueAsk)
 			}
 			w.Flush()
+			output += builder.String()
+			builder.Reset()
 		}
 	}
 
-	return output + builder.String()
+	return output
 }
 
 // GetCSV - function prints tables of exchange rates in the console,

@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/atotto/clipboard"
-	"github.com/pjaskulski/kursnbp/pkg/nbpapi"
+	"github.com/pjaskulski/nbpapi"
 )
 
 // goldCommand - function for 'gold' command (prices of gold)

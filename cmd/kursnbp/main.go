@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/integrii/flaggy"
-	"github.com/pjaskulski/kursnbp/pkg/nbpapi"
+	"github.com/pjaskulski/nbpapi"
 )
 
 // app name, version and description

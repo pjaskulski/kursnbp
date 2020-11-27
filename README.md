@@ -15,6 +15,8 @@
 
 kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
 
+Wykorzystano bibliotekę nbpapi: [https://github.com/pjaskulski/nbpapi](https://github.com/pjaskulski/nbpapi)
+
 Do pobrania (wersja 0.3.2):<br> 
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_linux_amd64.tar.gz) 
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_windows_amd64.zip) 
@@ -141,6 +143,8 @@ https://github.com/atotto/clipboard (BSD-3-Clause License)
 ## Description:
 
 kursNBP - a command line tool for downloading exchange rates and gold prices from the website of the National Bank of Poland
+
+The project uses the nbpapi library: [https://github.com/pjaskulski/nbpapi](https://github.com/pjaskulski/nbpapi)
 
 Downloads (v0.3.2):<br> 
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_linux_amd64.tar.gz) 

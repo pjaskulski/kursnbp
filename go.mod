@@ -5,5 +5,5 @@ go 1.15
 require (
 	github.com/atotto/clipboard v0.1.2
 	github.com/integrii/flaggy v1.4.4
-	github.com/pjaskulski/nbpapi v0.0.0-20201127200713-c0a0713bd99d
+	github.com/pjaskulski/nbpapi v0.3.3
 )

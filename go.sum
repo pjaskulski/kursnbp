@@ -4,3 +4,5 @@ github.com/integrii/flaggy v1.4.4 h1:8fGyiC14o0kxhTqm2VBoN19fDKPZsKipP7yggreTMDc
 github.com/integrii/flaggy v1.4.4/go.mod h1:tnTxHeTJbah0gQ6/K0RW0J7fMUBk9MCF5blhm43LNpI=
 github.com/pjaskulski/nbpapi v0.0.0-20201127200713-c0a0713bd99d h1:4Q0fxOps/2R2CQWPe5Rq7bC3oG7gi2IzNnYtPYCsAkU=
 github.com/pjaskulski/nbpapi v0.0.0-20201127200713-c0a0713bd99d/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=
+github.com/pjaskulski/nbpapi v0.3.3 h1:MzEUaVk3gTCUYBdpiaIQoYPhLJORGc3qzCS2P97MsF4=
+github.com/pjaskulski/nbpapi v0.3.3/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=

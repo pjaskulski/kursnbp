@@ -51,7 +51,7 @@ func TestGetGoldDay(t *testing.T) {
 		t.Errorf("otrzymano niepoprawną zawartość json")
 	}
 
-	var nbpGold []rateGold
+	var nbpGold []GoldRate
 	err = json.Unmarshal(result, &nbpGold)
 	if err != nil {
 		log.Fatal(err)
@@ -89,7 +89,7 @@ func TestGetGoldLast(t *testing.T) {
 		t.Errorf("otrzymano niepoprawną zawartość json")
 	}
 
-	var nbpGold []rateGold
+	var nbpGold []GoldRate
 	err = json.Unmarshal(result, &nbpGold)
 	if err != nil {
 		log.Fatal(err)
@@ -113,7 +113,7 @@ func TestGetGoldRange(t *testing.T) {
 		t.Errorf("otrzymano niepoprawną zawartość json")
 	}
 
-	var nbpGold []rateGold
+	var nbpGold []GoldRate
 	err = json.Unmarshal(result, &nbpGold)
 	if err != nil {
 		log.Fatal(err)

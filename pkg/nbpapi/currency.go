@@ -51,6 +51,15 @@ type exchangeCurrencyC struct {
 	Rates    []rateCurrencyC `json:"rates"`
 }
 
+// Rate type
+type Rate struct {
+	No            string
+	EffectiveDate string
+	Mid           float64
+	Bid           float64
+	Ask           float64
+}
+
 // NewCurrency - function creates new currency type
 func NewCurrency(tFlag string) *NBPCurrency {
 	return &NBPCurrency{
@@ -78,8 +87,8 @@ func getCurrencyAddress(tableType string, dFlag string, lFlag int, cFlag string)
 	return address
 }
 
-// GetCurrencyRaw - function downloads data in json or xml form
-func (c *NBPCurrency) GetCurrencyRaw(dFlag string, lFlag int, cFlag string, repFormat string) error {
+// CurrencyRaw - function downloads data in json or xml form
+func (c *NBPCurrency) CurrencyRaw(dFlag string, lFlag int, cFlag string, repFormat string) error {
 	var err error
 
 	address := getCurrencyAddress(c.tableType, dFlag, lFlag, cFlag)
@@ -91,9 +100,9 @@ func (c *NBPCurrency) GetCurrencyRaw(dFlag string, lFlag int, cFlag string, repF
 	return err
 }
 
-// GetCurrencyByDate - function downloads and writes data to exchange (exchangeC) slice,
+// CurrencyByDate - function downloads and writes data to exchange (exchangeC) slice,
 // raw data (json) still available in result field
-func (c *NBPCurrency) GetCurrencyByDate(dFlag string, cFlag string) error {
+func (c *NBPCurrency) CurrencyByDate(dFlag string, cFlag string) error {
 	var err error
 
 	address := getCurrencyAddress(c.tableType, dFlag, 0, cFlag)
@@ -114,9 +123,9 @@ func (c *NBPCurrency) GetCurrencyByDate(dFlag string, cFlag string) error {
 	return err
 }
 
-// GetCurrencyLast - function downloads and writes data to exchange (exchangeC) slice,
+// CurrencyLast - function downloads and writes data to exchange (exchangeC) slice,
 // raw data (json) still available in result field
-func (c *NBPCurrency) GetCurrencyLast(lFlag int, cFlag string) error {
+func (c *NBPCurrency) CurrencyLast(cFlag string, lFlag int) error {
 	var err error
 
 	address := getCurrencyAddress(c.tableType, "", lFlag, cFlag)
@@ -135,6 +144,106 @@ func (c *NBPCurrency) GetCurrencyLast(lFlag int, cFlag string) error {
 	}
 
 	return err
+}
+
+// CurrencyToday - function downloads and writes data to exchange (exchangeC) slice,
+// raw data (json) still available in result field
+func (c *NBPCurrency) CurrencyToday(cFlag string) error {
+	var err error
+
+	address := getCurrencyAddress(c.tableType, "today", 0, cFlag)
+	c.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if c.tableType != "C" {
+		err = json.Unmarshal(c.result, &c.Exchange)
+	} else {
+		err = json.Unmarshal(c.result, &c.ExchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return err
+}
+
+// GetRateCurrent - function downloads and writes data to exchange (exchangeC) slice,
+// raw data (json) still available in exchange.result field
+func (c *NBPCurrency) GetRateCurrent(cFlag string) (Rate, error) {
+	var err error
+
+	address := getCurrencyAddress(c.tableType, "current", 0, cFlag)
+	c.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if c.tableType != "C" {
+		err = json.Unmarshal(c.result, &c.Exchange)
+	} else {
+		err = json.Unmarshal(c.result, &c.ExchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var rate Rate
+	if c.tableType != "C" {
+		rate.No = c.Exchange.Rates[0].No
+		rate.EffectiveDate = c.Exchange.Rates[0].EffectiveDate
+		rate.Mid = c.Exchange.Rates[0].Mid
+		rate.Ask = 0
+		rate.Bid = 0
+	} else {
+		rate.No = c.ExchangeC.Rates[0].No
+		rate.EffectiveDate = c.ExchangeC.Rates[0].EffectiveDate
+		rate.Mid = 0
+		rate.Ask = c.ExchangeC.Rates[0].Ask
+		rate.Bid = c.ExchangeC.Rates[0].Bid
+	}
+
+	return rate, err
+}
+
+// GetRateToday - function downloads and writes data to exchange (exchangeC) slice,
+// but returns Rate struct (or error), raw data (json) still available in
+// exchange.result field
+func (c *NBPCurrency) GetRateToday(cFlag string) (Rate, error) {
+	var err error
+
+	address := getCurrencyAddress(c.tableType, "today", 0, cFlag)
+	c.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if c.tableType != "C" {
+		err = json.Unmarshal(c.result, &c.Exchange)
+	} else {
+		err = json.Unmarshal(c.result, &c.ExchangeC)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var rate Rate
+	if c.tableType != "C" {
+		rate.No = c.Exchange.Rates[0].No
+		rate.EffectiveDate = c.Exchange.Rates[0].EffectiveDate
+		rate.Mid = c.Exchange.Rates[0].Mid
+		rate.Ask = 0
+		rate.Bid = 0
+	} else {
+		rate.No = c.ExchangeC.Rates[0].No
+		rate.EffectiveDate = c.ExchangeC.Rates[0].EffectiveDate
+		rate.Mid = 0
+		rate.Ask = c.ExchangeC.Rates[0].Ask
+		rate.Bid = c.ExchangeC.Rates[0].Bid
+	}
+
+	return rate, err
 }
 
 // queryCurrencyLast - returns query: last <number> currency exchange

@@ -16,14 +16,15 @@ const (
 	baseAddressGold string = "http://api.nbp.pl/api/cenyzlota"
 )
 
-type rateGold struct {
+// GoldRate type
+type GoldRate struct {
 	Data  string  `json:"data"`
 	Price float64 `json:"cena"`
 }
 
 // NBPGold type
 type NBPGold struct {
-	GoldRates []rateGold
+	GoldRates []GoldRate
 	result    []byte
 }
 
@@ -52,8 +53,8 @@ func getGoldAddress(dFlag string, lFlag int) string {
 	return address
 }
 
-// GetGoldRaw - function downloads data in json or xml form
-func (g *NBPGold) GetGoldRaw(dFlag string, lFlag int, repFormat string) error {
+// GoldRaw - function downloads data in json or xml form
+func (g *NBPGold) GoldRaw(dFlag string, lFlag int, repFormat string) error {
 	var err error
 
 	address := getGoldAddress(dFlag, lFlag)
@@ -65,9 +66,9 @@ func (g *NBPGold) GetGoldRaw(dFlag string, lFlag int, repFormat string) error {
 	return err
 }
 
-// GetGoldByDate - function downloads and writes data to goldRates slice,
+// GoldByDate - function downloads and writes data to goldRates slice,
 // raw data (json) still available in result field
-func (g *NBPGold) GetGoldByDate(dFlag string) error {
+func (g *NBPGold) GoldByDate(dFlag string) error {
 	var err error
 
 	address := getGoldAddress(dFlag, 0)
@@ -84,9 +85,9 @@ func (g *NBPGold) GetGoldByDate(dFlag string) error {
 	return err
 }
 
-// GetGoldLast - function downloads and writes data to goldRates slice,
+// GoldLast - function downloads and writes data to goldRates slice,
 // raw data (json) still available in result field
-func (g *NBPGold) GetGoldLast(lFlag int) error {
+func (g *NBPGold) GoldLast(lFlag int) error {
 	var err error
 
 	address := getGoldAddress("", lFlag)
@@ -101,6 +102,66 @@ func (g *NBPGold) GetGoldLast(lFlag int) error {
 	}
 
 	return err
+}
+
+// GetPriceToday - function downloads and returns gold price,
+func (g *NBPGold) GetPriceToday() (GoldRate, error) {
+	var err error
+
+	address := getGoldAddress("today", 0)
+	g.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(g.result, &g.GoldRates)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return g.GoldRates[0], err
+}
+
+// GetPriceCurrent - function downloads and returns gold price,
+func (g *NBPGold) GetPriceCurrent() (GoldRate, error) {
+	var err error
+
+	address := getGoldAddress("current", 0)
+	g.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(g.result, &g.GoldRates)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return g.GoldRates[0], err
+}
+
+// GetPriceByDate - function downloads and returns gold prices,
+// by date ("YYYY-MM-DD") or range of dates ("YYYY-MM-DD:YYYY-MM-DD")
+func (g *NBPGold) GetPriceByDate(date string) ([]GoldRate, error) {
+	var err error
+
+	err = CheckArg("gold", "", date, 0, "table", "")
+	if err != nil {
+		return nil, err
+	}
+
+	address := getGoldAddress(date, 0)
+	g.result, err = getData(address, "json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(g.result, &g.GoldRates)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return g.GoldRates, err
 }
 
 // queryGoldToday - returns query: today's gold price

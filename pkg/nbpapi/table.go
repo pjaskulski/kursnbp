@@ -79,8 +79,8 @@ func getTableAddress(tableType string, dFlag string, lFlag int) string {
 	return address
 }
 
-// GetTableRaw - function downloads data in json or xml form
-func (t *NBPTable) GetTableRaw(dFlag string, lFlag int, repFormat string) error {
+// TableRaw - function downloads data in json or xml form
+func (t *NBPTable) TableRaw(dFlag string, lFlag int, repFormat string) error {
 	var err error
 
 	address := getTableAddress(t.tableType, dFlag, lFlag)
@@ -92,9 +92,9 @@ func (t *NBPTable) GetTableRaw(dFlag string, lFlag int, repFormat string) error 
 	return err
 }
 
-// GetTableByDate - function downloads and writes data to exchange (exchangeC) slice,
+// TableByDate - function downloads and writes data to exchange (exchangeC) slice,
 // raw data (json) still available in result field
-func (t *NBPTable) GetTableByDate(dFlag string) error {
+func (t *NBPTable) TableByDate(dFlag string) error {
 	var err error
 
 	address := getTableAddress(t.tableType, dFlag, 0)
@@ -115,9 +115,9 @@ func (t *NBPTable) GetTableByDate(dFlag string) error {
 	return err
 }
 
-// GetTableLast - function downloads and writes data to exchange (exchangeC) slice,
+// TableLast - function downloads and writes data to exchange (exchangeC) slice,
 // raw data (json) still available in result field
-func (t *NBPTable) GetTableLast(lFlag int) error {
+func (t *NBPTable) TableLast(lFlag int) error {
 	var err error
 
 	address := getTableAddress(t.tableType, "", lFlag)

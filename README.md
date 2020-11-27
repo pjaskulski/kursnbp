@@ -40,10 +40,10 @@ Do pobrania (wersja 0.3.2):<br>
     Flagi:
       table: 
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
-        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
-                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) 
-                     lub 'current' - bieżąca tabela/kurs (ostatnio 
-                     opublikowany) domyślnie: current
+        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD' (standard 
+                     ISO 8601), lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD' 
+                     lub 'today' (kurs na dziś) lub 'current' - bieżąca 
+                     tabela/kurs (ostatnio opublikowany) domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
                      tabel/kursów np. -l=5, domyślnie: 0
         -o --output  Format danych wyjściowych: table (sformatowana tabela 
@@ -57,10 +57,10 @@ Do pobrania (wersja 0.3.2):<br>
     
       currency:
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
-        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD', lub zakres 
-                     dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (kurs na dziś) 
-                     lub 'current' - bieżąca tabela/kurs (ostatnio 
-                     opublikowany) domyślnie: current
+        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD' (standard 
+                     ISO 8601), lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD' 
+                     lub 'today' (kurs na dziś) lub 'current' - bieżąca 
+                     tabela/kurs (ostatnio opublikowany) domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
                      tabel/kursów np. -l=5, domyślnie: 0
         -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu 
@@ -75,10 +75,11 @@ Do pobrania (wersja 0.3.2):<br>
                      domyślnie 'en'
 
       gold:
-        -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', lub 
-                     zakres dat 'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na 
-                     dziś) lub 'current' - bieżąca cena (ostatnio 
-                     opublikowana) domyślnie: current
+        -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', 
+                     (standard ISO 8601) lub zakres dat: 
+                     'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na dziś) lub 
+                     'current' - bieżąca cena (ostatnio opublikowana) 
+                     domyślnie: current
         -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen 
                      złota np. -l=5, domyślnie: 0
         -o --output  Format danych wyjściowych: table (sformatowana tabela 
@@ -167,10 +168,11 @@ Downloads (v0.3.2):<br>
     Flags for commands:
       table:
         -t --table    Table type: A, B or C, default: A
-        -d --date     Date in the format: 'YYYY-MM-DD', or a range of
-                      dates in the format: 'YYYY-MM-DD:YYYY-MM-DD' or 'today'
-                      (rate for today) or 'current' - current table / rate 
-                      (last published) default: current
+        -d --date     Date in the format: 'YYYY-MM-DD' (ISO 8601 standard), 
+                      or a range of dates in the format: 
+                      'YYYY-MM-DD:YYYY-MM-DD' or 'today' (rate for today) 
+                      or 'current' - current table / rate (last published),
+                      default: current
         -l --last     As an alternative to --date, the last <n> tables/rates
                       can be retrieved e.g. -l = 5, default: 0
         -o --output   Output format: table (formatted text table),
@@ -183,10 +185,10 @@ Downloads (v0.3.2):<br>
     
       currency:
         -t --table    Table type: A, B or C, default: A
-        -d --date     Date in the format: 'YYYY-MM-DD', or a range of 
-                      dates in format: 'YYYY-MM-DD:YYYY-MM-DD' or 'today' 
-                      (rate for today) or 'current' - current table/rate 
-                      (last published) default: current
+        -d --date     Date in the format: 'YYYY-MM-DD' (ISO 8601 standard), 
+                      or a range of dates in format: 'YYYY-MM-DD:YYYY-MM-DD' 
+                      or 'today' (rate for today) or 'current' - current 
+                      table/rate (last published), default: current
         -l --last     As an alternative to --date, the last <n> tables/rates
                       can be retrieved e.g. -l = 5, default: 0
         -c --code     ISO 4217 currency code, depending on the type of the 
@@ -200,10 +202,10 @@ Downloads (v0.3.2):<br>
                       returned by the NBP service are always in Polish
 
       gold:
-        -d --date    Date in the format: 'YYYY-MM-DD', or a range of dates
-                     in format: 'YYYY-MM-DD: YYYY-MM-DD' or 'today' (today's
-                     price) or 'current' - current price (last published) 
-                     default: current
+        -d --date    Date in the format: 'YYYY-MM-DD' (ISO 8601 standard), 
+                     or a range of dates in format: 'YYYY-MM-DD: YYYY-MM-DD' 
+                     or 'today' (today's price) or 'current' - current 
+                     price (last published), default: current
         -l --last    As an alternative to --date, the last <n> gold price 
                      can be retrieved e.g. -last=5, default: 0
         -o --output  Output format: table (formatted text table),

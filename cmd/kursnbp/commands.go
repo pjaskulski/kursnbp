@@ -19,11 +19,11 @@ func goldCommand() {
 	nbpGold := nbpapi.NewGold()
 
 	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
-		err = nbpGold.GetGoldRaw(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
+		err = nbpGold.GoldRaw(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
 	} else if cfg.lastFlag > 0 {
-		err = nbpGold.GetGoldLast(cfg.lastFlag)
+		err = nbpGold.GoldLast(cfg.lastFlag)
 	} else {
-		err = nbpGold.GetGoldByDate(cfg.dateFlag)
+		err = nbpGold.GoldByDate(cfg.dateFlag)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -58,11 +58,11 @@ func currencyCommand() {
 	nbpCurrency := nbpapi.NewCurrency(cfg.tableFlag)
 
 	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
-		err = nbpCurrency.GetCurrencyRaw(cfg.dateFlag, cfg.lastFlag, cfg.codeFlag, cfg.repFormat)
+		err = nbpCurrency.CurrencyRaw(cfg.dateFlag, cfg.lastFlag, cfg.codeFlag, cfg.repFormat)
 	} else if cfg.lastFlag > 0 {
-		err = nbpCurrency.GetCurrencyLast(cfg.lastFlag, cfg.codeFlag)
+		err = nbpCurrency.CurrencyLast(cfg.codeFlag, cfg.lastFlag)
 	} else {
-		err = nbpCurrency.GetCurrencyByDate(cfg.dateFlag, cfg.codeFlag)
+		err = nbpCurrency.CurrencyByDate(cfg.dateFlag, cfg.codeFlag)
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -96,11 +96,11 @@ func tableCommand() {
 
 	nbpTable := nbpapi.NewTable(cfg.tableFlag)
 	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
-		err = nbpTable.GetTableRaw(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
+		err = nbpTable.TableRaw(cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
 	} else if cfg.lastFlag > 0 {
-		err = nbpTable.GetTableLast(cfg.lastFlag)
+		err = nbpTable.TableLast(cfg.lastFlag)
 	} else {
-		err = nbpTable.GetTableByDate(cfg.dateFlag)
+		err = nbpTable.TableByDate(cfg.dateFlag)
 	}
 	if err != nil {
 		log.Fatal(err)

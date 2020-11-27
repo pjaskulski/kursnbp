@@ -30,7 +30,7 @@ var currencyValuesB = []string{"MGA", "PAB", "ETB", "AFN", "VES", "BOB", "CRC", 
 	"QAR", "OMR", "SAR", "KHR", "BYN", "LKR", "MVR", "MUR", "NPR", "PKR",
 	"SCR", "PEN", "KGS", "TJS", "UZS", "KES", "SOS", "TZS", "UGX", "BDT",
 	"WST", "KZT", "MNT", "VUV", "BAM"}
-var currencyValuesC = []string{"USD", "AUD", "CAD", "EUR", "HUF", "GBP", "JPY", "CZK", "DKK", "NOK",
+var currencyValuesC = []string{"USD", "AUD", "CAD", "EUR", "HUF", "CHF", "GBP", "JPY", "CZK", "DKK", "NOK",
 	"SEK", "XDR"}
 
 // getData - universal function that returns JSON/XML (or error)

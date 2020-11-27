@@ -169,8 +169,8 @@ func (c *NBPCurrency) CurrencyToday(cFlag string) error {
 	return err
 }
 
-// GetRateCurrent - function downloads and writes data to exchange (exchangeC) slice,
-// raw data (json) still available in exchange.result field
+// GetRateCurrent - function downloads current currency exchange rate
+// and return Rate struct (or error)
 func (c *NBPCurrency) GetRateCurrent(cFlag string) (Rate, error) {
 	var err error
 
@@ -207,9 +207,8 @@ func (c *NBPCurrency) GetRateCurrent(cFlag string) (Rate, error) {
 	return rate, err
 }
 
-// GetRateToday - function downloads and writes data to exchange (exchangeC) slice,
-// but returns Rate struct (or error), raw data (json) still available in
-// exchange.result field
+// GetRateToday - function downloads today's currency exchange rate
+// and returns Rate struct (or error)
 func (c *NBPCurrency) GetRateToday(cFlag string) (Rate, error) {
 	var err error
 
@@ -244,6 +243,56 @@ func (c *NBPCurrency) GetRateToday(cFlag string) (Rate, error) {
 	}
 
 	return rate, err
+}
+
+// GetRateByDate - function downloads today's currency exchange rate
+// and returns Rate struct (or error)
+func (c *NBPCurrency) GetRateByDate(code string, date string) ([]Rate, error) {
+	var err error
+
+	err = CheckArg("currency", c.tableType, date, 0, "table", code)
+	if err != nil {
+		return nil, err
+	}
+
+	address := getCurrencyAddress(c.tableType, date, 0, code)
+	c.result, err = getData(address, "json")
+	if err != nil {
+		return nil, err
+	}
+
+	if c.tableType != "C" {
+		err = json.Unmarshal(c.result, &c.Exchange)
+	} else {
+		err = json.Unmarshal(c.result, &c.ExchangeC)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	var rates []Rate
+	var rate Rate
+	if c.tableType != "C" {
+		for _, item := range c.Exchange.Rates {
+			rate.No = item.No
+			rate.EffectiveDate = item.EffectiveDate
+			rate.Mid = item.Mid
+			rate.Ask = 0
+			rate.Bid = 0
+			rates = append(rates, rate)
+		}
+	} else {
+		for _, item := range c.ExchangeC.Rates {
+			rate.No = item.No
+			rate.EffectiveDate = item.EffectiveDate
+			rate.Mid = 0
+			rate.Ask = item.Ask
+			rate.Bid = item.Bid
+			rates = append(rates, rate)
+		}
+	}
+
+	return rates, err
 }
 
 // queryCurrencyLast - returns query: last <number> currency exchange

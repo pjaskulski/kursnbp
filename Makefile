@@ -18,15 +18,6 @@ freebsd:
 
 all: linux windows macos freebsd
 
-test:
-	go test -v ./pkg/nbpapi
-
-testcheck:
-	go test -v -run TestCheckArg ./pkg/nbpapi
-
-cover:
-	go test -cover ./pkg/nbpapi
-
 release:
 	sh scripts/release.sh
 

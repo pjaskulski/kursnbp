@@ -6,8 +6,8 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/pjaskulski/kursnbp) 
 [![go report](https://goreportcard.com/badge/github.com/pjaskulski/kursnbp)](https://goreportcard.com/report/github.com/pjaskulski/kursnbp) 
 
-**[Opis](#opis)**<br>
-**[Description](#description)**<br>
+**[Opis (pl)](#opis)**<br>
+**[Description (en)](#description)**<br>
 **[Screenshots](#screenshots)**<br>
 **[Contact](#contact)**<br>
 

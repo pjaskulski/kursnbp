@@ -210,7 +210,7 @@ Downloads (v0.3.2):<br>
                      or a range of dates in format: 'YYYY-MM-DD: YYYY-MM-DD' 
                      or 'today' (today's price) or 'current' - current 
                      price (last published), default: current
-        -l --last    As an alternative to --date, the last <n> gold price 
+        -l --last    As an alternative to --date, the last <n> gold prices 
                      can be retrieved e.g. -last=5, default: 0
         -o --output  Output format: table (formatted text table),
                      json (json format), csv (data with comma separated 

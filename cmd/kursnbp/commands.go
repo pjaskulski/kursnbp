@@ -11,7 +11,7 @@ import (
 
 // goldCommand - function for 'gold' command (prices of gold)
 func goldCommand() {
-	err := nbpapi.CheckArg("gold", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
+	err := checkArg("gold", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,11 +33,11 @@ func goldCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpGold.GetPrettyOutput()
+		output = nbpGold.GetPrettyOutput(cfg.langFlag)
 	case "json", "xml":
 		output = nbpGold.GetRawOutput()
 	case "csv":
-		output = nbpGold.GetCSVOutput()
+		output = nbpGold.GetCSVOutput(cfg.langFlag)
 	}
 
 	if cfg.clipFlag {
@@ -50,7 +50,7 @@ func goldCommand() {
 // currencyCommand - function for 'currency' command (currency exchange rates)
 func currencyCommand() {
 
-	err := nbpapi.CheckArg("currency", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
+	err := checkArg("currency", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -72,11 +72,11 @@ func currencyCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpCurrency.GetPrettyOutput()
+		output = nbpCurrency.GetPrettyOutput(cfg.langFlag)
 	case "json", "xml":
 		output = nbpCurrency.GetRawOutput()
 	case "csv":
-		output = nbpCurrency.GetCSVOutput()
+		output = nbpCurrency.GetCSVOutput(cfg.langFlag)
 	}
 
 	if cfg.clipFlag {
@@ -89,7 +89,7 @@ func currencyCommand() {
 // tableCommand - function for 'table' command (tables with exchange rates)
 func tableCommand() {
 
-	err := nbpapi.CheckArg("table", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
+	err := checkArg("table", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -110,11 +110,11 @@ func tableCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpTable.GetPrettyOutput()
+		output = nbpTable.GetPrettyOutput(cfg.langFlag)
 	case "json", "xml":
 		output = nbpTable.GetRawOutput()
 	case "csv":
-		output = nbpTable.GetCSVOutput()
+		output = nbpTable.GetCSVOutput(cfg.langFlag)
 	}
 
 	if cfg.clipFlag {

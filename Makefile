@@ -18,6 +18,9 @@ freebsd:
 
 all: linux windows macos freebsd
 
+test:
+	go test -v ./cmd/kursnbp
+
 release:
 	sh scripts/release.sh
 

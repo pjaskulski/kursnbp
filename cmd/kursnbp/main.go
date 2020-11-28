@@ -5,12 +5,11 @@ import (
 	"strings"
 
 	"github.com/integrii/flaggy"
-	"github.com/pjaskulski/nbpapi"
 )
 
 // app name, version and description
 var (
-	version string = "0.3.2"
+	version string = "0.3.4"
 	appName string = "kursNBP"
 	appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
 )
@@ -116,10 +115,6 @@ func init() {
 // kursnbp - command line tool for downloading exchange rates and gold prices
 // from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
 func main() {
-
-	// set output message language based on --lang flag, English is default,
-	// if flag --lang is different than 'pl' or 'en' - English is set
-	nbpapi.SetLang(cfg.langFlag)
 
 	if cmdTable.Used {
 		tableCommand()

@@ -6,3 +6,5 @@ github.com/pjaskulski/nbpapi v0.0.0-20201127200713-c0a0713bd99d h1:4Q0fxOps/2R2C
 github.com/pjaskulski/nbpapi v0.0.0-20201127200713-c0a0713bd99d/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=
 github.com/pjaskulski/nbpapi v0.3.3 h1:MzEUaVk3gTCUYBdpiaIQoYPhLJORGc3qzCS2P97MsF4=
 github.com/pjaskulski/nbpapi v0.3.3/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=
+github.com/pjaskulski/nbpapi v0.3.4 h1:AucHYAMCNp/Tmg/4I+pXGA6Qxgi68n2e5hu5KhIXjLM=
+github.com/pjaskulski/nbpapi v0.3.4/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=

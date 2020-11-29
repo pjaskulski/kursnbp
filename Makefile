@@ -21,6 +21,9 @@ all: linux windows macos freebsd
 test:
 	go test -v ./cmd/kursnbp
 
+cover:
+	go test -cover ./cmd/kursnbp
+
 release:
 	sh scripts/release.sh
 

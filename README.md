@@ -9,6 +9,7 @@
 **[Description (en)](#description)**<br>
 **[Opis (pl)](#opis)**<br>
 **[Screenshots](#screenshots)**<br>
+**[TODO](#todo)**<br>
 **[Contact](#contact)**<br>
 
 ## Description:
@@ -277,6 +278,11 @@ https://github.com/atotto/clipboard (BSD-3-Clause License)
 ![Screen](/docs/kursnbp_gold.png)
 
 ![Screen](/docs/kursnbp_currency.png)
+
+## TODO
+
+-  [ ] more tests
+-  [ ] better tables in terminal
 
 
 ## Contact

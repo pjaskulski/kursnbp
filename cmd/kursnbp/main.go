@@ -1,3 +1,8 @@
+/*
+kursnbp - command line tool for downloading exchange rates and gold prices
+from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
+*/
+
 package main
 
 import (
@@ -84,25 +89,33 @@ func init() {
 	flaggy.SetVersion(version)
 	flaggy.Parse()
 
-	// modifications to received as command line parameters flag values, the default
-	// value of the flag --date is set this way, because the flags --date and --last
-	// are alternative, the default value --date makes sense only if the user has not
-	// set --last
+	/*
+		modifications to received as command line parameters flag values, the default
+		value of the flag --date is set this way, because the flags --date and --last
+		are alternative, the default value --date makes sense only if the user has not
+		set --last
+	*/
 	if cfg.lastFlag == 0 && cfg.dateFlag == "" {
 		cfg.dateFlag = "current"
 	}
-	// modifications to the flag values: the characters of the --table and --code values
-	// are changed to upper, therefore it is acceptable to call --code=chf, or --code=CHf,
-	// the application will support such call correctly
+
+	/*
+		modifications to the flag values: the characters of the --table and --code values
+		are changed to upper, therefore it is acceptable to call --code=chf, or --code=CHf,
+		the application will support such call correctly
+	*/
 	if cfg.tableFlag != "" {
 		cfg.tableFlag = strings.ToUpper(cfg.tableFlag)
 	}
 	if cfg.codeFlag != "" {
 		cfg.codeFlag = strings.ToUpper(cfg.codeFlag)
 	}
-	// modifications to the flag values: the characters of the --lang values
-	// are changed to lower, therefore it is acceptable to call --lang=PL, or --lang=Pl,
-	// the application will support such call correctly
+
+	/*
+		modifications to the flag values: the characters of the --lang values
+		are changed to lower, therefore it is acceptable to call --lang=PL, or --lang=Pl,
+		the application will support such call correctly
+	*/
 	if cfg.langFlag != "" {
 		cfg.langFlag = strings.ToLower(cfg.langFlag)
 	}
@@ -112,8 +125,6 @@ func init() {
 	}
 }
 
-// kursnbp - command line tool for downloading exchange rates and gold prices
-// from the website of the National Bank of Poland (http://api.nbp.pl/en.html)
 func main() {
 
 	if cmdTable.Used {
@@ -123,8 +134,10 @@ func main() {
 	} else if cmdGold.Used {
 		goldCommand()
 	} else {
-		// if no correct subcommand is given, a general help is displayed
-		// and the program ends
+		/*
+			if no correct subcommand is given, a general help is displayed
+			and the program will terminate
+		*/
 		flaggy.ShowHelp("")
 		os.Exit(1)
 	}

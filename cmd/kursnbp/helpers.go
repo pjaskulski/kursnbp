@@ -1,3 +1,4 @@
+// auxiliary functions
 package main
 
 import (
@@ -73,6 +74,7 @@ func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, c
 	return nil
 }
 
+// check date or last
 func chkArgDate(dFlag string, lFlag int) error {
 	var isValid bool = true
 
@@ -94,6 +96,7 @@ func chkArgDate(dFlag string, lFlag int) error {
 	return nil
 }
 
+// table type check
 func checkArgTable(tFlag string) error {
 	if tFlag == "" {
 		return errors.New("The --table parameter value is missing, the type of the exchange table should be specified")
@@ -105,6 +108,7 @@ func checkArgTable(tFlag string) error {
 	return nil
 }
 
+// currency code check
 func checkArgCurrency(tFlag string, cFlag string) error {
 	var errMessage string
 

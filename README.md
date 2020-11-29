@@ -6,139 +6,10 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/pjaskulski/kursnbp) 
 [![go report](https://goreportcard.com/badge/github.com/pjaskulski/kursnbp)](https://goreportcard.com/report/github.com/pjaskulski/kursnbp) 
 
-**[Opis (pl)](#opis)**<br>
 **[Description (en)](#description)**<br>
+**[Opis (pl)](#opis)**<br>
 **[Screenshots](#screenshots)**<br>
 **[Contact](#contact)**<br>
-
-## Opis:
-
-kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
-
-Wykorzystano bibliotekę nbpapi: [https://github.com/pjaskulski/nbpapi](https://github.com/pjaskulski/nbpapi)
-
-Do pobrania (wersja 0.3.2):<br> 
-[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_linux_amd64.tar.gz) 
-[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_windows_amd64.zip) 
-[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_macos_amd64.tar.gz) 
-[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_freebsd_amd64.tar.gz)
-
-    Użycie:
-      kursnbp table|currency|gold [--flag]
-
-    Polecenia: 
-      table      Zwraca tabelę kursów wymiany walut (lub serię tabel)
-      currency   Zwraca kurs wskazanej waluty lub serię kursów
-      gold       Zwraca cenę złota lub serię notowań cen złota (cena 1 g 
-                 złota, w próbie 1000)
-
-    Flagi globalne: 
-         --version    Wyświetla wersję programu
-      -h --help       Wyświetla pomoc z opisem poleceń i flag programu 
-      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiast drukowania
-                      na ekranie (Linux/FreeBSD: dodatkowe programy 'xsel'
-                      lub 'xclip' muszą być zainstalowane w systemie)
-  
-    Flagi:
-      table: 
-        -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
-        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD' (standard 
-                     ISO 8601), lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD' 
-                     lub 'today' (kurs na dziś) lub 'current' - bieżąca 
-                     tabela/kurs (ostatnio opublikowany) domyślnie: current
-        -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
-                     tabel/kursów np. -l=5, domyślnie: 0
-        -o --output  Format danych wyjściowych: table (sformatowana tabela 
-                     tekstowa), json (format json), csv (dane z polami 
-                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
-                     wierszu), xml (format xml), domyślnie: table
-        -i --lang    Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
-                     domyślnie 'en'
-    
-      currency:
-        -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
-        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD' (standard 
-                     ISO 8601), lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD' 
-                     lub 'today' (kurs na dziś) lub 'current' - bieżąca 
-                     tabela/kurs (ostatnio opublikowany) domyślnie: current
-        -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
-                     tabel/kursów np. -l=5, domyślnie: 0
-        -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu 
-                     tabeli lista dostępnych walut może się różnić
-        -o --output  Format danych wyjściowych: table (sformatowana tabela 
-                     tekstowa), json (format json), csv (dane z polami 
-                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
-                     wierszu), xml (format xml), domyślnie: table
-        -i --lang    Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
-                     domyślnie 'en'
-
-      gold:
-        -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', 
-                     (standard ISO 8601) lub zakres dat: 
-                     'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na dziś) lub 
-                     'current' - bieżąca cena (ostatnio opublikowana) 
-                     domyślnie: current
-        -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen 
-                     złota np. -l=5, domyślnie: 0
-        -o --output  Format danych wyjściowych: table (sformatowana tabela 
-                     tekstowa), json (format json), csv (dane z polami 
-                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
-                     wierszu), xml (format xml), domyślnie: table
-        -i --lang    Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
-                     domyślnie 'en'
-
-Przykłady:
-    
-    kursnbp --help
-    Wyświetla ogólny help do programu
-
-    kursnbp --help gold
-    Wyświetla szczegółowy help do polecenia gold
-
-    kursnbp table
-    Wyświetla bieżącą tabelę kursów typu A
-    
-    kursnbp table --last=2 --table=C
-    Wyświetla 2 ostatnie tabele kursów typu C
-
-    kursnbp table --date=2020-11-19 --table=A
-    Wyświetla tabelę kursów walut z podanego dnia
-
-    kursnbp table --date=today --output=csv
-    Wyświetla dzisiejszą tabelę kursów w formacie csv
-
-    kursnbp table --date=today --output=csv --clipboard
-    Pobiera dzisiejszą tabelę kursów w formacie csv 
-    i kopiuje do schowka
-    
-    kursnbp table --date=today --output=xml
-    Wyświetla dzisiejszą tabelę kursów w formacie xml
-
-    kursnbp currency --code=CHF
-    Wyświetla bieżący kurs waluty CHF (frank szwajcarski)
-
-    kursnbp currency --code=EUR --last=10
-    Wyświetla 10 ostatnich kursów waluty EUR (euro)
-
-    kursnbp gold
-    Wyświetla bieżącą cenę złota
-
-    kursnbp gold --date=2020-11-12:2020-11-19
-    Wyświetla listę notowań cen złota w podanym przedziale dat
-
-Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
-
-Licencja: MIT<br>
-Wykorzystano moduły:<br> 
-https://github.com/integrii/flaggy (Unlicense License)
-https://github.com/atotto/clipboard (BSD-3-Clause License)
-
 
 ## Description:
 
@@ -267,6 +138,135 @@ Documentation of the API service of the National Bank of Poland
 
 License: MIT <br>
 Modules used: <br>
+https://github.com/integrii/flaggy (Unlicense License)
+https://github.com/atotto/clipboard (BSD-3-Clause License)
+
+
+## Opis:
+
+kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z serwisu Narodowego Banku Polskiego
+
+Wykorzystano bibliotekę nbpapi: [https://github.com/pjaskulski/nbpapi](https://github.com/pjaskulski/nbpapi)
+
+Do pobrania (wersja 0.3.2):<br> 
+[linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_linux_amd64.tar.gz) 
+[windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_windows_amd64.zip) 
+[macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_macos_amd64.tar.gz) 
+[FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.2/kursnbp_v0.3.2_freebsd_amd64.tar.gz)
+
+    Użycie:
+      kursnbp table|currency|gold [--flag]
+
+    Polecenia: 
+      table      Zwraca tabelę kursów wymiany walut (lub serię tabel)
+      currency   Zwraca kurs wskazanej waluty lub serię kursów
+      gold       Zwraca cenę złota lub serię notowań cen złota (cena 1 g 
+                 złota, w próbie 1000)
+
+    Flagi globalne: 
+         --version    Wyświetla wersję programu
+      -h --help       Wyświetla pomoc z opisem poleceń i flag programu 
+      -b --clipboard  Kopiuje dane wyjściowe do schowka, zamiast drukowania
+                      na ekranie (Linux/FreeBSD: dodatkowe programy 'xsel'
+                      lub 'xclip' muszą być zainstalowane w systemie)
+  
+    Flagi:
+      table: 
+        -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
+        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD' (standard 
+                     ISO 8601), lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD' 
+                     lub 'today' (kurs na dziś) lub 'current' - bieżąca 
+                     tabela/kurs (ostatnio opublikowany) domyślnie: current
+        -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
+                     tabel/kursów np. -l=5, domyślnie: 0
+        -o --output  Format danych wyjściowych: table (sformatowana tabela 
+                     tekstowa), json (format json), csv (dane z polami 
+                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
+                     wierszu), xml (format xml), domyślnie: table
+        -i --lang    Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
+    
+      currency:
+        -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
+        -d --date    Data tabeli kursów w formacie: 'RRRR-MM-DD' (standard 
+                     ISO 8601), lub zakres dat 'RRRR-MM-DD:RRRR-MM-DD' 
+                     lub 'today' (kurs na dziś) lub 'current' - bieżąca 
+                     tabela/kurs (ostatnio opublikowany) domyślnie: current
+        -l --last    Alternatywnie do --date można pobrać ostatnich <n> 
+                     tabel/kursów np. -l=5, domyślnie: 0
+        -c --code    Kod waluty w standardzie ISO 4217, zależnie od typu 
+                     tabeli lista dostępnych walut może się różnić
+        -o --output  Format danych wyjściowych: table (sformatowana tabela 
+                     tekstowa), json (format json), csv (dane z polami 
+                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
+                     wierszu), xml (format xml), domyślnie: table
+        -i --lang    Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
+
+      gold:
+        -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD', 
+                     (standard ISO 8601) lub zakres dat: 
+                     'RRRR-MM-DD:RRRR-MM-DD' lub 'today' (cena na dziś) lub 
+                     'current' - bieżąca cena (ostatnio opublikowana) 
+                     domyślnie: current
+        -l --last    Alternatywnie do --date można pobrać ostatnich <n> cen 
+                     złota np. -l=5, domyślnie: 0
+        -o --output  Format danych wyjściowych: table (sformatowana tabela 
+                     tekstowa), json (format json), csv (dane z polami 
+                     rozdzielanymi przecinkiem, nazwy pól w pierwszym 
+                     wierszu), xml (format xml), domyślnie: table
+        -i --lang    Język danych wyjściowych (także komunikatów 
+                     o błędach), nazwy walut zwracane przez serwis NBP
+                     zawsze w języku polskim, dozwolone wartości: 'en', 'pl', 
+                     domyślnie 'en'
+
+Przykłady:
+    
+    kursnbp --help
+    Wyświetla ogólny help do programu
+
+    kursnbp --help gold
+    Wyświetla szczegółowy help do polecenia gold
+
+    kursnbp table
+    Wyświetla bieżącą tabelę kursów typu A
+    
+    kursnbp table --last=2 --table=C
+    Wyświetla 2 ostatnie tabele kursów typu C
+
+    kursnbp table --date=2020-11-19 --table=A
+    Wyświetla tabelę kursów walut z podanego dnia
+
+    kursnbp table --date=today --output=csv
+    Wyświetla dzisiejszą tabelę kursów w formacie csv
+
+    kursnbp table --date=today --output=csv --clipboard
+    Pobiera dzisiejszą tabelę kursów w formacie csv 
+    i kopiuje do schowka
+    
+    kursnbp table --date=today --output=xml
+    Wyświetla dzisiejszą tabelę kursów w formacie xml
+
+    kursnbp currency --code=CHF
+    Wyświetla bieżący kurs waluty CHF (frank szwajcarski)
+
+    kursnbp currency --code=EUR --last=10
+    Wyświetla 10 ostatnich kursów waluty EUR (euro)
+
+    kursnbp gold
+    Wyświetla bieżącą cenę złota
+
+    kursnbp gold --date=2020-11-12:2020-11-19
+    Wyświetla listę notowań cen złota w podanym przedziale dat
+
+Dokumentacja serwisu API Narodowego Banku Polskiego: [http://api.nbp.pl/](http://api.nbp.pl/)
+
+Licencja: MIT<br>
+Wykorzystano moduły:<br> 
 https://github.com/integrii/flaggy (Unlicense License)
 https://github.com/atotto/clipboard (BSD-3-Clause License)
 

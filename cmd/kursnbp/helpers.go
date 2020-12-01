@@ -89,7 +89,7 @@ func chkArgDate(dFlag string, lFlag int) error {
 			isValid = re21.MatchString(dFlag) == true
 		}
 		if !isValid {
-			return errors.New("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD: YYYY-MM-DD'")
+			return errors.New("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD:YYYY-MM-DD'")
 		}
 	}
 

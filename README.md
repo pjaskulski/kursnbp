@@ -275,7 +275,7 @@ https://github.com/atotto/clipboard (BSD-3-Clause License)
 
 ![Screen](/docs/kursnbp_table.png)
 
-![Screen](/docs/kursnbp_gold.png)
+![Screen](/docs/free_bsd_kursnbp.png)
 
 ![Screen](/docs/kursnbp_currency.png)
 

@@ -18,7 +18,7 @@ kursNBP - a command line tool for downloading exchange rates and gold prices fro
 
 The project uses the nbpapi library: [https://github.com/pjaskulski/nbpapi](https://github.com/pjaskulski/nbpapi)
 
-Downloads (v0.3.2):<br> 
+Downloads:<br> 
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.6/kursnbp_v0.3.6_linux_amd64.tar.gz) 
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.6/kursnbp_v0.3.6_windows_amd64.zip) 
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.6/kursnbp_v0.3.6_macos_amd64.tar.gz) 
@@ -149,7 +149,7 @@ kursNBP - konsolowy program do pobierania kursów walut i notowań cen złota z 
 
 Wykorzystano bibliotekę nbpapi: [https://github.com/pjaskulski/nbpapi](https://github.com/pjaskulski/nbpapi)
 
-Do pobrania (wersja 0.3.2):<br> 
+Do pobrania:<br> 
 [linux](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.6/kursnbp_v0.3.6_linux_amd64.tar.gz) 
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.6/kursnbp_v0.3.6_windows_amd64.zip) 
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.6/kursnbp_v0.3.6_macos_amd64.tar.gz) 

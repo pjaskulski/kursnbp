@@ -44,10 +44,9 @@ Do pobrania:<br>
                      tekstowa), json (format json), csv (dane z polami 
                      rozdzielanymi przecinkiem, nazwy pól w pierwszym 
                      wierszu), xml (xml format), domyślnie: table 
-        -i --lang    Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 
-                     'pl', domyślnie 'en'
+        -i --lang    Język danych wyjściowych nazwy walut zwracane przez 
+                     serwis NBP zawsze w języku polskim, dozwolone wartości: 
+                     'en', 'pl', domyślnie 'en'
     
       currency:
         -t --table   Typ tabeli kursów: A, B lub C, domyślnie: A
@@ -63,10 +62,9 @@ Do pobrania:<br>
                      tekstowa), json (format json), csv (dane z polami 
                      rozdzielanymi przecinkiem, nazwy pól w pierwszym 
                      wierszu), xml (xml format), domyślnie: table 
-        -i --lang    Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 
-                     'pl', domyślnie 'en'
+        -i --lang    Język danych wyjściowych, nazwy walut zwracane przez 
+                     serwis NBP zawsze w języku polskim, dozwolone wartości: 
+                     'en', 'pl', domyślnie 'en'
 
       gold:
         -d --date    Data notowania ceny złota w formacie: 'RRRR-MM-DD' 
@@ -80,10 +78,9 @@ Do pobrania:<br>
                      tekstowa), json (format json), csv (dane z polami 
                      rozdzielanymi przecinkiem, nazwy pól w pierwszym 
                      wierszu), xml (xml format), domyślnie: table 
-        -i --lang    Język danych wyjściowych (także komunikatów 
-                     o błędach), nazwy walut zwracane przez serwis NBP
-                     zawsze w języku polskim, dozwolone wartości: 'en', 
-                     'pl', domyślnie 'en'
+        -i --lang    Język danych wyjściowych, nazwy walut zwracane przez 
+                     serwis NBP zawsze w języku polskim, dozwolone wartości: 
+                     'en', 'pl', domyślnie 'en'
 
 Przykłady:
 
@@ -172,9 +169,9 @@ Downloads:<br>
                       json (json format), csv (data with comma separated 
                       fields, field names in the first line), xml (xml 
                       format), default: table
-        -i --lang     Output language (also error messages), allowed
-                      values: 'en', 'pl', default: 'en', currency names 
-                      returned by the NBP service are always in Polish
+        -i --lang     Output language, allowed values: 'en', 'pl', default: 
+                      'en', currency names returned by the NBP service are 
+                      always in Polish
     
       currency:
         -t --table    Table type: A, B or C, default: A
@@ -190,9 +187,9 @@ Downloads:<br>
                       json (json format), csv (data with comma separated 
                       fields, field names in the first line), xml ( xml 
                       format), default: table
-        -i --lang     Output language (also error messages), allowed
-                      values: 'en', 'pl', default: 'en', currency names 
-                      returned by the NBP service are always in Polish
+        -i --lang     Output language, allowed values: 'en', 'pl', default: 
+                      'en', currency names returned by the NBP service are 
+                      always in Polish
 
       gold:
         -d --date    Date in the format: 'YYYY-MM-DD' (ISO 8601 standard), 
@@ -205,9 +202,9 @@ Downloads:<br>
                      json (json format), csv (data with comma separated 
                      fields, field names in the first line), xml (xml 
                      format), default: table
-        -i --lang    Output language (also error messages), allowed
-                     values: 'en', 'pl', default: 'en', currency names 
-                     returned by the NBP service are always in Polish
+        -i --lang    Output language, allowed values: 'en', 'pl', default: 
+                     'en', currency names returned by the NBP service are 
+                     always in Polish
 
 Examples:
     

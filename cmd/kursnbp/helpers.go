@@ -82,11 +82,11 @@ func chkArgDate(dFlag string, lFlag int) error {
 		if len(dFlag) != 10 && len(dFlag) != 21 {
 			isValid = false
 		} else if len(dFlag) == 10 {
-			re10 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
-			isValid = re10.MatchString(dFlag) == true
+			re10 := regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)
+			isValid = re10.MatchString(dFlag)
 		} else if len(dFlag) == 21 {
-			re21 := regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}\\:\\d{4}-\\d{2}-\\d{2}")
-			isValid = re21.MatchString(dFlag) == true
+			re21 := regexp.MustCompile(`\d{4}-\d{2}-\d{2}\:\d{4}-\d{2}-\d{2}`)
+			isValid = re21.MatchString(dFlag)
 		}
 		if !isValid {
 			return errors.New("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD:YYYY-MM-DD'")

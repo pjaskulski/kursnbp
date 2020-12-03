@@ -11,7 +11,9 @@ import (
 
 // goldCommand - function for 'gold' command (prices of gold)
 func goldCommand() {
-	err := checkArg("gold", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
+	var err error
+
+	err = checkArg("gold", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +43,10 @@ func goldCommand() {
 	}
 
 	if cfg.clipFlag {
-		clipboard.WriteAll(output)
+		err = clipboard.WriteAll(output)
+		if err != nil {
+			log.Fatal(err)
+		}
 	} else {
 		fmt.Println(output)
 	}
@@ -49,8 +54,9 @@ func goldCommand() {
 
 // currencyCommand - function for 'currency' command (currency exchange rates)
 func currencyCommand() {
+	var err error
 
-	err := checkArg("currency", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
+	err = checkArg("currency", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +86,10 @@ func currencyCommand() {
 	}
 
 	if cfg.clipFlag {
-		clipboard.WriteAll(output)
+		err = clipboard.WriteAll(output)
+		if err != nil {
+			log.Fatal(err)
+		}
 	} else {
 		fmt.Println(output)
 	}
@@ -88,8 +97,9 @@ func currencyCommand() {
 
 // tableCommand - function for 'table' command (tables with exchange rates)
 func tableCommand() {
+	var err error
 
-	err := checkArg("table", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
+	err = checkArg("table", cfg.tableFlag, cfg.dateFlag, cfg.lastFlag, cfg.outputFlag, cfg.codeFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -118,7 +128,10 @@ func tableCommand() {
 	}
 
 	if cfg.clipFlag {
-		clipboard.WriteAll(output)
+		err = clipboard.WriteAll(output)
+		if err != nil {
+			log.Fatal(err)
+		}
 	} else {
 		fmt.Println(output)
 	}

@@ -58,11 +58,11 @@ func currencyCommand() {
 	nbpCurrency := nbpapi.NewCurrency(cfg.tableFlag)
 
 	if cfg.outputFlag == "xml" || cfg.outputFlag == "json" {
-		err = nbpCurrency.CurrencyRaw(cfg.dateFlag, cfg.lastFlag, cfg.codeFlag, cfg.repFormat)
+		err = nbpCurrency.CurrencyRaw(cfg.codeFlag, cfg.dateFlag, cfg.lastFlag, cfg.repFormat)
 	} else if cfg.lastFlag > 0 {
 		err = nbpCurrency.CurrencyLast(cfg.codeFlag, cfg.lastFlag)
 	} else {
-		err = nbpCurrency.CurrencyByDate(cfg.dateFlag, cfg.codeFlag)
+		err = nbpCurrency.CurrencyByDate(cfg.codeFlag, cfg.dateFlag)
 	}
 	if err != nil {
 		log.Fatal(err)

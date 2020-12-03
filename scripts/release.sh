@@ -1,4 +1,4 @@
-version='0.3.2'
+version='0.3.6'
 
 pack_bsd=kursnbp_v${version}_freebsd_amd64.tar.gz
 pack_lin=kursnbp_v${version}_linux_amd64.tar.gz

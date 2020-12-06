@@ -39,7 +39,7 @@ func inSlice(slice []string, val string) bool {
 }
 
 // checkArg - function verifies the correctness of program call parameters
-func checkArg(cmd string, tFlag string, dFlag string, lFlag int, oFlag string, cFlag string) error {
+func checkArg(cmd, tFlag, dFlag string, lFlag int, oFlag, cFlag string) error {
 
 	// output
 	if oFlag == "" {
@@ -109,7 +109,7 @@ func checkArgTable(tFlag string) error {
 }
 
 // currency code check
-func checkArgCurrency(tFlag string, cFlag string) error {
+func checkArgCurrency(tFlag, cFlag string) error {
 	var errMessage string
 
 	if cFlag == "" {

@@ -240,7 +240,7 @@ Przykłady:
     Wyświetla bieżącą tabelę kursów typu A
     
     kursnbp table --last=2 --table=C
-    Wyświetla 2 ostatnie tabele kursów typu C
+    Wyświetla 2 ostatnio opublikowane tabele kursów typu C
 
     kursnbp table --date=2020-11-19 --table=A
     Wyświetla tabelę kursów walut z podanego dnia

@@ -35,11 +35,11 @@ func goldCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpGold.GetPrettyOutput(cfg.langFlag)
+		output = nbpGold.CreatePrettyOutput(cfg.langFlag)
 	case "json", "xml":
-		output = nbpGold.GetRawOutput()
+		output = nbpGold.CreateRawOutput()
 	case "csv":
-		output = nbpGold.GetCSVOutput(cfg.langFlag)
+		output = nbpGold.CreateCSVOutput(cfg.langFlag)
 	}
 
 	if cfg.clipFlag {
@@ -78,11 +78,11 @@ func currencyCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpCurrency.GetPrettyOutput(cfg.langFlag)
+		output = nbpCurrency.CreatePrettyOutput(cfg.langFlag)
 	case "json", "xml":
-		output = nbpCurrency.GetRawOutput()
+		output = nbpCurrency.CreateRawOutput()
 	case "csv":
-		output = nbpCurrency.GetCSVOutput(cfg.langFlag)
+		output = nbpCurrency.CreateCSVOutput(cfg.langFlag)
 	}
 
 	if cfg.clipFlag {
@@ -120,11 +120,11 @@ func tableCommand() {
 
 	switch cfg.outputFlag {
 	case "table":
-		output = nbpTable.GetPrettyOutput(cfg.langFlag)
+		output = nbpTable.CreatePrettyOutput(cfg.langFlag)
 	case "json", "xml":
-		output = nbpTable.GetRawOutput()
+		output = nbpTable.CreateRawOutput()
 	case "csv":
-		output = nbpTable.GetCSVOutput(cfg.langFlag)
+		output = nbpTable.CreateCSVOutput(cfg.langFlag)
 	}
 
 	if cfg.clipFlag {

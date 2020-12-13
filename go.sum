@@ -2,7 +2,8 @@ github.com/atotto/clipboard v0.1.2 h1:YZCtFu5Ie8qX2VmVTBnrqLSiU9XOWwqNRmdT3gIQzb
 github.com/atotto/clipboard v0.1.2/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/integrii/flaggy v1.4.4 h1:8fGyiC14o0kxhTqm2VBoN19fDKPZsKipP7yggreTMDc=
 github.com/integrii/flaggy v1.4.4/go.mod h1:tnTxHeTJbah0gQ6/K0RW0J7fMUBk9MCF5blhm43LNpI=
-github.com/pjaskulski/nbpapi v0.3.5 h1:nbEL+QtqI3rrHs8Tjc+6xuZ3el3h689UmHPLjhTEa3E=
-github.com/pjaskulski/nbpapi v0.3.5/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=
+github.com/jarcoal/httpmock v1.0.6/go.mod h1:ATjnClrvW/3tijVmpL/va5Z3aAyGvqU3gCT8nX0Txik=
 github.com/pjaskulski/nbpapi v0.3.6 h1:tqy6lHnSGEqUgeSWqhGbbYJKXcPd+BYKYMFCUOltsEk=
 github.com/pjaskulski/nbpapi v0.3.6/go.mod h1:nsMY5hHDME4voFPhHdkdC0LktneirnV6hgYLxF31Uk4=
+github.com/pjaskulski/nbpapi v0.3.7 h1:Y2m6bGqQkl8bZ9o2Q6J5FVqqdtMcqD6E4KOUgR0e3Zs=
+github.com/pjaskulski/nbpapi v0.3.7/go.mod h1:RLaj4Ql05R2R4HfBTm2zdCc7OxNAQKYnlk6FnUAJdNM=

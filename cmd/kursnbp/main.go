@@ -14,7 +14,7 @@ import (
 
 // app name, version and description
 var (
-	version string = "0.3.6"
+	version string = "0.3.7"
 	appName string = "kursNBP"
 	appDesc string = "tool for downloading exchange rates and gold prices from the website of the National Bank of Poland"
 )

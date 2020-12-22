@@ -15,6 +15,8 @@ Do pobrania:<br>
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.7/kursnbp_v0.3.7_macos_amd64.tar.gz) 
 [FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.7/kursnbp_v0.3.7_freebsd_amd64.tar.gz)
 
+Uwaga: aplikacja nie była testowana na MacOS.
+
     Użycie:
       kursnbp table|currency|gold [--flag]
 
@@ -137,6 +139,8 @@ Downloads:<br>
 [windows](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.7/kursnbp_v0.3.7_windows_amd64.zip) 
 [macos](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.7/kursnbp_v0.3.7_macos_amd64.tar.gz) 
 [FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.7/kursnbp_v0.3.7_freebsd_amd64.tar.gz)
+
+Note: the application has not been tested on MacOS.
 
     Usage:
       kursnbp table | currency | gold [--flag]

@@ -17,6 +17,8 @@ Do pobrania:<br>
 
 Uwaga: aplikacja nie była testowana na MacOS.
 
+Zastrzeżenie: program kursNBP jest prywatnym projektem, w żaden sposób nie związanym z Narodowym Bankiem Polskim, poza wykorzystaniem publicznego API NBP. 
+
     Użycie:
       kursnbp table|currency|gold [--flag]
 
@@ -141,6 +143,8 @@ Downloads:<br>
 [FreeBSD](https://github.com/pjaskulski/kursnbp/releases/download/v0.3.7/kursnbp_v0.3.7_freebsd_amd64.tar.gz)
 
 Note: the application has not been tested on MacOS.
+
+Disclaimer: the kursNBP app is a private project, in no way related to the National Bank of Poland, except for the use of the NBP public API.
 
     Usage:
       kursnbp table | currency | gold [--flag]

@@ -26,18 +26,18 @@ func checkArg(cmd, tFlag, dFlag string, lFlag int, oFlag, cFlag string) error {
 
 	// output
 	if oFlag == "" {
-		return errors.New("No --output parameter value, output format must be specified")
+		return errors.New("no --output parameter value, output format must be specified")
 	} else if !inSlice(outputValues, oFlag) {
-		return errors.New("Invalid --output parameter value, allowed: table, json, csv, xml")
+		return errors.New("invalid --output parameter value, allowed: table, json, csv, xml")
 	}
 
 	// last
 	if lFlag == 0 && dFlag == "" {
-		return errors.New("Value of one of the parameters should be given: --date or --last")
+		return errors.New("value of one of the parameters should be given: --date or --last")
 	} else if lFlag != 0 && dFlag != "" {
-		return errors.New("Only one of the parameters must be given: either --date or --last")
+		return errors.New("only one of the parameters must be given: either --date or --last")
 	} else if lFlag < 0 {
-		return errors.New("Invalid --last parameter value, allowed value > 0")
+		return errors.New("invalid --last parameter value, allowed value > 0")
 	}
 
 	// date
@@ -72,7 +72,7 @@ func chkArgDate(dFlag string, lFlag int) error {
 			isValid = re21.MatchString(dFlag)
 		}
 		if !isValid {
-			return errors.New("Invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD:YYYY-MM-DD'")
+			return errors.New("invalid --date parameter value, allowed values: 'today', 'current', 'YYYY-MM-DD' or 'YYYY-MM-DD:YYYY-MM-DD'")
 		}
 	}
 
@@ -82,10 +82,10 @@ func chkArgDate(dFlag string, lFlag int) error {
 // table type check
 func checkArgTable(tFlag string) error {
 	if tFlag == "" {
-		return errors.New("The --table parameter value is missing, the type of the exchange table should be specified")
+		return errors.New("the --table parameter value is missing, the type of the exchange table should be specified")
 	}
 	if !inSlice(nbpapi.TableValues, tFlag) {
-		return errors.New("Invalid parameter --table value, allowed values: A, B or C")
+		return errors.New("invalid parameter --table value, allowed values: A, B or C")
 	}
 
 	return nil
@@ -96,26 +96,26 @@ func checkArgCurrency(tFlag, cFlag string) error {
 	var errMessage string
 
 	if cFlag == "" {
-		return errors.New("No value of parameter --code, currency code should be given")
+		return errors.New("no value of parameter --code, currency code should be given")
 	}
 	if tFlag == "" {
-		return errors.New("No value of parameter --table, please specify type of exchange rate table")
+		return errors.New("no value of parameter --table, please specify type of exchange rate table")
 	}
 
 	if !inSlice(nbpapi.TableValues, tFlag) {
-		return errors.New("Incorrect parameter value --table, allowed values: A, B or C")
+		return errors.New("incorrect parameter value --table, allowed values: A, B or C")
 	}
 
 	if tFlag == "A" {
 		if !inSlice(nbpapi.CurrencyValuesA, cFlag) {
-			errMessage = "Incorrect value of the --code parameter, "
+			errMessage = "incorrect value of the --code parameter, "
 			errMessage += "valid currency code from those available for Table A is allowed: "
 			errMessage += strings.Join(nbpapi.CurrencyValuesA, ", ")
 			return errors.New(errMessage)
 		}
 	} else if tFlag == "B" {
 		if !inSlice(nbpapi.CurrencyValuesB, cFlag) {
-			errMessage = "Incorrect value of the --code parameter, "
+			errMessage = "incorrect value of the --code parameter, "
 			errMessage += "valid currency code from those available for Table B is allowed: "
 			errMessage += strings.Join(nbpapi.CurrencyValuesB, ", ")
 			return errors.New(errMessage)
